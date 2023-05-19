@@ -84,7 +84,7 @@ local notifications = {}; do
             Size = UDim2.new(0, 236, 0, 215)
         })
 
-        custom.drag(self.ui.notificationsFrame)
+        custom.drag(self.ui.notificationsFrame, 0.1)
 
         self.ui.notificationsFrame_UIListLayout = custom.create("UIListLayout", {
             Name = "notificationsFrame_UIListLayout",
