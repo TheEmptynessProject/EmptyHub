@@ -131,7 +131,7 @@ function library:Load(opts)
         end
     )
 
-    custom.drag(holder)
+    custom.drag(holder, library.dragSpeed)
 
     local main =
         custom.create(
