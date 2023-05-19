@@ -89,7 +89,7 @@ local notifications = {}; do
         self.ui.notificationsFrame_UIListLayout = custom.create("UIListLayout", {
             Name = "notificationsFrame_UIListLayout",
             Parent = self.ui.notificationsFrame,
-            Padding = UDim.new(0, 1 + settings.TextSize),
+            Padding = UDim.new(0, 1 + self.TextSize),
             SortOrder = Enum.SortOrder.LayoutOrder
         })
     end
