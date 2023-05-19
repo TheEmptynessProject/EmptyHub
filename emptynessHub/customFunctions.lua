@@ -43,7 +43,7 @@ function custom.create(class, properties)
 end
 
 function custom.tween(obj, info, properties, callback)
-    local anim = tweenService:Create(obj, TweenInfo.new(unpack(info)), properties)
+    local anim = game:GetService("TweenService"):Create(obj, TweenInfo.new(unpack(info)), properties)
     anim:Play()
 
     if callback then
