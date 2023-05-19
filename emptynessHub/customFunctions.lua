@@ -83,7 +83,7 @@ function custom.ripple(obj)
         end
     )
 end
-function custom.drag(obj)
+function custom.drag(obj,speed)
     local start, objPosition, dragging
 
     obj.InputBegan:Connect(
@@ -116,7 +116,7 @@ function custom.drag(obj)
                     objPosition.Y.Offset + delta.Y
                 )
 
-                custom.tween(obj, {library.mainDragSpeed}, {Position = targetPosition})
+                custom.tween(obj, {speed}, {Position = targetPosition})
             end
         end
     )
