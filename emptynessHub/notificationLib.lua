@@ -1,4 +1,4 @@
-local custom = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"))
+local custom = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"))()
 
 local notificationPositions = {
     ["Middle"] = UDim2.new(0.445, 0, 0.7, 0),
