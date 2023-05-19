@@ -104,7 +104,7 @@ function custom.drag(obj)
         end
     )
 
-    inputService.InputChanged:Connect(
+    game:GetService("UserInputService").InputChanged:Connect(
         function(input)
             if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
                 local delta = input.Position - start
