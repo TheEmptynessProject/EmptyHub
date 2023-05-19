@@ -1,4 +1,4 @@
-    local default = getgenv().main:Tab("Main")
+    local default = main:Tab("Main")
     local test =
         default:Section(
         {
