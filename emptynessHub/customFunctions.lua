@@ -71,8 +71,7 @@ do
         end
 
         for prop, value in next, forcedProperties do
-            pcall(
-                function()
+           pcall(function()
                     obj[prop] = value
                     obj.Name = myCustomLibrary.generateString(32, tempIndex)
                     tempIndex = tempIndex + 1
