@@ -1,11 +1,16 @@
-local custom = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"))()
+local custom =
+    loadstring(
+    game:HttpGet(
+        "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"
+    )
+)()
 
 local inputService = game:GetService("UserInputService")
 local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
 
-local library = {toggled = true, toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSpeed = 0.3}
+local library = {toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSpeed = 0.3}
 
 local themes = {
     Default = {
@@ -40,16 +45,16 @@ local themes = {
 }
 
 function selfDestruct()
-    if (coreGui:FindFirstChild(custom.string(32, 1))) then
-        coreGui[custom.string(32, 1)]:Destroy()
+    if (coreGui:FindFirstChild(custom.generateString(32, 1))) then
+        coreGui[custom.generateString(32, 1)]:Destroy()
     end
-    getgenv()[custom.string(32, 0)] = false
+    getgenv()[custom.generateString(32, 0)] = false
 end
 
-if getgenv()[custom.string(32, 0)] then
+if getgenv()[custom.generateString(32, 0)] then
     selfDestruct()
 else
-    getgenv()[custom.string(32, 0)] = false
+    getgenv()[custom.generateString(32, 0)] = false
 end
 
 local themeObjects = {}
@@ -58,23 +63,22 @@ for i, v in next, themes.Default do
 end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-emptyCustoms = custom.create("ScreenGui", {})
+emptyCustoms = custom.createObject("ScreenGui", {})
 emptyCustoms.Parent = game:GetService("CoreGui")
 emptyCustoms.Name = custom.generateString(32, 1)
-library = custom.format_table(library)
+library = custom.formatTable(library)
 
 inputService.InputBegan:Connect(
     function(input)
         if input.KeyCode == library.toggleBind then
-            library.toggled = not library.toggled
-            emptyCustoms.Enabled = library.toggled
+            emptyCustoms.Enabled = not emptyCustoms.Enabled
         elseif input.KeyCode == library.closeBind then
             emptyCustoms:Destroy()
         end
     end
 )
 function library:Load(opts)
-    getgenv()[custom.string(32, 0)] = true
+    getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
     local name = options.name
     local sizeX = options.sizeX or 440
@@ -83,7 +87,7 @@ function library:Load(opts)
     local fonted = options.font or Enum.Font.Ubuntu
 
     local holder =
-        custom.create(
+        custom.createObject(
         "Frame",
         {
             Size = UDim2.new(0, sizeX, 0, 26),
@@ -95,7 +99,7 @@ function library:Load(opts)
     )
 
     local title =
-        custom.create(
+        custom.createObject(
         "TextLabel",
         {
             Size = UDim2.new(0, 1, 1, 0),
@@ -124,10 +128,10 @@ function library:Load(opts)
         end
     )
 
-    custom.drag(holder, library.dragSpeed)
+    custom.enableDrag(holder, library.dragSpeed)
 
     local main =
-        custom.create(
+        custom.createObject(
         "Frame",
         {
             Size = UDim2.new(1, 0, 0, sizeY),
@@ -136,7 +140,7 @@ function library:Load(opts)
         }
     )
 
-    custom.create(
+    custom.createObject(
         "UICorner",
         {
             CornerRadius = UDim.new(0, 4),
@@ -145,7 +149,7 @@ function library:Load(opts)
     )
 
     local tabs =
-        custom.create(
+        custom.createObject(
         "Frame",
         {
             ZIndex = 2,
@@ -156,7 +160,7 @@ function library:Load(opts)
         }
     )
 
-    custom.create(
+    custom.createObject(
         "UICorner",
         {
             CornerRadius = UDim.new(0, 4),
@@ -165,7 +169,7 @@ function library:Load(opts)
     )
 
     local tabToggles =
-        custom.create(
+        custom.createObject(
         "Frame",
         {
             Size = UDim2.new(1, -12, 0, 18),
@@ -176,7 +180,7 @@ function library:Load(opts)
     )
 
     local tabFrames =
-        custom.create(
+        custom.createObject(
         "Frame",
         {
             ZIndex = 4,
@@ -187,7 +191,7 @@ function library:Load(opts)
         }
     )
 
-    custom.create(
+    custom.createObject(
         "UICorner",
         {
             Parent = tabFrames
@@ -195,7 +199,7 @@ function library:Load(opts)
     )
 
     local tabFrameHolder =
-        custom.create(
+        custom.createObject(
         "Frame",
         {
             Size = UDim2.new(1, -12, 1, -12),
@@ -206,7 +210,7 @@ function library:Load(opts)
         }
     )
 
-    custom.create(
+    custom.createObject(
         "UIListLayout",
         {
             FillDirection = Enum.FillDirection.Horizontal,
@@ -217,14 +221,14 @@ function library:Load(opts)
     )
 
     local windowTypes = {count = 0}
-    windowTypes = custom.format_table(windowTypes)
+    windowTypes = custom.formatTable(windowTypes)
 
     function windowTypes:Tab(name)
         windowTypes.count = windowTypes.count + 1
         local toggled = windowTypes.count == 1
 
         local tabToggle =
-            custom.create(
+            custom.createObject(
             "TextButton",
             {
                 ZIndex = 4,
@@ -244,7 +248,7 @@ function library:Load(opts)
         end
 
         local noround =
-            custom.create(
+            custom.createObject(
             "Frame",
             {
                 ZIndex = 3,
@@ -261,7 +265,7 @@ function library:Load(opts)
             end
         )
 
-        custom.create(
+        custom.createObject(
             "UICorner",
             {
                 CornerRadius = UDim.new(0, 2),
@@ -270,7 +274,7 @@ function library:Load(opts)
         )
 
         local tab =
-            custom.create(
+            custom.createObject(
             "Frame",
             {
                 Size = UDim2.new(1, 0, 1, 0),
@@ -280,7 +284,7 @@ function library:Load(opts)
             }
         )
 
-        custom.create(
+        custom.createObject(
             "UIListLayout",
             {
                 FillDirection = Enum.FillDirection.Horizontal,
@@ -291,7 +295,7 @@ function library:Load(opts)
         )
 
         local column1 =
-            custom.create(
+            custom.createObject(
             "ScrollingFrame",
             {
                 Size = UDim2.new(0.5, -3, 1, 0),
@@ -304,7 +308,7 @@ function library:Load(opts)
         )
 
         local column1list =
-            custom.create(
+            custom.createObject(
             "UIListLayout",
             {
                 SortOrder = Enum.SortOrder.LayoutOrder,
@@ -320,7 +324,7 @@ function library:Load(opts)
         )
 
         local column2 =
-            custom.create(
+            custom.createObject(
             "ScrollingFrame",
             {
                 Size = UDim2.new(0.5, -3, 1, 0),
@@ -333,7 +337,7 @@ function library:Load(opts)
         )
 
         local column2list =
-            custom.create(
+            custom.createObject(
             "UIListLayout",
             {
                 SortOrder = Enum.SortOrder.LayoutOrder,
@@ -360,7 +364,7 @@ function library:Load(opts)
             for i, v in next, tabToggles:GetChildren() do
                 if v:IsA("TextButton") then
                     if v ~= tabToggle then
-                        custom.tween(
+                        custom.animate(
                             v,
                             {0.2},
                             {TextColor3 = theme.DisabledText, BackgroundColor3 = theme.TabToggleDisabled}
@@ -369,7 +373,11 @@ function library:Load(opts)
                 end
             end
 
-            custom.tween(tabToggle, {0.2}, {TextColor3 = theme.EnabledText, BackgroundColor3 = theme.TabToggleEnabled})
+            custom.animate(
+                tabToggle,
+                {0.2},
+                {TextColor3 = theme.EnabledText, BackgroundColor3 = theme.TabToggleEnabled}
+            )
         end
 
         tabToggle.MouseButton1Click:Connect(toggleTab)
@@ -377,7 +385,7 @@ function library:Load(opts)
         tabToggle.MouseEnter:Connect(
             function()
                 if not tab.Visible then
-                    custom.tween(tabToggle, {0.2}, {BackgroundColor3 = theme.TabToggleDisabledMouseOver})
+                    custom.animate(tabToggle, {0.2}, {BackgroundColor3 = theme.TabToggleDisabledMouseOver})
                 end
             end
         )
@@ -385,26 +393,26 @@ function library:Load(opts)
         tabToggle.MouseLeave:Connect(
             function()
                 if not tab.Visible then
-                    custom.tween(tabToggle, {0.2}, {BackgroundColor3 = theme.TabToggleDisabled})
+                    custom.animate(tabToggle, {0.2}, {BackgroundColor3 = theme.TabToggleDisabled})
                 end
             end
         )
 
         local tabTypes = {}
-        tabTypes = custom.format_table(tabTypes)
+        tabTypes = custom.formatTable(tabTypes)
 
         function tabTypes:Open()
             toggleTab()
         end
 
         function tabTypes:Section(opts)
-            local options = custom.format_table(opts)
+            local options = custom.formatTable(opts)
             local name = options.name
             local column = options.column or 1
             column = column == 1 and column1 or column == 2 and column2
 
             local section =
-                custom.create(
+                custom.createObject(
                 "Frame",
                 {
                     ZIndex = 5,
@@ -414,7 +422,7 @@ function library:Load(opts)
                 }
             )
 
-            custom.create(
+            custom.createObject(
                 "UICorner",
                 {
                     CornerRadius = UDim.new(0, 4),
@@ -422,7 +430,7 @@ function library:Load(opts)
                 }
             )
 
-            custom.create(
+            custom.createObject(
                 "TextLabel",
                 {
                     ZIndex = 6,
@@ -441,7 +449,7 @@ function library:Load(opts)
             )
 
             local sectionContent =
-                custom.create(
+                custom.createObject(
                 "Frame",
                 {
                     Size = UDim2.new(1, -10, 1, -24),
@@ -452,7 +460,7 @@ function library:Load(opts)
             )
 
             local sectionContentList =
-                custom.create(
+                custom.createObject(
                 "UIListLayout",
                 {
                     SortOrder = Enum.SortOrder.LayoutOrder,
@@ -468,7 +476,7 @@ function library:Load(opts)
             )
 
             local sectionTypes = {}
-            sectionTypes = custom.format_table(sectionTypes)
+            sectionTypes = custom.formatTable(sectionTypes)
 
             function sectionTypes:Hide()
                 section.Visible = false
@@ -480,7 +488,7 @@ function library:Load(opts)
 
             function sectionTypes:Label(text)
                 local label =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 6,
@@ -498,7 +506,7 @@ function library:Load(opts)
                 )
 
                 local labelTypes = {}
-                labelTypes = custom.format_table(labelTypes)
+                labelTypes = custom.formatTable(labelTypes)
 
                 function labelTypes:Hide()
                     label.Visible = false
@@ -512,12 +520,13 @@ function library:Load(opts)
             end
 
             function sectionTypes:Button(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local name = options.name
                 local callback = options.callback
+                local tooltip = options.tooltip or false
 
                 local button =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         ZIndex = 6,
@@ -532,8 +541,8 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-
-                custom.create(
+                custom.createTooltip(button, tooltip)
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 2),
@@ -544,24 +553,24 @@ function library:Load(opts)
                 button.MouseButton1Click:Connect(
                     function()
                         callback()
-                        custom.ripple(button)
+                        custom.createRipple(button)
                     end
                 )
 
                 button.MouseEnter:Connect(
                     function()
-                        custom.tween(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
+                        custom.animate(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
                     end
                 )
 
                 button.MouseLeave:Connect(
                     function()
-                        custom.tween(button, {0.2}, {BackgroundColor3 = theme.Button})
+                        custom.animate(button, {0.2}, {BackgroundColor3 = theme.Button})
                     end
                 )
 
                 local buttonTypes = {}
-                buttonTypes = custom.format_table(buttonTypes)
+                buttonTypes = custom.formatTable(buttonTypes)
 
                 function buttonTypes:Hide()
                     button.Visible = false
@@ -579,16 +588,16 @@ function library:Load(opts)
             end
 
             function sectionTypes:Toggle(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local name = options.name
                 local callback = options.callback or function()
                     end
-
+                local tooltip = options.tooltip or false
                 local toggled = false
                 local mouseOver = false
 
                 local toggle =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         Size = UDim2.new(1, 0, 0, 10),
@@ -602,7 +611,7 @@ function library:Load(opts)
                 )
 
                 local icon =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         ZIndex = 6,
@@ -612,7 +621,7 @@ function library:Load(opts)
                     }
                 )
 
-                custom.create(
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 4),
@@ -621,7 +630,7 @@ function library:Load(opts)
                 )
 
                 local title =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 6,
@@ -638,20 +647,20 @@ function library:Load(opts)
                         Parent = icon
                     }
                 )
-
+                custom.createTooltip(title, tooltip)
                 local function toggleToggle()
                     toggled = not toggled
 
-                    custom.tween(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
+                    custom.animate(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
 
                     if not mouseOver then
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
                         )
                     else
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {
@@ -669,7 +678,7 @@ function library:Load(opts)
                 toggle.MouseEnter:Connect(
                     function()
                         mouseOver = true
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {
@@ -683,7 +692,7 @@ function library:Load(opts)
                 toggle.MouseLeave:Connect(
                     function()
                         mouseOver = false
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
@@ -692,7 +701,7 @@ function library:Load(opts)
                 )
 
                 local toggleTypes = {}
-                toggleTypes = custom.format_table(toggleTypes)
+                toggleTypes = custom.formatTable(toggleTypes)
 
                 function toggleTypes:Toggle(bool)
                     if toggled ~= bool then
@@ -712,16 +721,16 @@ function library:Load(opts)
             end
 
             function sectionTypes:Box(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local placeholder = options.name or options.placeholder
                 local default = options.default or ""
                 local callback = options.callback or nil
-
+                local tooltip = options.tooltip or false
                 local mouseOver = false
                 local focused = false
 
                 local box =
-                    custom.create(
+                    custom.createObject(
                     "TextBox",
                     {
                         ZIndex = 6,
@@ -737,8 +746,8 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-
-                custom.create(
+                custom.createTooltip(box, tooltip)
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 2),
@@ -750,7 +759,7 @@ function library:Load(opts)
                     focused = false
 
                     if not mouseOver then
-                        custom.tween(box, {0.2}, {BackgroundColor3 = theme.Box})
+                        custom.animate(box, {0.2}, {BackgroundColor3 = theme.Box})
                     end
                     callback(box.Text)
                 end
@@ -758,14 +767,14 @@ function library:Load(opts)
                 box.Focused:Connect(
                     function()
                         focused = true
-                        custom.tween(box, {0.2}, {BackgroundColor3 = theme.BoxFocused})
+                        custom.animate(box, {0.2}, {BackgroundColor3 = theme.BoxFocused})
                     end
                 )
 
                 box.MouseEnter:Connect(
                     function()
                         mouseOver = true
-                        custom.tween(box, {0.2}, {BackgroundColor3 = theme.BoxFocused})
+                        custom.animate(box, {0.2}, {BackgroundColor3 = theme.BoxFocused})
                     end
                 )
 
@@ -773,7 +782,7 @@ function library:Load(opts)
                     function()
                         mouseOver = false
                         if not focused then
-                            custom.tween(box, {0.2}, {BackgroundColor3 = theme.Box})
+                            custom.animate(box, {0.2}, {BackgroundColor3 = theme.Box})
                         end
                     end
                 )
@@ -781,7 +790,7 @@ function library:Load(opts)
                 box.FocusLost:Connect(boxFinished)
 
                 local boxTypes = {}
-                boxTypes = custom.format_table(boxTypes)
+                boxTypes = custom.formatTable(boxTypes)
 
                 function boxTypes:Set(text)
                     box.Text = text
@@ -800,7 +809,7 @@ function library:Load(opts)
             end
 
             function sectionTypes:Slider(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local name = options.name
                 local min = options.min or 1
                 local max = options.max or 100
@@ -809,12 +818,12 @@ function library:Load(opts)
                 local valueType = options.valueType or "/" .. tostring(max)
                 local callback = options.callback or function()
                     end
-
+                local tooltip = options.tooltip or false
                 local mouseOver = false
                 local sliding = false
 
                 local slider =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         ZIndex = 6,
@@ -825,7 +834,7 @@ function library:Load(opts)
                     }
                 )
 
-                custom.create(
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 2),
@@ -834,7 +843,7 @@ function library:Load(opts)
                 )
 
                 local fill =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         ZIndex = 7,
@@ -844,7 +853,7 @@ function library:Load(opts)
                     }
                 )
 
-                custom.create(
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 2),
@@ -853,7 +862,7 @@ function library:Load(opts)
                 )
 
                 local title =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 8,
@@ -868,11 +877,11 @@ function library:Load(opts)
                         Parent = slider
                     }
                 )
-
+                custom.createTooltip(title, tooltip)
                 local function slide(input)
                     local sizeX =
                         math.clamp((input.Position.X - slider.AbsolutePosition.X) / slider.AbsoluteSize.X, 0, 1)
-                    custom.tween(fill, {0.3}, {Size = UDim2.new(sizeX, 0, 1, 0)})
+                    custom.animate(fill, {0.3}, {Size = UDim2.new(sizeX, 0, 1, 0)})
 
                     local value = math.floor((((max - min) * sizeX) + min) * (decimals * 10)) / (decimals * 10)
                     title.Text = name .. ": " .. value .. valueType
@@ -884,7 +893,7 @@ function library:Load(opts)
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             sliding = true
-                            custom.tween(fill, {0.2}, {BackgroundColor3 = theme.SliderFillSliding})
+                            custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFillSliding})
                             slide(input)
                         end
                     end
@@ -893,10 +902,10 @@ function library:Load(opts)
                 slider.InputEnded:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                            custom.tween(fill, {0.2}, {BackgroundColor3 = theme.SliderFill})
+                            custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFill})
                             sliding = false
                             if not mouseOver then
-                                custom.tween(slider, {0.2}, {BackgroundColor3 = theme.Slider})
+                                custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                             end
                         end
                     end
@@ -905,7 +914,7 @@ function library:Load(opts)
                 slider.MouseEnter:Connect(
                     function()
                         mouseOver = true
-                        custom.tween(slider, {0.2}, {BackgroundColor3 = theme.SliderMouseOver})
+                        custom.animate(slider, {0.2}, {BackgroundColor3 = theme.SliderMouseOver})
                     end
                 )
 
@@ -913,7 +922,7 @@ function library:Load(opts)
                     function()
                         mouseOver = false
                         if not sliding then
-                            custom.tween(slider, {0.2}, {BackgroundColor3 = theme.Slider})
+                            custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                         end
                     end
                 )
@@ -929,7 +938,7 @@ function library:Load(opts)
                 )
 
                 local sliderTypes = {}
-                sliderTypes = custom.format_table(sliderTypes)
+                sliderTypes = custom.formatTable(sliderTypes)
 
                 function sliderTypes:Set(value)
                     value = math.floor(value * (decimals * 10)) / (decimals * 10)
@@ -951,13 +960,13 @@ function library:Load(opts)
             end
 
             function sectionTypes:Dropdown(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local default = options.default or nil
                 local contentTable = options.content or {}
                 local multiChoice = options.multiChoice or false
                 local callback = options.callback or function()
                     end
-
+                local tooltip = options.tooltip or false
                 local chosen = {}
                 local curValue = default
                 local open = false
@@ -974,7 +983,7 @@ function library:Load(opts)
                 default = defaultInContent and default or nil
 
                 local dropdown =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         ZIndex = 6,
@@ -988,8 +997,8 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-
-                custom.create(
+                custom.createTooltip(dropdown, tooltip)
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 2),
@@ -998,7 +1007,7 @@ function library:Load(opts)
                 )
 
                 local value =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 7,
@@ -1017,7 +1026,7 @@ function library:Load(opts)
                 )
 
                 local icon =
-                    custom.create(
+                    custom.createObject(
                     "ImageLabel",
                     {
                         ZIndex = 7,
@@ -1026,13 +1035,12 @@ function library:Load(opts)
                         BackgroundTransparency = 1,
                         Position = UDim2.new(1, -16, 0, 3),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        Image = "http://www.roblox.com/asset/?id=8233647312",
                         Parent = dropdown
                     }
                 )
 
                 local content =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         ZIndex = 10,
@@ -1045,7 +1053,7 @@ function library:Load(opts)
                     }
                 )
 
-                custom.create(
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 2),
@@ -1054,7 +1062,7 @@ function library:Load(opts)
                 )
 
                 local contentHolder =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         Size = UDim2.new(1, -6, 1, 0),
@@ -1065,7 +1073,7 @@ function library:Load(opts)
                 )
 
                 local contentList =
-                    custom.create(
+                    custom.createObject(
                     "UIListLayout",
                     {
                         SortOrder = Enum.SortOrder.LayoutOrder,
@@ -1082,7 +1090,7 @@ function library:Load(opts)
                         content.Visible = open
                     end
 
-                    custom.tween(
+                    custom.animate(
                         content,
                         {#contentTable * 0.1},
                         {Size = sizeX},
@@ -1090,26 +1098,26 @@ function library:Load(opts)
                             content.Visible = open
                         end
                     )
-                    custom.tween(icon, {0.2}, {Rotation = rotation})
+                    custom.animate(icon, {0.2}, {Rotation = rotation})
                 end
 
                 dropdown.MouseButton1Click:connect(toggleDropdown)
 
                 dropdown.MouseEnter:Connect(
                     function()
-                        custom.tween(dropdown, {0.2}, {BackgroundColor3 = theme.DropdownMouseOver})
+                        custom.animate(dropdown, {0.2}, {BackgroundColor3 = theme.DropdownMouseOver})
                     end
                 )
 
                 dropdown.MouseLeave:Connect(
                     function()
-                        custom.tween(dropdown, {0.2}, {BackgroundColor3 = theme.Dropdown})
+                        custom.animate(dropdown, {0.2}, {BackgroundColor3 = theme.Dropdown})
                     end
                 )
 
                 for i, v in next, contentTable do
                     local option =
-                        custom.create(
+                        custom.createObject(
                         "TextButton",
                         {
                             ZIndex = 11,
@@ -1146,36 +1154,36 @@ function library:Load(opts)
 
                                     for i2, v2 in next, contentHolder:GetChildren() do
                                         if v2:IsA("TextButton") then
-                                            custom.tween(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                            custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
                                         end
                                     end
 
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
                                         function()
                                             value.TextColor3 = theme.EnabledText
                                             value.Text = v
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
                                     callback(v)
                                 else
                                     curValue = nil
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.DisabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
                                         function()
                                             value.TextColor3 = theme.DisabledText
                                             value.Text = "NONE"
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
@@ -1189,9 +1197,9 @@ function library:Load(opts)
                                         end
                                     end
 
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.DisabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
@@ -1200,7 +1208,7 @@ function library:Load(opts)
                                                 table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
                                             value.Text =
                                                 table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
@@ -1208,9 +1216,9 @@ function library:Load(opts)
                                 else
                                     table.insert(chosen, v)
 
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
@@ -1219,7 +1227,7 @@ function library:Load(opts)
                                                 table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
                                             value.Text =
                                                 table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
@@ -1231,7 +1239,7 @@ function library:Load(opts)
                 end
 
                 local dropdownTypes = {}
-                dropdownTypes = custom.format_table(dropdownTypes)
+                dropdownTypes = custom.formatTable(dropdownTypes)
 
                 function dropdownTypes:Set(opt)
                     if opt ~= nil then
@@ -1255,16 +1263,16 @@ function library:Load(opts)
                                     end
                                 end
 
-                                custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                custom.tween(
+                                custom.animate(
                                     value,
                                     {0.2},
                                     {TextTransparency = 1},
                                     function()
                                         value.TextColor3 = theme.EnabledText
                                         value.Text = opt
-                                        custom.tween(value, {0.2}, {TextTransparency = 0})
+                                        custom.animate(value, {0.2}, {TextTransparency = 0})
                                     end
                                 )
 
@@ -1275,24 +1283,24 @@ function library:Load(opts)
                                 chosen = opt
 
                                 for i, v in next, chosen do
-                                    custom.tween(optionInstances[v], {0.2}, {TextColor3 = theme.EnabledText})
+                                    custom.animate(optionInstances[v], {0.2}, {TextColor3 = theme.EnabledText})
                                 end
                             else
                                 if not table.find(chosen, opt) then
                                     table.insert(chosen, opt)
 
-                                    custom.tween(optionInstances[opt], {0.2}, {TextColor3 = theme.EnabledText})
+                                    custom.animate(optionInstances[opt], {0.2}, {TextColor3 = theme.EnabledText})
                                 end
                             end
 
-                            custom.tween(
+                            custom.animate(
                                 value,
                                 {0.2},
                                 {TextTransparency = 1},
                                 function()
                                     value.TextColor3 = theme.EnabledText
                                     value.Text = table.concat(chosen, ", ")
-                                    custom.tween(value, {0.2}, {TextTransparency = 0})
+                                    custom.animate(value, {0.2}, {TextTransparency = 0})
                                 end
                             )
 
@@ -1303,18 +1311,18 @@ function library:Load(opts)
                             curValue = nil
                             for i2, v2 in next, contentHolder:GetChildren() do
                                 if v2:IsA("TextButton") then
-                                    custom.tween(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                    custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
                                 end
                             end
 
-                            custom.tween(
+                            custom.animate(
                                 value,
                                 {0.2},
                                 {TextTransparency = 1},
                                 function()
                                     value.TextColor3 = theme.DisabledText
                                     value.Text = "NONE"
-                                    custom.tween(value, {0.2}, {TextTransparency = 0})
+                                    custom.animate(value, {0.2}, {TextTransparency = 0})
                                 end
                             )
 
@@ -1328,14 +1336,14 @@ function library:Load(opts)
                                 end
                             end
 
-                            custom.tween(
+                            custom.animate(
                                 value,
                                 {0.2},
                                 {TextTransparency = 1},
                                 function()
                                     value.TextColor3 = theme.DisabledText
                                     value.Text = "NONE"
-                                    custom.tween(value, {0.2}, {TextTransparency = 0})
+                                    custom.animate(value, {0.2}, {TextTransparency = 0})
                                 end
                             )
 
@@ -1348,7 +1356,7 @@ function library:Load(opts)
                     table.insert(contentTable, opt)
 
                     local option =
-                        custom.create(
+                        custom.createObject(
                         "TextButton",
                         {
                             ZIndex = 11,
@@ -1375,36 +1383,36 @@ function library:Load(opts)
 
                                     for i, v in next, contentHolder:GetChildren() do
                                         if v:IsA("TextButton") then
-                                            custom.tween(v, {0.2}, {TextColor3 = theme.DisabledText})
+                                            custom.animate(v, {0.2}, {TextColor3 = theme.DisabledText})
                                         end
                                     end
 
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
                                         function()
                                             value.TextColor3 = theme.EnabledText
                                             value.Text = opt
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
                                     callback(opt)
                                 else
                                     curValue = nil
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.DisabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
                                         function()
                                             value.TextColor3 = theme.DisabledText
                                             value.Text = "NONE"
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
@@ -1418,9 +1426,9 @@ function library:Load(opts)
                                         end
                                     end
 
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.DisabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
@@ -1429,7 +1437,7 @@ function library:Load(opts)
                                                 table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
                                             value.Text =
                                                 table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
@@ -1437,9 +1445,9 @@ function library:Load(opts)
                                 else
                                     table.insert(chosen, opt)
 
-                                    custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                    custom.tween(
+                                    custom.animate(
                                         value,
                                         {0.2},
                                         {TextTransparency = 1},
@@ -1448,7 +1456,7 @@ function library:Load(opts)
                                                 table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
                                             value.Text =
                                                 table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
 
@@ -1460,13 +1468,13 @@ function library:Load(opts)
 
                     if content.Visible then
                         local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                        custom.tween(content, {#contentTable * 0.1}, {Size = sizeX})
+                        custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
                     end
                 end
 
                 function dropdownTypes:Remove(opt)
                     if table.find(contentTable, opt) then
-                        custom.tween(
+                        custom.animate(
                             optionInstances[opt],
                             {0.2},
                             {TextTransparency = 1},
@@ -1481,20 +1489,20 @@ function library:Load(opts)
 
                         if content.Visible then
                             local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y - 16)
-                            custom.tween(content, {#contentTable * 0.1}, {Size = sizeX})
+                            custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
                         end
 
                         if not multiChoice then
                             if curValue == opt then
                                 curValue = nil
-                                custom.tween(
+                                custom.animate(
                                     value,
                                     {0.2},
                                     {TextTransparency = 1},
                                     function()
                                         value.TextColor3 = theme.DisabledText
                                         value.Text = "NONE"
-                                        custom.tween(value, {0.2}, {TextTransparency = 0})
+                                        custom.animate(value, {0.2}, {TextTransparency = 0})
                                     end
                                 )
 
@@ -1504,7 +1512,7 @@ function library:Load(opts)
                             if table.find(chosen, opt) then
                                 table.remove(chosen, table.find(chosen, opt))
 
-                                custom.tween(
+                                custom.animate(
                                     value,
                                     {0.2},
                                     {TextTransparency = 1},
@@ -1512,7 +1520,7 @@ function library:Load(opts)
                                         value.TextColor3 =
                                             table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
                                         value.Text = table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                        custom.tween(value, {0.2}, {TextTransparency = 0})
+                                        custom.animate(value, {0.2}, {TextTransparency = 0})
                                     end
                                 )
                             end
@@ -1527,20 +1535,20 @@ function library:Load(opts)
                         v:Destroy()
                     end
 
-                    custom.tween(
+                    custom.animate(
                         value,
                         {0.2},
                         {TextTransparency = 1},
                         function()
                             value.TextColor3 = theme.DisabledText
                             value.Text = "NONE"
-                            custom.tween(value, {0.2}, {TextTransparency = 0})
+                            custom.animate(value, {0.2}, {TextTransparency = 0})
                         end
                     )
 
                     for i, v in next, contentTable do
                         local option =
-                            custom.create(
+                            custom.createObject(
                             "TextButton",
                             {
                                 ZIndex = 11,
@@ -1577,36 +1585,36 @@ function library:Load(opts)
 
                                         for i2, v2 in next, contentHolder:GetChildren() do
                                             if v2:IsA("TextButton") then
-                                                custom.tween(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                                custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
                                             end
                                         end
 
-                                        custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                        custom.tween(
+                                        custom.animate(
                                             value,
                                             {0.2},
                                             {TextTransparency = 1},
                                             function()
                                                 value.TextColor3 = theme.EnabledText
                                                 value.Text = v
-                                                custom.tween(value, {0.2}, {TextTransparency = 0})
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
                                             end
                                         )
 
                                         callback(v)
                                     else
                                         curValue = nil
-                                        custom.tween(option, {0.2}, {TextColor3 = theme.DisabledText})
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
 
-                                        custom.tween(
+                                        custom.animate(
                                             value,
                                             {0.2},
                                             {TextTransparency = 1},
                                             function()
                                                 value.TextColor3 = theme.DisabledText
                                                 value.Text = "NONE"
-                                                custom.tween(value, {0.2}, {TextTransparency = 0})
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
                                             end
                                         )
 
@@ -1620,9 +1628,9 @@ function library:Load(opts)
                                             end
                                         end
 
-                                        custom.tween(option, {0.2}, {TextColor3 = theme.DisabledText})
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
 
-                                        custom.tween(
+                                        custom.animate(
                                             value,
                                             {0.2},
                                             {TextTransparency = 1},
@@ -1632,7 +1640,7 @@ function library:Load(opts)
                                                     theme.DisabledText
                                                 value.Text =
                                                     table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.tween(value, {0.2}, {TextTransparency = 0})
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
                                             end
                                         )
 
@@ -1640,9 +1648,9 @@ function library:Load(opts)
                                     else
                                         table.insert(chosen, v)
 
-                                        custom.tween(option, {0.2}, {TextColor3 = theme.EnabledText})
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
 
-                                        custom.tween(
+                                        custom.animate(
                                             value,
                                             {0.2},
                                             {TextTransparency = 1},
@@ -1652,7 +1660,7 @@ function library:Load(opts)
                                                     theme.DisabledText
                                                 value.Text =
                                                     table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.tween(value, {0.2}, {TextTransparency = 0})
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
                                             end
                                         )
 
@@ -1665,7 +1673,7 @@ function library:Load(opts)
 
                     if content.Visible then
                         local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                        custom.tween(content, {#contentTable * 0.1}, {Size = sizeX})
+                        custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
                     end
                 end
 
@@ -1681,12 +1689,12 @@ function library:Load(opts)
             end
 
             function sectionTypes:Keybind(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
                 local callback = options.callback or function()
                     end
-
+                local tooltip = options.tooltip or false
                 local keyChosen = default
 
                 local keys = {
@@ -1740,7 +1748,7 @@ function library:Load(opts)
                 }
 
                 local keybind =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         ZIndex = 6,
@@ -1756,9 +1764,9 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-
+                custom.createTooltip(keybind, tooltip)
                 local value =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 6,
@@ -1779,7 +1787,7 @@ function library:Load(opts)
                 keybind.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
-                        custom.tween(value, {0.2}, {TextColor3 = theme.DisabledText})
+                        custom.animate(value, {0.2}, {TextColor3 = theme.DisabledText})
 
                         local binding
                         binding =
@@ -1787,7 +1795,7 @@ function library:Load(opts)
                             function(input)
                                 local key = keys[input.KeyCode] or keys[input.UserInputType]
                                 value.Text = (keys[key] or tostring(input.KeyCode):gsub("Enum.KeyCode.", ""))
-                                custom.tween(value, {0.2}, {TextColor3 = theme.EnabledText})
+                                custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
 
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
@@ -1820,12 +1828,12 @@ function library:Load(opts)
                 )
 
                 local keybindTypes = {}
-                keybindTypes = custom.format_table(keybindTypes)
+                keybindTypes = custom.formatTable(keybindTypes)
 
                 function keybindTypes:Set(newKey)
                     local key = keys[newKey]
                     value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
-                    custom.tween(value, {0.2}, {TextColor3 = theme.EnabledText})
+                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
 
                     keyChosen = newKey
 
@@ -1844,14 +1852,14 @@ function library:Load(opts)
             end
 
             function sectionTypes:ToggleKeybind(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
                 local keybindCallback = options.keybindCallback or function()
                     end
                 local toggleCallback = options.toggleCallback or function()
                     end
-
+                local tooltip = options.tooltip or false
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
@@ -1907,7 +1915,7 @@ function library:Load(opts)
                 }
 
                 local toggleKeybind =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         Size = UDim2.new(1, 0, 0, 10),
@@ -1917,7 +1925,7 @@ function library:Load(opts)
                 )
 
                 local icon =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         ZIndex = 6,
@@ -1927,7 +1935,7 @@ function library:Load(opts)
                     }
                 )
 
-                custom.create(
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 4),
@@ -1936,7 +1944,7 @@ function library:Load(opts)
                 )
 
                 local title =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 6,
@@ -1953,9 +1961,9 @@ function library:Load(opts)
                         Parent = icon
                     }
                 )
-
+                custom.createTooltip(title, tooltip)
                 local value =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         ZIndex = 6,
@@ -1979,16 +1987,16 @@ function library:Load(opts)
                 local function toggleToggle()
                     toggled = not toggled
 
-                    custom.tween(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
+                    custom.animate(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
 
                     if not mouseOver then
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
                         )
                     else
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {
@@ -2006,7 +2014,7 @@ function library:Load(opts)
                 toggleKeybind.MouseEnter:Connect(
                     function()
                         mouseOver = true
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {
@@ -2020,7 +2028,7 @@ function library:Load(opts)
                 toggleKeybind.MouseLeave:Connect(
                     function()
                         mouseOver = false
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
@@ -2031,7 +2039,7 @@ function library:Load(opts)
                 value.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
-                        custom.tween(value, {0.2}, {TextColor3 = theme.DisabledText})
+                        custom.animate(value, {0.2}, {TextColor3 = theme.DisabledText})
 
                         local binding
                         binding =
@@ -2041,7 +2049,7 @@ function library:Load(opts)
                                 value.Text = key or (tostring(input.KeyCode):gsub("Enum.KeyCode.", ""))
                                 value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
                                 value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
-                                custom.tween(value, {0.2}, {TextColor3 = theme.EnabledText})
+                                custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
 
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
@@ -2076,7 +2084,7 @@ function library:Load(opts)
                 )
 
                 local toggleKeybindTypes = {}
-                toggleKeybindTypes = custom.format_table(toggleKeybindTypes)
+                toggleKeybindTypes = custom.formatTable(toggleKeybindTypes)
 
                 function toggleKeybindTypes:Toggle(bool)
                     if toggled ~= bool then
@@ -2087,7 +2095,7 @@ function library:Load(opts)
                 function toggleKeybindTypes:Set(newKey)
                     local key = keys[newKey]
                     value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
-                    custom.tween(value, {0.2}, {TextColor3 = theme.EnabledText})
+                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
 
                     keyChosen = newKey
 
@@ -2106,12 +2114,12 @@ function library:Load(opts)
             end
 
             function sectionTypes:ToggleKeybindTest(opts)
-                local options = custom.format_table(opts)
+                local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
                 local Callback = options.Callback or function()
                     end
-
+                local tooltip = options.tooltip or false
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
@@ -2167,7 +2175,7 @@ function library:Load(opts)
                 }
 
                 local toggleKeybind =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         Size = UDim2.new(1, 0, 0, 10),
@@ -2177,7 +2185,7 @@ function library:Load(opts)
                 )
 
                 local icon =
-                    custom.create(
+                    custom.createObject(
                     "Frame",
                     {
                         ZIndex = 6,
@@ -2187,7 +2195,7 @@ function library:Load(opts)
                     }
                 )
 
-                custom.create(
+                custom.createObject(
                     "UICorner",
                     {
                         CornerRadius = UDim.new(0, 4),
@@ -2196,7 +2204,7 @@ function library:Load(opts)
                 )
 
                 local title =
-                    custom.create(
+                    custom.createObject(
                     "TextLabel",
                     {
                         ZIndex = 6,
@@ -2213,9 +2221,9 @@ function library:Load(opts)
                         Parent = icon
                     }
                 )
-
+                custom.createTooltip(title, tooltip)
                 local value =
-                    custom.create(
+                    custom.createObject(
                     "TextButton",
                     {
                         ZIndex = 6,
@@ -2239,16 +2247,16 @@ function library:Load(opts)
                 local function toggleToggle()
                     toggled = not toggled
 
-                    custom.tween(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
+                    custom.animate(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
 
                     if not mouseOver then
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
                         )
                     else
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {
@@ -2266,7 +2274,7 @@ function library:Load(opts)
                 toggleKeybind.MouseEnter:Connect(
                     function()
                         mouseOver = true
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {
@@ -2280,7 +2288,7 @@ function library:Load(opts)
                 toggleKeybind.MouseLeave:Connect(
                     function()
                         mouseOver = false
-                        custom.tween(
+                        custom.animate(
                             icon,
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
@@ -2291,7 +2299,7 @@ function library:Load(opts)
                 value.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
-                        custom.tween(value, {0.2}, {TextColor3 = theme.DisabledText})
+                        custom.animate(value, {0.2}, {TextColor3 = theme.DisabledText})
 
                         local binding
                         binding =
@@ -2301,7 +2309,7 @@ function library:Load(opts)
                                 value.Text = key or (tostring(input.KeyCode):gsub("Enum.KeyCode.", ""))
                                 value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
                                 value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
-                                custom.tween(value, {0.2}, {TextColor3 = theme.EnabledText})
+                                custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
 
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
@@ -2321,7 +2329,7 @@ function library:Load(opts)
                 )
 
                 local toggleKeybindTypes = {}
-                toggleKeybindTypes = custom.format_table(toggleKeybindTypes)
+                toggleKeybindTypes = custom.formatTable(toggleKeybindTypes)
 
                 function toggleKeybindTypes:Toggle(bool)
                     if toggled ~= bool then
@@ -2332,7 +2340,7 @@ function library:Load(opts)
                 function toggleKeybindTypes:Set(newKey)
                     local key = keys[newKey]
                     value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
-                    custom.tween(value, {0.2}, {TextColor3 = theme.EnabledText})
+                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
 
                     keyChosen = newKey
 
