@@ -24,7 +24,7 @@ function notifications.new(settings)
     }
 
     for setting, value in next, settings do
-        notificationSettings[setting] = value
+        notificationSettings[settings] = value
     end
 
     setmetatable(notificationSettings, {__index = notifications})
