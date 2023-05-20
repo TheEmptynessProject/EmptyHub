@@ -15,23 +15,51 @@ do
     function customs.getCenterPosition(sizeX, sizeY)
         return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
     end
-    
+
+    local tempIndex = 2
+    function customs.createObject(class, properties)
+        local obj = Instance.new(class)
+
+        local forcedProperties = {
+            BorderSizePixel = 1,
+            AutoButtonColor = false
+        }
+
+        for prop, value in next, properties do
+            obj[prop] = value
+        end
+
+        for prop, value in next, forcedProperties do
+            pcall(
+                function()
+                    obj[prop] = value
+                    obj.Name = createTooltip.generateString(32, tempIndex)
+                    tempIndex = tempIndex + 1
+                end
+            )
+        end
+
+        return obj
+    end
+
     function customs.createTooltip(parent, text)
         if text then
-            local frame = Instance.new("Frame")
-            frame.Size = UDim2.new(0, 200, 0, 50)
-            frame.Position = UDim2.new(0, 0, 0, 0)
-            frame.BackgroundColor3 = Color3.new(1, 1, 1)
-            frame.BorderSizePixel = 0
-            frame.Parent = parent
+            local frame = customs.createObject("Frame", {
+                Size = UDim2.new(0, 200, 0, 50),
+                Position = UDim2.new(0, 0, 0, 0),
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BorderSizePixel = 0,
+                Parent = parent
+            })
 
-            local label = Instance.new("TextLabel")
-            label.Size = UDim2.new(1, 0, 1, 0)
-            label.Position = UDim2.new(0, 0, 0, 0)
-            label.BackgroundTransparency = 1
-            label.TextColor3 = Color3.new(0, 0, 0)
-            label.Text = text
-            label.Parent = frame
+            local label = customs.createObject("TextLabel", {
+                Size = UDim2.new(1, 0, 1, 0),
+                Position = UDim2.new(0, 0, 0, 0),
+                BackgroundTransparency = 1,
+                TextColor3 = Color3.new(0, 0, 0),
+                Text = text,
+                Parent = frame
+            })
 
             parent.MouseEnter:Connect(
                 function()
@@ -60,33 +88,7 @@ do
             )
         end
     end
-
-    local tempIndex = 2
-    function customs.createObject(class, properties)
-        local obj = Instance.new(class)
-
-        local forcedProperties = {
-            BorderSizePixel = 1,
-            AutoButtonColor = false
-        }
-
-        for prop, value in next, properties do
-            obj[prop] = value
-        end
-
-        for prop, value in next, forcedProperties do
-            pcall(
-                function()
-                    obj[prop] = value
-                    obj.Name = myCustomLibrary.generateString(32, tempIndex)
-                    tempIndex = tempIndex + 1
-                end
-            )
-        end
-
-        return obj
-    end
-
+    
     function customs.animate(obj, info, properties, callback)
         local anim = game:GetService("TweenService"):Create(obj, TweenInfo.new(unpack(info)), properties)
         anim:Play()
