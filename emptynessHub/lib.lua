@@ -60,7 +60,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 emptyCustoms = custom.create("ScreenGui", {})
 emptyCustoms.Parent = game:GetService("CoreGui")
-emptyCustoms.Name = custom.string(32, 1)
+emptyCustoms.Name = custom.generateString(32, 1)
 library = custom.format_table(library)
 
 inputService.InputBegan:Connect(
@@ -75,19 +75,12 @@ inputService.InputBegan:Connect(
 )
 function library:Load(opts)
     getgenv()[custom.string(32, 0)] = true
-    local options = custom.format_table(opts)
+    local options = custom.formatTable(opts)
     local name = options.name
     local sizeX = options.sizeX or 440
     local sizeY = options.sizeY or 480
     local theme = options.theme or themes.Default
     local fonted = options.font or Enum.Font.Ubuntu
-    local colorOverrides = options.colorOverrides or {}
-
-    for i, v in next, colorOverrides do
-        if theme[i] then
-            theme[i] = v
-        end
-    end
 
     local holder =
         custom.create(
