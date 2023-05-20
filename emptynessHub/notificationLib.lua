@@ -62,7 +62,6 @@ function notifications:BuildUI()
 
     notifications.screenGui = custom.createObject("ScreenGui", {ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = emptyCustoms})
     self.ui.frame = custom.create("Frame", {
-        Name = "notificationsFrame",
         Parent = notifications.screenGui,
         BackgroundColor3 = Color3.new(1, 1, 1),
         BackgroundTransparency = 1,
@@ -72,8 +71,7 @@ function notifications:BuildUI()
 
     custom.enableDrag(self.ui.frame, 0.1)
 
-    self.ui.layout = custom.create("UIListLayout", {
-        Name = "notificationsFrame_UIListLayout",
+    self.ui.layout = custom.createObject("UIListLayout", {
         Parent = self.ui.frame,
         Padding = UDim.new(0, 1 + self.textSize),
         SortOrder = Enum.SortOrder.LayoutOrder
@@ -83,7 +81,6 @@ end
 function notifications:Notify(text)
     assert(type(text) == "string", "Invalid argument #1 in function Notify(text). Expected string.")
     local notification = custom.createObject("TextLabel", {
-        Name = "notification",
         Parent = self.ui.frame,
         BackgroundColor3 = Color3.new(1, 1, 1),
         BackgroundTransparency = 1,
