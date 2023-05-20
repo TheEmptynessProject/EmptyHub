@@ -11,7 +11,7 @@ do
 
         return table.concat(word)
     end
-function customs.getCenterPosition(sizeX, sizeY)
+    function customs.getCenterPosition(sizeX, sizeY)
         return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
     end
     function customs.CreateTooltip(parent, text)
@@ -73,7 +73,8 @@ function customs.getCenterPosition(sizeX, sizeY)
         end
 
         for prop, value in next, forcedProperties do
-           pcall(function()
+            pcall(
+                function()
                     obj[prop] = value
                     obj.Name = myCustomLibrary.generateString(32, tempIndex)
                     tempIndex = tempIndex + 1
