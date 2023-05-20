@@ -61,7 +61,7 @@ function notifications:BuildUI()
     end
 
     notifications.screenGui = custom.createObject("ScreenGui", {ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = emptyCustoms})
-    self.ui.frame = custom.create("Frame", {
+    self.ui.frame = custom.createObject("Frame", {
         Parent = notifications.screenGui,
         BackgroundColor3 = Color3.new(1, 1, 1),
         BackgroundTransparency = 1,
