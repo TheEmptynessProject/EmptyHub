@@ -1,174 +1,175 @@
-local custom = {}; do
-function custom.string(leng, seed)
-    local array = {}
+local customs = {}; do
+    function customs.generateString(length, seed)
+        local word = {}
 
-    for i = 1, leng do
-        local leNumberPlus = (math.floor(i * 512))
-        math.randomseed(seed + leNumberPlus)
-        array[i] = string.char(math.random(33, 126))
+        for i = 1, length do
+            local real = (math.floor(i * 512))
+            math.randomseed(seed + real)
+            word[i] = string.char(math.random(33, 126))
+        end
+
+        return table.concat(word)
     end
 
-    return table.concat(array)
-end
-
-function custom.starts_with(str, start)
-    return str:sub(1, string.len(start)) == start
-end
-
-local tempIndexx = 2
-
-function custom.create(class, properties)
-    local obj = Instance.new(class)
-
-    local forcedProperties = {
-        BorderSizePixel = 1,
-        AutoButtonColor = false
-    }
-
-    for prop, v in next, properties do
-        obj[prop] = v
+    function customs.startsWith(str, start)
+        return str:sub(1, string.len(start)) == start
     end
 
-    for prop, v in next, forcedProperties do
-        pcall(
-            function()
-                obj[prop] = v
-                obj.Name = randomString(32, tempIndexx)
-                tempIndexx = tempIndexx + 1
-            end
-        )
-    end
-
-    return obj
+function customs.endsWith(str, ending)
+    return str:sub(-string.len(ending)) == ending
 end
 
-function custom.tween(obj, info, properties, callback)
-    local anim = game:GetService("TweenService"):Create(obj, TweenInfo.new(unpack(info)), properties)
-    anim:Play()
+    local tempIndex = 2
+    function customs.createObject(class, properties)
+        local obj = Instance.new(class)
 
-    if callback then
-        anim.Completed:Connect(callback)
-    end
-end
-
-function custom.ripple(obj)
-    local ripple = Instance.new("Frame")
-    Instance.new("UICorner", ripple).CornerRadius = UDim.new(0, 0)
-    ripple.Size = UDim2.new(0, 0, 0, 0)
-    ripple.BorderSizePixel = 0
-    ripple.ZIndex = obj.ZIndex + 1
-    ripple.Parent = obj
-    ripple.Position = UDim2.new(0.5, 0, 0.5, 0)
-    ripple.BackgroundTransparency = 0.4
-
-    local maxSize = math.max(obj.AbsoluteSize.X, obj.AbsoluteSize.Y) * 1.5
-
-    custom.tween(
-        ripple,
-        {0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out},
-        {
-            Size = UDim2.new(0, maxSize, 0, maxSize),
-            Position = UDim2.new(0.5, -maxSize / 2, 0.5, -maxSize / 2)
+        local forcedProperties = {
+            BorderSizePixel = 1,
+            AutoButtonColor = false
         }
-    )
 
-    custom.tween(
-        ripple,
-        {0.75, Enum.EasingStyle.Quad, Enum.EasingDirection.Out},
-        {
-            BackgroundTransparency = 1
-        },
-        function()
-            ripple:Destroy()
-        end
-    )
-end
-function custom.drag(obj,speed)
-    local start, objPosition, dragging
-
-    obj.InputBegan:Connect(
-        function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = true
-                start = input.Position
-                objPosition = obj.Position
-            end
-        end
-    )
-
-    obj.InputEnded:Connect(
-        function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = false
-            end
-        end
-    )
-
-    game:GetService("UserInputService").InputChanged:Connect(
-        function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
-                local delta = input.Position - start
-                local targetPosition =
-                    UDim2.new(
-                    objPosition.X.Scale,
-                    objPosition.X.Offset + delta.X,
-                    objPosition.Y.Scale,
-                    objPosition.Y.Offset + delta.Y
-                )
-
-                custom.tween(obj, {speed}, {Position = targetPosition})
-            end
-        end
-    )
-end
-
-function custom.get_center(sizeX, sizeY)
-    return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
-end
-
-function custom.hex_to_rgb(hex)
-    return Color3.fromRGB(
-        tonumber("0x" .. hex:sub(2, 3)),
-        tonumber("0x" .. hex:sub(4, 5)),
-        tonumber("0x" .. hex:sub(6, 7))
-    )
-end
-
-function custom.rgb_to_hex(color)
-    return string.format(
-        "#%02X%02X%02X",
-        math.clamp(color.R * 255, 0, 255),
-        math.clamp(color.G * 255, 0, 255),
-        math.clamp(color.coreGui * 255, 0, 255)
-    )
-end
-
-function custom.format_table(tbl)
-    if tbl then
-        local oldtbl = tbl
-        local newtbl = {}
-        local formattedtbl = {}
-
-        for option, v in next, oldtbl do
-            newtbl[option:lower()] = v
+        for prop, value in next, properties do
+            obj[prop] = value
         end
 
-        setmetatable(
-            formattedtbl,
+        for prop, value in next, forcedProperties do
+                    obj[prop] = value
+                    obj.Name = myCustomLibrary.generateString(32, tempIndex)
+                    tempIndex = tempIndex + 1
+        end
+
+        return obj
+    end
+
+    function customs.animate(obj, info, properties, callback)
+        local anim = game:GetService("TweenService"):Create(obj, TweenInfo.new(unpack(info)), properties)
+        anim:Play()
+
+        if callback then
+            anim.Completed:Connect(callback)
+        end
+    end
+
+    function customs.createRipple(obj)
+        local ripple = Instance.new("Frame")
+        Instance.new("UICorner", ripple).CornerRadius = UDim.new(0, 0)
+        ripple.Size = UDim2.new(0, 0, 0, 0)
+        ripple.BorderSizePixel = 0
+        ripple.ZIndex = obj.ZIndex + 1
+        ripple.Parent = obj
+        ripple.Position = UDim2.new(0.5, 0, 0.5, 0)
+        ripple.BackgroundTransparency = 0.4
+
+        local maxSize = math.max(obj.AbsoluteSize.X, obj.AbsoluteSize.Y) * 1.5
+
+        customs.animate(
+            ripple,
+            {0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out},
             {
-                __newindex = function(t, k, v)
-                    rawset(newtbl, k:lower(), v)
-                end,
-                __index = function(t, k, v)
-                    return newtbl[k:lower()]
-                end
+                Size = UDim2.new(0, maxSize, 0, maxSize),
+                Position = UDim2.new(0.5, -maxSize / 2, 0.5, -maxSize / 2)
             }
         )
 
-        return formattedtbl
-    else
-        return {}
+        customs.animate(
+            ripple,
+            {0.75, Enum.EasingStyle.Quad, Enum.EasingDirection.Out},
+            {
+                BackgroundTransparency = 1
+            },
+            function()
+                ripple:Destroy()
+            end
+        )
+    end
+
+    function customs.enableDrag(obj, speed)
+        local start, objPosition, dragging
+
+        obj.InputBegan:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    dragging = true
+                    start = input.Position
+                    objPosition = obj.Position
+                end
+            end
+        )
+
+        obj.InputEnded:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    dragging = false
+                end
+            end
+        )
+
+        game:GetService("UserInputService").InputChanged:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+                    local delta = input.Position - start
+                    local targetPosition =
+                        UDim2.new(
+                        objPosition.X.Scale,
+                        objPosition.X.Offset + delta.X,
+                        objPosition.Y.Scale,
+                        objPosition.Y.Offset + delta.Y
+                    )
+
+                    customs.animate(obj, {speed}, {Position = targetPosition})
+                end
+            end
+        )
+    end
+
+    function customs.getCenterPosition(sizeX, sizeY)
+        return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
+    end
+
+    function customs.hexToRGB(hex)
+        return Color3.fromRGB(
+            tonumber("0x" .. hex:sub(2, 3)),
+            tonumber("0x" .. hex:sub(4, 5)),
+            tonumber("0x" .. hex:sub(6, 7))
+        )
+    end
+
+    function customs.rgbToHex(color)
+        return string.format(
+            "#%02X%02X%02X",
+            math.clamp(color.R * 255, 0, 255),
+            math.clamp(color.G * 255, 0, 255),
+            math.clamp(color.B * 255, 0, 255)
+        )
+    end
+
+    function customs.formatTable(tbl)
+        if tbl then
+            local oldTable = tbl
+            local newTable = {}
+            local formattedTable = {}
+
+            for option, value in next, oldTable do
+                newTable[option:lower()] = value
+            end
+
+            setmetatable(
+                formattedTable,
+                {
+                    __newindex = function(t, k, v)
+                        rawset(newTable, k:lower(), v)
+                    end,
+                    __index = function(t, k, v)
+                        return newTable[k:lower()]
+                    end
+                }
+            )
+
+            return formattedTable
+        else
+            return {}
+        end
     end
 end
-end
-return custom
+
+return customs
