@@ -13,7 +13,7 @@ if not (getgenv()[custom.string(32, 0)]) then
             SizeY = 550
         }
     )
-    getgenv().notifLib = =
+    getgenv().notifLib =
         notificationLib.new(
         {
             NotificationLifetime = 5,
