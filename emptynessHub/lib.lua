@@ -92,7 +92,7 @@ function library:Load(opts)
         {
             Size = UDim2.new(0, sizeX, 0, 26),
             BackgroundTransparency = 1,
-            Position = custom.get_center(sizeX, sizeY),
+            Position = custom.getCenterPosition(sizeX, sizeY),
             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
             Parent = emptyCustoms
         }
