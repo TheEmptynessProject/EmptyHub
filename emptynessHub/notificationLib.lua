@@ -79,13 +79,12 @@ function notifications:BuildUI()
 end
 
 function notifications:Notify(text)
-    assert(type(text) == "string", "Invalid argument #1 in function Notify(text). Expected string.")
     local notification = custom.createObject("TextLabel", {
         Parent = self.ui.frame,
         BackgroundColor3 = Color3.new(1, 1, 1),
         BackgroundTransparency = 1,
         Size = UDim2.new(0, 222, 0, 14),
-        Text = text,
+        Text = text or nil,
         Font = self.textFont,
         TextColor3 = self.textColor,
         TextSize = self.textSize,
