@@ -21,6 +21,7 @@ function notifications.new(settings)
     }
 
     for setting, value in next, settings do
+        print(setting, value)
         notificationSettings[setting] = value
     end
 
