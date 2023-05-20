@@ -60,7 +60,7 @@ function notifications:BuildUI()
         notifications.screenGui:Destroy()
     end
 
-    notifications.screenGui = custom.createObject("ScreenGui", {ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = emptyCustoms})
+    notifications.screenGui = custom.createObject("ScreenGui", {ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = game:GetService("CoreGui")})
     self.ui.frame = custom.createObject("Frame", {
         Parent = notifications.screenGui,
         BackgroundColor3 = Color3.new(1, 1, 1),
