@@ -11,14 +11,6 @@ local customs = {}; do
         return table.concat(word)
     end
 
-    function customs.startsWith(str, start)
-        return str:sub(1, string.len(start)) == start
-    end
-
-function customs.endsWith(str, ending)
-    return str:sub(-string.len(ending)) == ending
-end
-
     local tempIndex = 2
     function customs.createObject(class, properties)
         local obj = Instance.new(class)
@@ -119,27 +111,6 @@ end
                     customs.animate(obj, {speed}, {Position = targetPosition})
                 end
             end
-        )
-    end
-
-    function customs.getCenterPosition(sizeX, sizeY)
-        return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
-    end
-
-    function customs.hexToRGB(hex)
-        return Color3.fromRGB(
-            tonumber("0x" .. hex:sub(2, 3)),
-            tonumber("0x" .. hex:sub(4, 5)),
-            tonumber("0x" .. hex:sub(6, 7))
-        )
-    end
-
-    function customs.rgbToHex(color)
-        return string.format(
-            "#%02X%02X%02X",
-            math.clamp(color.R * 255, 0, 255),
-            math.clamp(color.G * 255, 0, 255),
-            math.clamp(color.B * 255, 0, 255)
         )
     end
 
