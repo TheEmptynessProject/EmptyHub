@@ -1,4 +1,5 @@
-local customs = {}; do
+local customs = {}
+do
     function customs.generateString(length, seed)
         local word = {}
 
@@ -9,6 +10,49 @@ local customs = {}; do
         end
 
         return table.concat(word)
+    end
+
+    function customs.CreateTooltip(parent, text)
+        local frame = Instance.new("Frame")
+        frame.Size = UDim2.new(0, 200, 0, 50)
+        frame.Position = UDim2.new(0, 0, 0, 0)
+        frame.BackgroundColor3 = Color3.new(1, 1, 1)
+        frame.BorderSizePixel = 0
+        frame.Parent = parent
+
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 1, 0)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.TextColor3 = Color3.new(0, 0, 0)
+        label.Text = text
+        label.Parent = frame
+
+        parent.MouseEnter:Connect(
+            function()
+                frame.Visible = true
+            end
+        )
+
+        parent.MouseLeave:Connect(
+            function()
+                frame.Visible = false
+            end
+        )
+
+        frame.Visible = false
+
+        local function updateTooltipPosition(mouse)
+            frame.Position = UDim2.new(0, mouse.X + 10, 0, mouse.Y + 10)
+        end
+
+        game:GetService("UserInputService").InputChanged:Connect(
+            function(input)
+                if input.UserInputType == Enum.UserInputType.MouseMovement and frame.Visible then
+                    updateTooltipPosition(input.Position)
+                end
+            end
+        )
     end
 
     local tempIndex = 2
@@ -25,9 +69,9 @@ local customs = {}; do
         end
 
         for prop, value in next, forcedProperties do
-                    obj[prop] = value
-                    obj.Name = myCustomLibrary.generateString(32, tempIndex)
-                    tempIndex = tempIndex + 1
+            obj[prop] = value
+            obj.Name = myCustomLibrary.generateString(32, tempIndex)
+            tempIndex = tempIndex + 1
         end
 
         return obj
