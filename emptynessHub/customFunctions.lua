@@ -11,7 +11,9 @@ do
 
         return table.concat(word)
     end
-
+function customs.getCenterPosition(sizeX, sizeY)
+        return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
+    end
     function customs.CreateTooltip(parent, text)
         if text then
             local frame = Instance.new("Frame")
