@@ -99,14 +99,19 @@ do
     end
 
     function customs.createRipple(obj)
-        local ripple = Instance.new("Frame")
-        Instance.new("UICorner", ripple).CornerRadius = UDim.new(0, 0)
-        ripple.Size = UDim2.new(0, 0, 0, 0)
-        ripple.BorderSizePixel = 0
-        ripple.ZIndex = obj.ZIndex + 1
-        ripple.Parent = obj
-        ripple.Position = UDim2.new(0.5, 0, 0.5, 0)
-        ripple.BackgroundTransparency = 0.4
+        local ripple = customs.createObject("Frame", {
+            Size = UDim2.new(0, 0, 0, 0),
+            BorderSizePixel = 0,
+            ZIndex = obj.ZIndex + 1,
+            Parent = obj,
+            Position = UDim2.new(0.5, 0, 0.5, 0),
+            BackgroundTransparency = 0.4
+        })
+
+        local corner = customs.createObject("UICorner", {
+            CornerRadius = UDim.new(0, 0),
+            Parent = ripple
+        })
 
         local maxSize = math.max(obj.AbsoluteSize.X, obj.AbsoluteSize.Y) * 1.5
 
@@ -130,6 +135,7 @@ do
             end
         )
     end
+
 
     function customs.enableDrag(obj, speed)
         local start, objPosition, dragging
