@@ -16,7 +16,7 @@ do
         return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
     end
     
-    function customs.CreateTooltip(parent, text)
+    function customs.createTooltip(parent, text)
         if text then
             local frame = Instance.new("Frame")
             frame.Size = UDim2.new(0, 200, 0, 50)
