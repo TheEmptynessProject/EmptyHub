@@ -15,9 +15,6 @@ function notifications.new(settings)
             frame = nil,
             layout = nil
         },
-        lifetime = 3,
-        textColor = Color3.new(1, 1, 1),
-        textSize = 14,
         textStrokeTransparency = 0,
         textStrokeColor = Color3.new(0, 0, 0),
         textFont = Enum.Font.Ubuntu
