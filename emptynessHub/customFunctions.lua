@@ -71,9 +71,13 @@ do
         end
 
         for prop, value in next, forcedProperties do
-            obj[prop] = value
-            obj.Name = myCustomLibrary.generateString(32, tempIndex)
-            tempIndex = tempIndex + 1
+            pcall(
+                function()
+                    obj[prop] = value
+                    obj.Name = myCustomLibrary.generateString(32, tempIndex)
+                    tempIndex = tempIndex + 1
+                end
+            )
         end
 
         return obj
