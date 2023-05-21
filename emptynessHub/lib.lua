@@ -523,7 +523,6 @@ function library:Load(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local callback = options.callback
-                local tooltip = options.tooltip or false
 
                 local button =
                     custom.createObject(
@@ -556,48 +555,15 @@ function library:Load(opts)
                         custom.createRipple(button)
                     end
                 )
-                
-            local tooltip_custom  =
-                    custom.createObject(
-                    "TextLabel",
-                    {
-                        ZIndex = 6,
-                        Size = UDim2.new(0, 1, 0, 10),
-                        BackgroundTransparency = 1,
-                        Position = UDim2.new(1, 5, 0, 0),
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        FontSize = Enum.FontSize.Size12,
-                        TextSize = 12,
-                        TextColor3 = theme.DisabledText,
-                        Text = tooltip,
-                        Font = Enum.Font.Ubuntu,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = button
-                    }
-                )
-
-            local function updateTooltipPosition(mouse)
-                tooltip_custom.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
-            end
-
-            game:GetService("UserInputService").InputChanged:Connect(
-                function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseMovement and tooltip_custom.Visible then
-                        updateTooltipPosition(input.Position)
-                    end
-                end
-            )
                 button.MouseEnter:Connect(
                     function()
                         custom.animate(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
-                        tooltip_custom.Visible = true
                     end
                 )
 
                 button.MouseLeave:Connect(
                     function()
                         custom.animate(button, {0.2}, {BackgroundColor3 = theme.Button})
-                        tooltip_custom.Visible = false
                     end
                 )
 
@@ -679,7 +645,7 @@ function library:Load(opts)
                         Parent = icon
                     }
                 )
-                custom.createTooltip(title, tooltip)
+
                 local function toggleToggle()
                     toggled = not toggled
 
@@ -778,7 +744,6 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-                custom.createTooltip(box, tooltip)
                 custom.createObject(
                     "UICorner",
                     {
@@ -909,7 +874,6 @@ function library:Load(opts)
                         Parent = slider
                     }
                 )
-                custom.createTooltip(title, tooltip)
                 local function slide(input)
                     local sizeX =
                         math.clamp((input.Position.X - slider.AbsolutePosition.X) / slider.AbsoluteSize.X, 0, 1)
@@ -1029,7 +993,7 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-                custom.createTooltip(dropdown, tooltip)
+ 
                 custom.createObject(
                     "UICorner",
                     {
@@ -1796,7 +1760,6 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-                custom.createTooltip(keybind, tooltip)
                 local value =
                     custom.createObject(
                     "TextLabel",
@@ -1993,7 +1956,6 @@ function library:Load(opts)
                         Parent = icon
                     }
                 )
-                custom.createTooltip(title, tooltip)
                 local value =
                     custom.createObject(
                     "TextButton",
@@ -2253,7 +2215,6 @@ function library:Load(opts)
                         Parent = icon
                     }
                 )
-                custom.createTooltip(title, tooltip)
                 local value =
                     custom.createObject(
                     "TextButton",
