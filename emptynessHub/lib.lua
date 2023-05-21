@@ -557,19 +557,27 @@ function library:Load(opts)
                     end
                 )
                 
-            local tooltip_custom = custom.createObject("TextLabel", {
-                Size = UDim2.new(1, 0, 0, 16),
-                Position = UDim2.new(0, 0, 0, 0),
-                --BackgroundTransparency = 1,
-                TextColor3 = theme.TextColor,
-                Text = ""..tooltip,
-                Parent = button,
-                ZIndex = 9,
-                Visible = false
-            })
+            local tooltip_custom  =
+                    custom.createObject(
+                    "TextLabel",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(0, 1, 0, 10),
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(1, 5, 0, 0),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        FontSize = Enum.FontSize.Size12,
+                        TextSize = 12,
+                        TextColor3 = theme.DisabledText,
+                        Text = name,
+                        Font = fonted,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = button
+                    }
+                )
 
             local function updateTooltipPosition(mouse)
-                label.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
+                tooltip_custom.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
             end
 
             game:GetService("UserInputService").InputChanged:Connect(
