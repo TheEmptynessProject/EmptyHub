@@ -557,7 +557,7 @@ function library:Load(opts)
                     end
                 )
                 
-            local tooltip_custom = customs.createObject("TextLabel", {
+            local tooltip_custom = custom.createObject("TextLabel", {
                 Size = UDim2.new(1, 0, 0, 16),
                 Position = UDim2.new(0, 0, 0, 0),
                 --BackgroundTransparency = 1,
