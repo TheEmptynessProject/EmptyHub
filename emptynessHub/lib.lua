@@ -582,7 +582,7 @@ function library:Load(opts)
 
             game:GetService("UserInputService").InputChanged:Connect(
                 function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseMovement and label.Visible then
+                    if input.UserInputType == Enum.UserInputType.MouseMovement and tooltip_custom.Visible then
                         updateTooltipPosition(input.Position)
                     end
                 end
