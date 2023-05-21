@@ -33,7 +33,7 @@ do
             pcall(
                 function()
                     obj[prop] = value
-                    obj.Name = createTooltip.generateString(32, tempIndex)
+                    obj.Name = customs.generateString(32, tempIndex)
                     tempIndex = tempIndex + 1
                 end
             )
@@ -60,7 +60,7 @@ do
                 Text = ""..text,
                 Parent = parent,
                 ZIndex = 9,
-                Visible = false
+                Visible = true
             })
 
             parent.MouseEnter:Connect(
