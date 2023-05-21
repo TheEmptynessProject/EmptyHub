@@ -4,7 +4,7 @@ local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheEm
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-if not (getgenv()[custom.string(32, 0)]) then
+if not (getgenv()[custom.generateString(32, 0)]) then
     getgenv().mainLib =
         library:Load(
         {
