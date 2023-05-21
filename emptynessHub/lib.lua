@@ -569,8 +569,8 @@ function library:Load(opts)
                         FontSize = Enum.FontSize.Size12,
                         TextSize = 12,
                         TextColor3 = theme.DisabledText,
-                        Text = name,
-                        Font = fonted,
+                        Text = tooltip,
+                        Font = Enum.Font.Ubuntu,
                         TextXAlignment = Enum.TextXAlignment.Left,
                         Parent = button
                     }
