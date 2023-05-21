@@ -541,7 +541,7 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
-                custom.createTooltip(button, tooltip)
+
                 custom.createObject(
                     "UICorner",
                     {
@@ -556,16 +556,40 @@ function library:Load(opts)
                         custom.createRipple(button)
                     end
                 )
+                
+            local tooltip_custom = customs.createObject("TextLabel", {
+                Size = UDim2.new(1, 0, 0, 16),
+                Position = UDim2.new(0, 0, 0, 0),
+                --BackgroundTransparency = 1,
+                TextColor3 = theme.TextColor,
+                Text = ""..tooltip,
+                Parent = button,
+                ZIndex = 9,
+                Visible = false
+            })
 
+            local function updateTooltipPosition(mouse)
+                label.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
+            end
+
+            game:GetService("UserInputService").InputChanged:Connect(
+                function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseMovement and label.Visible then
+                        updateTooltipPosition(input.Position)
+                    end
+                end
+            )
                 button.MouseEnter:Connect(
                     function()
                         custom.animate(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
+                        tooltip_custom.Visible = true
                     end
                 )
 
                 button.MouseLeave:Connect(
                     function()
                         custom.animate(button, {0.2}, {BackgroundColor3 = theme.Button})
+                        tooltip_custom.Visible = false
                     end
                 )
 
