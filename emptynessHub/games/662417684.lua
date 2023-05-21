@@ -41,8 +41,6 @@ test:Button(
 test:Button(
         {
             Name = "Spawn Galaxy Block",
-        Tooltip = "test",
-        tooltip = "test2",
             Callback = function()
                 game:GetService("ReplicatedStorage").SpawnGalaxyBlock:FireServer()
             end
