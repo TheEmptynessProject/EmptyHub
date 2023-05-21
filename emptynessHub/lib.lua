@@ -520,70 +520,94 @@ function library:Load(opts)
             end
 
             function sectionTypes:Button(opts)
-                local options = custom.formatTable(opts)
-                local name = options.name
-                local callback = options.callback
+    local options = custom.formatTable(opts)
+    local name = options.name
+    local callback = options.callback
+    local tipText = options.tooltip
 
-                local button =
-                    custom.createObject(
-                    "TextButton",
-                    {
-                        ZIndex = 6,
-                        Size = UDim2.new(1, 0, 0, 16),
-                        BackgroundColor3 = theme.Button,
-                        FontSize = Enum.FontSize.Size12,
-                        TextSize = 12,
-                        Text = name,
-                        TextColor3 = theme.TextColor,
-                        Font = fonted,
-                        ClipsDescendants = true,
-                        Parent = sectionContent
-                    }
-                )
+    local button =
+        custom.createObject(
+        "TextButton",
+        {
+            ZIndex = 6,
+            Size = UDim2.new(1, 0, 0, 16),
+            BackgroundColor3 = theme.Button,
+            FontSize = Enum.FontSize.Size12,
+            TextSize = 12,
+            Text = name,
+            TextColor3 = theme.TextColor,
+            Font = fonted,
+            ClipsDescendants = true,
+            Parent = sectionContent
+        }
+    )
 
-                custom.createObject(
-                    "UICorner",
-                    {
-                        CornerRadius = UDim.new(0, 2),
-                        Parent = button
-                    }
-                )
+    custom.createObject(
+        "UICorner",
+        {
+            CornerRadius = UDim.new(0, 2),
+            Parent = button
+        }
+    )
 
-                button.MouseButton1Click:Connect(
-                    function()
-                        callback()
-                        custom.createRipple(button)
-                    end
-                )
-                button.MouseEnter:Connect(
-                    function()
-                        custom.animate(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
-                    end
-                )
+    -- Tooltip
+    local tooltip =
+        custom.createObject(
+        "TextLabel",
+        {
+            Name = "Tooltip",
+            ZIndex = 7,
+            Position = UDim2.new(1, 10, 0, 0),
+            Size = UDim2.new(0, 100, 0, 20),
+            BackgroundTransparency = 0.8,
+            BackgroundColor3 = theme.TooltipBackground,
+            Text = tipText,
+            TextColor3 = theme.TooltipText,
+            Font = fonted,
+            Parent = button,
+            Visible = false
+        }
+    )
 
-                button.MouseLeave:Connect(
-                    function()
-                        custom.animate(button, {0.2}, {BackgroundColor3 = theme.Button})
-                    end
-                )
+    button.MouseButton1Click:Connect(
+        function()
+            callback()
+            custom.createRipple(button)
+        end
+    )
 
-                local buttonTypes = {}
-                buttonTypes = custom.formatTable(buttonTypes)
+    button.MouseEnter:Connect(
+        function()
+            custom.animate(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
+            tooltip.Visible = true
+        end
+    )
 
-                function buttonTypes:Hide()
-                    button.Visible = false
-                end
+    button.MouseLeave:Connect(
+        function()
+            custom.animate(button, {0.2}, {BackgroundColor3 = theme.Button})
+            tooltip.Visible = false
+        end
+    )
 
-                function buttonTypes:Show()
-                    button.Visible = true
-                end
+    local buttonTypes = {}
+    buttonTypes = custom.formatTable(buttonTypes)
 
-                function buttonTypes:Click()
-                    callback()
-                end
+    function buttonTypes:Hide()
+        button.Visible = false
+    end
 
-                return buttonTypes
-            end
+    function buttonTypes:Show()
+        button.Visible = true
+    end
+
+    function buttonTypes:Click()
+        callback()
+    end
+
+    return buttonTypes
+end
+
 
             function sectionTypes:Toggle(opts)
                 local options = custom.formatTable(opts)
