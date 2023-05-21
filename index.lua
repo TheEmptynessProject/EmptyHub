@@ -16,17 +16,16 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     getgenv().notifLib =
         notificationLib.new(
         {
-            NotificationLifetime = 5,
-            TextColor = Color3.fromRGB(255, 255, 255),
-            TextSize = 20,
-            TextStrokeTransparency = 0.7,
-            TextStrokeColor = Color3.fromRGB(0, 0, 0),
-            TextFont = "Ubuntu",
-            NotificationPosition = "TopRight"
+            lifetime = 5,
+            textColor = Color3.fromRGB(255, 255, 255),
+            textSize = 20,
+            textStrokeTransparency = 0.7,
+            textStrokeColor = Color3.fromRGB(0, 0, 0),
+            textFont = Enum.Font.Ubuntu
         }
     )
 
-    notifLib:BuildNotificationUI()
+    notifLib:BuildUI()
 
     --[[local default = main:Tab("Testing")
     local test =
