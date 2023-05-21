@@ -41,55 +41,6 @@ do
 
         return obj
     end
-
-    function customs.createTooltip(parent, text)
-        if text then
-            --local frame = customs.createObject("Frame", {
-                --Size = UDim2.new(0, 200, 0, 50),
-                --Position = UDim2.new(0, 0, 0, 0),
-               -- BackgroundColor3 = Color3.new(1, 1, 1),
-               -- BorderSizePixel = 0,
-               -- Parent = parent
-           -- })
-
-            local label = customs.createObject("TextLabel", {
-                Size = UDim2.new(1, 0, 1, 0),
-                Position = UDim2.new(0, 0, 0, 0),
-                BackgroundTransparency = 1,
-                TextColor3 = Color3.new(0, 0, 0),
-                Text = ""..text,
-                Parent = parent,
-                ZIndex = 9,
-                Visible = true
-            })
-
-            parent.MouseEnter:Connect(
-                function()
-                    label.Visible = true
-                end
-            )
-
-            parent.MouseLeave:Connect(
-                function()
-                    label.Visible = false
-                end
-            )
-
-            label.Visible = false
-
-            local function updateTooltipPosition(mouse)
-                label.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
-            end
-
-            game:GetService("UserInputService").InputChanged:Connect(
-                function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseMovement and label.Visible then
-                        updateTooltipPosition(input.Position)
-                    end
-                end
-            )
-        end
-    end
     
     function customs.animate(obj, info, properties, callback)
         local anim = game:GetService("TweenService"):Create(obj, TweenInfo.new(unpack(info)), properties)
