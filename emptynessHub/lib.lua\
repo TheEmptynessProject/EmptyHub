@@ -890,10 +890,11 @@ function library:New(opts)
 
                     callback(value)
                 end
-
+                local holding
                 slider.InputBegan:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                            holding = true
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFillSliding})
                             slide(input)
                         end
@@ -904,6 +905,7 @@ function library:New(opts)
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFill})
+                            holding = false
                             if not input:IsMouseOver() then
                                 custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                             end
@@ -928,10 +930,8 @@ function library:New(opts)
                 inputService.InputChanged:Connect(
                     function(input)
                         if
-                            input.UserInputType == Enum.UserInputType.MouseMovement and
-                                slider:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
-                         then
-                            slide(input)
+                            input.UserInputType == Enum.UserInputType.MouseMovement and holding then
+                                slide(input)
                         end
                     end
                 )
