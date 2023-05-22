@@ -276,7 +276,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     Callback = function(bool, key)
         if not bool then return end
         for _, player in ipairs(game.Players:GetPlayers()) do
-            while player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 do
+            while player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 and not player.Character:FindFirstChildOfClass("ForceField") do
                 local c = {
                     [1] = "RayHit",
                     [2] = {
