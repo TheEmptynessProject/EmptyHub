@@ -6,7 +6,7 @@ if not game:IsLoaded() then
 end
 if not (getgenv()[custom.generateString(32, 0)]) then
     getgenv().mainLib =
-        library:Load(
+        library:New(
         {
             Name = "Test",
             SizeX = 500,
@@ -27,15 +27,15 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 
     notifLib:BuildUI()
 
-    --[[local default = main:Tab("Testing")
-    local test =
-        default:Section(
+    local default = main:NewTab("Universal")
+    local universalColumn1 =
+        default:NewSection(
         {
             Name = "Test",
             column = 1
         }
     )
-    test:Keybind(
+    universalColumn1:CreateKeybind(
         {
             Name = "Hide GUI",
             Default = library.toggleBind,
@@ -45,7 +45,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    test:Keybind(
+    universalColumn1:CreateKeybind(
         {
             Name = "Close GUI",
             Default = library.closeBind,
@@ -55,7 +55,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    test:Button(
+    universalColumn1:CreateButton(
         {
             Name = "GetPlaceInfo",
             Callback = function()
@@ -66,7 +66,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 notifLib:Notify(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
             end
         }
-    )--]]
+    )
 	local gameScriptUrl = string.format("https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua", game.PlaceId)
 
 	local success, gameScript = pcall(game.HttpGet, game, gameScriptUrl)
