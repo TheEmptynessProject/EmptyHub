@@ -1,48 +1,51 @@
-    local default = getgenv().mainLib:Tab("Main")
-    local test =
-        default:Section(
+    local default = getgenv().mainLib:Tab("Game Tab 1")
+    local PlaceId =
+        default:NewSection(
         {
             Name = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
             column = 1
         }
     )
-    test:Button(
+    PlaceId:CreateButton(
         {
-            Name = "Spawn Lucky Block",
+            Name = "Get Lucky Block",
             Callback = function()
                 game:GetService("ReplicatedStorage").SpawnLuckyBlock:FireServer()
             end
         }
     )
-test:Button(
+PlaceId:CreateButton(
         {
-            Name = "Spawn Super Block",
+            Name = "Get Super Block",
             Callback = function()
                 game:GetService("ReplicatedStorage").SpawnSuperBlock:FireServer()
             end
         }
     )
-test:Button(
+PlaceId:CreateButton(
         {
-            Name = "Spawn Diamond Block",
+            Name = "Get Diamond Block",
             Callback = function()
                 game:GetService("ReplicatedStorage").SpawnDiamondBlock:FireServer()
             end
         }
     )
-test:Button(
+PlaceId:CreateButton(
         {
-            Name = "Spawn Rainbow Block",
+            Name = "Get Rainbow Block",
             Callback = function()
                 game:GetService("ReplicatedStorage").SpawnRainbowBlock:FireServer()
             end
         }
     )
-test:Button(
+PlaceId:CreateLine(1)
+PlaceId:CreateButton(
         {
-            Name = "Spawn Galaxy Block",
+            Name = "Get Galaxy Block",
             Callback = function()
                 game:GetService("ReplicatedStorage").SpawnGalaxyBlock:FireServer()
             end
         }
     )
+PlaceId:CreateLine(20)
+PlaceId:CreateLabel("Test")
