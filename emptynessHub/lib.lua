@@ -2309,13 +2309,13 @@ function library:New(opts)
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
                                     if toggled then
-                                    Callback(toggled, keyChosen)
+                                        Callback(toggled, keyChosen)
                                     end 
                                     binding:Disconnect()
                                 else
                                     keyChosen = input.UserInputType
                                     if toggled then
-                                    Callback(toggled, keyChosen)
+                                        Callback(toggled, keyChosen)
                                     end 
                                     binding:Disconnect()
                                 end
@@ -2324,6 +2324,24 @@ function library:New(opts)
                     end
                 )
 
+                inputService.InputBegan:Connect(
+                    function(input)
+                        if input.UserInputType == Enum.UserInputType.Keyboard then
+                            if input.KeyCode == keyChosen then
+                                if toggled then
+                                        Callback(toggled, keyChosen)
+                                    end 
+                            end
+                        else
+                            if input.UserInputType == keyChosen then
+                                if toggled then
+                                        Callback(toggled, keyChosen)
+                                    end
+                            end
+                        end
+                    end
+                )
+                
                 local tandk_info = {}
                 tandk_info = custom.formatTable(tandk_info)
 
