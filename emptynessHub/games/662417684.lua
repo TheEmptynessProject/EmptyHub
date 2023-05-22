@@ -1,4 +1,4 @@
-    local default = getgenv().mainLib:Tab("Game Tab 1")
+    local default = getgenv().mainLib:NewTab("Game Tab 1")
     local PlaceId =
         default:NewSection(
         {
