@@ -38,9 +38,7 @@ local themes = {
         SliderFillSliding = Color3.fromRGB(99, 159, 178),
         Dropdown = Color3.fromRGB(0, 0, 0),
         DropdownMouseOver = Color3.fromRGB(25, 25, 25),
-        DropdownContent = Color3.fromRGB(25, 25, 25),
-        ColorPicker = Color3.fromRGB(25, 25, 25),
-        ColorPickerBoxes = Color3.fromRGB(0, 0, 0)
+        DropdownContent = Color3.fromRGB(25, 25, 25)
     }
 }
 
@@ -518,14 +516,14 @@ function library:New(opts)
 
                 return label_info
             end
-            function section_info:CreateLine(px)
+            function section_info:CreateLine(px, color)
                 local separator =
                     custom.createObject(
                     "Frame",
                     {
                         ZIndex = 6,
                         Size = UDim2.new(1, 0, 0, px),
-                        BackgroundColor3 = theme.SeparatorColor,
+                        BackgroundColor3 = color,
                         Parent = sectionContent
                     }
                 )
