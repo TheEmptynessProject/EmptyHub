@@ -107,26 +107,27 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 
                     if head and tool then
                         local reachAdornment = head:FindFirstChild("Reach")
-                        if reachAdornment and reachAdornment:IsA("SphereHandleAdornment") then
+                        if reachAdornment then
                             reachAdornment.Radius = range
+                            reachAdornment.Visible = true
                         else
                             adorn(head, range)
                         end
                     elseif head then
                         local reachAdornment = head:FindFirstChild("Reach")
-                        if reachAdornment and reachAdornment:IsA("SphereHandleAdornment") then
-                            reachAdornment:Destroy()
+                        if reachAdornment then
+                            reachAdornment.Visible = false
                         end
                     end
                 end
 
                 local function handleKeyDown(key)
                     if key == "c" then
-                        range = range + 2
+                        range = range + 3
                         notifLib:Notify("Increased Reach Radius")
                         updateAdornment()
                     elseif key == "v" then
-                        range = range - 2
+                        range = range - 3
                         notifLib:Notify("Decreased Reach Radius")
                         updateAdornment()
                     end
