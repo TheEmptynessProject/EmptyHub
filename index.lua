@@ -160,7 +160,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Tp Tool Reach",
             Callback = function()
-                local range = 0
+                local range = 15
                 local player = game:GetService("Players").LocalPlayer
                 local mouse = player:GetMouse()
 
@@ -191,9 +191,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local function handleKeyDown(key)
                     if key == "c" then
                         range = range + 2
+                        notifLib:Notify("Range Increased")
                         updateAdornment()
                     elseif key == "v" then
                         range = range - 2
+                        notifLib:Notify("Range Decreased")
                         updateAdornment()
                     end
                 end
@@ -219,7 +221,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         local vCharacter = v.Character
                         if
                             vCharacter and vCharacter:FindFirstChild("Humanoid") and
-                                not v:FindFirstChildOfClass("ForceField") and
+                                not vCharacter:FindFirstChildOfClass("ForceField") and
                                 vCharacter.Humanoid.Health > 0 and
                                 vCharacter:FindFirstChild("HumanoidRootPart") and
                                 player:DistanceFromCharacter(vCharacter.HumanoidRootPart.Position) <= range
