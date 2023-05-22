@@ -890,7 +890,7 @@ function library:New(opts)
 
                     callback(value)
                 end
-                local holding
+                local holding, hovering = false, false
                 slider.InputBegan:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -906,7 +906,7 @@ function library:New(opts)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFill})
                             holding = false
-                            if not input:IsMouseOver() then
+                            if not hovering then
                                 custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                             end
                         end
@@ -915,13 +915,15 @@ function library:New(opts)
 
                 slider.MouseEnter:Connect(
                     function()
+                        hovering = true
                         custom.animate(slider, {0.2}, {BackgroundColor3 = theme.SliderMouseOver})
                     end
                 )
 
                 slider.MouseLeave:Connect(
                     function()
-                        if not slider.InputBegan:FindFirstAncestorWhichIsA("TextButton") then
+                        hovering = false
+                        if not slider:FindFirstAncestorWhichIsA("TextButton") then
                             custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                         end
                     end
