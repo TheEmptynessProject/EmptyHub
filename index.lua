@@ -40,12 +40,19 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 
     notifLib:BuildUI()
 
-    local uniTab = mainLib:NewTab("Universal Tab 1")
+    local uniTab = mainLib:NewTab("Universal")
     local universalColumn1 =
         uniTab:NewSection(
         {
-            Name = "Universal",
+            Name = "",
             column = 1
+        }
+    )
+    local universalColumn2 =
+        uniTab:NewSection(
+        {
+            Name = "",
+            column = 2
         }
     )
     universalColumn1:CreateKeybind(
@@ -80,12 +87,20 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateBox(
+    universalColumn1:CreateInputBox(
         {
-            Name = "Test",
+            Name = "Teleport To Player",
             Clear = false,
             Callback = function(test)
-                notifLib:Notify(test)
+                local target = false
+                for i,v in pairs(game.Players:GetChildren()) do
+                        if (v.DisplayName == test or v.Name == test) then
+                            target = v 
+                        break
+                        end
+                    end
+                
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
             end
         }
     )
