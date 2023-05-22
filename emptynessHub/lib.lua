@@ -44,7 +44,7 @@ local themes = {
     }
 }
 
-function selfDestruct()
+function _destroy()
     if (coreGui:FindFirstChild(custom.generateString(32, 1))) then
         coreGui[custom.generateString(32, 1)]:Destroy()
     end
@@ -52,7 +52,7 @@ function selfDestruct()
 end
 
 if getgenv()[custom.generateString(32, 0)] then
-    selfDestruct()
+    _destroy()
 else
     getgenv()[custom.generateString(32, 0)] = false
 end
@@ -77,7 +77,7 @@ inputService.InputBegan:Connect(
         end
     end
 )
-function library:Load(opts)
+function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
     local name = options.name
@@ -220,12 +220,12 @@ function library:Load(opts)
         }
     )
 
-    local windowTypes = {count = 0}
-    windowTypes = custom.formatTable(windowTypes)
+    local window_info = {count = 0}
+    window_info = custom.formatTable(window_info)
 
-    function windowTypes:Tab(name)
-        windowTypes.count = windowTypes.count + 1
-        local toggled = windowTypes.count == 1
+    function window_info:NewTab(name)
+        window_info.count = window_info.count + 1
+        local toggled = window_info.count == 1
 
         local tabToggle =
             custom.createObject(
@@ -398,14 +398,14 @@ function library:Load(opts)
             end
         )
 
-        local tabTypes = {}
-        tabTypes = custom.formatTable(tabTypes)
+        local tab_info = {}
+        tab_info = custom.formatTable(tab_info)
 
-        function tabTypes:Open()
+        function tab_info:Open()
             toggleTab()
         end
 
-        function tabTypes:Section(opts)
+        function tab_info:NewSection(opts)
             local options = custom.formatTable(opts)
             local name = options.name
             local column = options.column or 1
@@ -475,18 +475,18 @@ function library:Load(opts)
                 end
             )
 
-            local sectionTypes = {}
-            sectionTypes = custom.formatTable(sectionTypes)
+            local section_info = {}
+            section_info = custom.formatTable(section_info)
 
-            function sectionTypes:Hide()
+            function section_info:Hide()
                 section.Visible = false
             end
 
-            function sectionTypes:Show()
+            function section_info:Show()
                 section.Visible = true
             end
 
-            function sectionTypes:Label(text)
+            function section_info:CreateLabel(text)
                 local label =
                     custom.createObject(
                     "TextLabel",
@@ -505,25 +505,49 @@ function library:Load(opts)
                     }
                 )
 
-                local labelTypes = {}
-                labelTypes = custom.formatTable(labelTypes)
+                local label_info = {}
+                label_info = custom.formatTable(label_info)
 
-                function labelTypes:Hide()
+                function label_info:Hide()
                     label.Visible = false
                 end
 
-                function labelTypes:Show()
+                function label_info:Show()
                     label.Visible = true
                 end
 
-                return labelTypes
+                return label_info
             end
+            function section_info:CreateLine(px)
+                local separator =
+                    custom.createObject(
+                    "Frame",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(1, 0, 0, px),
+                        BackgroundColor3 = theme.SeparatorColor,
+                        Parent = sectionContent
+                    }
+                )
 
-            function sectionTypes:Button(opts)
+                local separator_info = {}
+                separator_info = custom.formatTable(separator_info)
+
+                function separator_info:Hide()
+                    separator.Visible = false
+                end
+
+                function separator_info:Show()
+                    separator.Visible = true
+                end
+
+                return separator_info
+            end
+            function section_info:CreateButton(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local callback = options.callback
-				
+
                 local button =
                     custom.createObject(
                     "TextButton",
@@ -567,30 +591,30 @@ function library:Load(opts)
                     end
                 )
 
-                local buttonTypes = {}
-                buttonTypes = custom.formatTable(buttonTypes)
+                local button_info = {}
+                button_info = custom.formatTable(button_info)
 
-                function buttonTypes:Hide()
+                function button_info:Hide()
                     button.Visible = false
                 end
 
-                function buttonTypes:Show()
+                function button_info:Show()
                     button.Visible = true
                 end
 
-                function buttonTypes:Click()
+                function button_info:Click()
                     callback()
                 end
 
-                return buttonTypes
+                return button_info
             end
 
-            function sectionTypes:Toggle(opts)
+            function section_info:CreateToggle(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local callback = options.callback or function()
                     end
-                
+
                 local toggled = false
                 local mouseOver = false
 
@@ -698,32 +722,32 @@ function library:Load(opts)
                     end
                 )
 
-                local toggleTypes = {}
-                toggleTypes = custom.formatTable(toggleTypes)
+                local toggle_info = {}
+                toggle_info = custom.formatTable(toggle_info)
 
-                function toggleTypes:Toggle(bool)
+                function toggle_info:Toggle(bool)
                     if toggled ~= bool then
                         toggleToggle()
                     end
                 end
 
-                function toggleTypes:Hide()
+                function toggle_info:Hide()
                     toggle.Visible = false
                 end
 
-                function toggleTypes:Show()
+                function toggle_info:Show()
                     toggle.Visible = true
                 end
 
-                return toggleTypes
+                return toggle_info
             end
 
-            function sectionTypes:Box(opts)
+            function section_info:CreateBox(opts)
                 local options = custom.formatTable(opts)
                 local placeholder = options.name or options.placeholder
                 local default = options.default or ""
                 local callback = options.callback or nil
-                
+
                 local mouseOver = false
                 local focused = false
 
@@ -786,26 +810,26 @@ function library:Load(opts)
 
                 box.FocusLost:Connect(boxFinished)
 
-                local boxTypes = {}
-                boxTypes = custom.formatTable(boxTypes)
+                local box_info = {}
+                box_info = custom.formatTable(box_info)
 
-                function boxTypes:Set(text)
+                function box_info:Set(text)
                     box.Text = text
                     boxFinished()
                 end
 
-                function boxTypes:Hide()
+                function box_info:Hide()
                     box.Visible = false
                 end
 
-                function boxTypes:Show()
+                function box_info:Show()
                     box.Visible = true
                 end
 
-                return boxTypes
+                return box_info
             end
 
-            function sectionTypes:Slider(opts)
+            function section_info:CreateSlider(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local min = options.min or 1
@@ -815,9 +839,6 @@ function library:Load(opts)
                 local valueType = options.valueType or "/" .. tostring(max)
                 local callback = options.callback or function()
                     end
-                
-                local mouseOver = false
-                local sliding = false
 
                 local slider =
                     custom.createObject(
@@ -831,14 +852,6 @@ function library:Load(opts)
                     }
                 )
 
-                custom.createObject(
-                    "UICorner",
-                    {
-                        CornerRadius = UDim.new(0, 2),
-                        Parent = slider
-                    }
-                )
-
                 local fill =
                     custom.createObject(
                     "Frame",
@@ -847,14 +860,6 @@ function library:Load(opts)
                         Size = UDim2.new((default - min) / (max - min), 0, 1, 0),
                         BackgroundColor3 = theme.SliderFill,
                         Parent = slider
-                    }
-                )
-
-                custom.createObject(
-                    "UICorner",
-                    {
-                        CornerRadius = UDim.new(0, 2),
-                        Parent = fill
                     }
                 )
 
@@ -874,6 +879,7 @@ function library:Load(opts)
                         Parent = slider
                     }
                 )
+
                 local function slide(input)
                     local sizeX =
                         math.clamp((input.Position.X - slider.AbsolutePosition.X) / slider.AbsoluteSize.X, 0, 1)
@@ -888,7 +894,6 @@ function library:Load(opts)
                 slider.InputBegan:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                            sliding = true
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFillSliding})
                             slide(input)
                         end
@@ -899,8 +904,7 @@ function library:Load(opts)
                     function(input)
                         if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFill})
-                            sliding = false
-                            if not mouseOver then
+                            if not input:IsMouseOver() then
                                 custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                             end
                         end
@@ -909,15 +913,13 @@ function library:Load(opts)
 
                 slider.MouseEnter:Connect(
                     function()
-                        mouseOver = true
                         custom.animate(slider, {0.2}, {BackgroundColor3 = theme.SliderMouseOver})
                     end
                 )
 
                 slider.MouseLeave:Connect(
                     function()
-                        mouseOver = false
-                        if not sliding then
+                        if not slider.InputBegan:FindFirstAncestorWhichIsA("TextButton") then
                             custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
                         end
                     end
@@ -925,18 +927,18 @@ function library:Load(opts)
 
                 inputService.InputChanged:Connect(
                     function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseMovement then
-                            if sliding then
-                                slide(input)
-                            end
+                        if
+                            input.UserInputType == Enum.UserInputType.MouseMovement and
+                                slider:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+                         then
+                            slide(input)
                         end
                     end
                 )
 
-                local sliderTypes = {}
-                sliderTypes = custom.formatTable(sliderTypes)
+                local slider_info = {}
 
-                function sliderTypes:Set(value)
+                function slider_info:Set(value)
                     value = math.floor(value * (decimals * 10)) / (decimals * 10)
                     value = math.clamp(value, min, max)
 
@@ -944,25 +946,25 @@ function library:Load(opts)
                     title.Text = name .. ": " .. value .. valueType
                 end
 
-                function sliderTypes:Hide()
+                function slider_info:Hide()
                     slider.Visible = false
                 end
 
-                function sliderTypes:Show()
+                function slider_info:Show()
                     slider.Visible = true
                 end
 
-                return sliderTypes
+                return slider_info
             end
 
-            function sectionTypes:Dropdown(opts)
+            function section_info:CreateDropdown(opts)
                 local options = custom.formatTable(opts)
                 local default = options.default or nil
                 local contentTable = options.content or {}
                 local multiChoice = options.multiChoice or false
                 local callback = options.callback or function()
                     end
-                
+
                 local chosen = {}
                 local curValue = default
                 local open = false
@@ -993,7 +995,7 @@ function library:Load(opts)
                         Parent = sectionContent
                     }
                 )
- 
+
                 custom.createObject(
                     "UICorner",
                     {
@@ -1234,10 +1236,10 @@ function library:Load(opts)
                     )
                 end
 
-                local dropdownTypes = {}
-                dropdownTypes = custom.formatTable(dropdownTypes)
+                local dropdown_info = {}
+                dropdown_info = custom.formatTable(dropdown_info)
 
-                function dropdownTypes:Set(opt)
+                function dropdown_info:Set(opt)
                     if opt ~= nil then
                         if not multiChoice then
                             local optionExists = false
@@ -1348,183 +1350,7 @@ function library:Load(opts)
                     end
                 end
 
-                function dropdownTypes:Add(opt)
-                    table.insert(contentTable, opt)
-
-                    local option =
-                        custom.createObject(
-                        "TextButton",
-                        {
-                            ZIndex = 11,
-                            Size = UDim2.new(1, 0, 0, 16),
-                            BackgroundTransparency = 1,
-                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                            FontSize = Enum.FontSize.Size12,
-                            TextSize = 12,
-                            TextColor3 = theme.DisabledText,
-                            Text = opt,
-                            Font = fonted,
-                            TextXAlignment = Enum.TextXAlignment.Left,
-                            Parent = contentHolder
-                        }
-                    )
-
-                    optionInstances[opt] = option
-
-                    option.MouseButton1Click:connect(
-                        function()
-                            if not multiChoice then
-                                if curValue ~= opt then
-                                    curValue = opt
-
-                                    for i, v in next, contentHolder:GetChildren() do
-                                        if v:IsA("TextButton") then
-                                            custom.animate(v, {0.2}, {TextColor3 = theme.DisabledText})
-                                        end
-                                    end
-
-                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 = theme.EnabledText
-                                            value.Text = opt
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-
-                                    callback(opt)
-                                else
-                                    curValue = nil
-                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 = theme.DisabledText
-                                            value.Text = "NONE"
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-
-                                    callback(nil)
-                                end
-                            else
-                                if table.find(chosen, opt) then
-                                    for i, v in next, chosen do
-                                        if v == opt then
-                                            table.remove(chosen, i)
-                                        end
-                                    end
-
-                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 =
-                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
-                                            value.Text =
-                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-
-                                    callback(chosen)
-                                else
-                                    table.insert(chosen, opt)
-
-                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 =
-                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
-                                            value.Text =
-                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-
-                                    callback(chosen)
-                                end
-                            end
-                        end
-                    )
-
-                    if content.Visible then
-                        local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                        custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
-                    end
-                end
-
-                function dropdownTypes:Remove(opt)
-                    if table.find(contentTable, opt) then
-                        custom.animate(
-                            optionInstances[opt],
-                            {0.2},
-                            {TextTransparency = 1},
-                            function()
-                                table.remove(contentTable, table.find(contentTable, opt))
-                                optionInstances[opt]:Destroy()
-                                table.remove(optionInstances, table.find(optionInstances, opt))
-                            end
-                        )
-
-                        table.remove(contentTable, table.find(contentTable, opt))
-
-                        if content.Visible then
-                            local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y - 16)
-                            custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
-                        end
-
-                        if not multiChoice then
-                            if curValue == opt then
-                                curValue = nil
-                                custom.animate(
-                                    value,
-                                    {0.2},
-                                    {TextTransparency = 1},
-                                    function()
-                                        value.TextColor3 = theme.DisabledText
-                                        value.Text = "NONE"
-                                        custom.animate(value, {0.2}, {TextTransparency = 0})
-                                    end
-                                )
-
-                                callback(nil)
-                            end
-                        else
-                            if table.find(chosen, opt) then
-                                table.remove(chosen, table.find(chosen, opt))
-
-                                custom.animate(
-                                    value,
-                                    {0.2},
-                                    {TextTransparency = 1},
-                                    function()
-                                        value.TextColor3 =
-                                            table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
-                                        value.Text = table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                        custom.animate(value, {0.2}, {TextTransparency = 0})
-                                    end
-                                )
-                            end
-                        end
-                    end
-                end
-
-                function dropdownTypes:Refresh(tbl)
+                function dropdown_info:Refresh(tbl)
                     contentTable = tbl
 
                     for i, v in next, optionInstances do
@@ -1667,30 +1493,208 @@ function library:Load(opts)
                         )
                     end
 
+                    function dropdown_info:Add(opt)
+                        table.insert(contentTable, opt)
+                        --dropdown_info:Refresh(contentTable)
+                        local option =
+                            custom.createObject(
+                            "TextButton",
+                            {
+                                ZIndex = 11,
+                                Size = UDim2.new(1, 0, 0, 16),
+                                BackgroundTransparency = 1,
+                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                FontSize = Enum.FontSize.Size12,
+                                TextSize = 12,
+                                TextColor3 = theme.DisabledText,
+                                Text = opt,
+                                Font = fonted,
+                                TextXAlignment = Enum.TextXAlignment.Left,
+                                Parent = contentHolder
+                            }
+                        )
+
+                        optionInstances[opt] = option
+
+                        option.MouseButton1Click:connect(
+                            function()
+                                if not multiChoice then
+                                    if curValue ~= opt then
+                                        curValue = opt
+
+                                        for i, v in next, contentHolder:GetChildren() do
+                                            if v:IsA("TextButton") then
+                                                custom.animate(v, {0.2}, {TextColor3 = theme.DisabledText})
+                                            end
+                                        end
+
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 = theme.EnabledText
+                                                value.Text = opt
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(opt)
+                                    else
+                                        curValue = nil
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 = theme.DisabledText
+                                                value.Text = "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(nil)
+                                    end
+                                else
+                                    if table.find(chosen, opt) then
+                                        for i, v in next, chosen do
+                                            if v == opt then
+                                                table.remove(chosen, i)
+                                            end
+                                        end
+
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 =
+                                                    table.concat(chosen) ~= "" and theme.EnabledText or
+                                                    theme.DisabledText
+                                                value.Text =
+                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(chosen)
+                                    else
+                                        table.insert(chosen, opt)
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 =
+                                                    table.concat(chosen) ~= "" and theme.EnabledText or
+                                                    theme.DisabledText
+                                                value.Text =
+                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(chosen)
+                                    end
+                                end
+                            end
+                        )
+
+                        if content.Visible then
+                            local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
+                            custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
+                        end
+                    end
+
+                    function dropdown_info:Remove(opt)
+                        if table.find(contentTable, opt) then
+                            custom.animate(
+                                optionInstances[opt],
+                                {0.2},
+                                {TextTransparency = 1},
+                                function()
+                                    table.remove(contentTable, table.find(contentTable, opt))
+                                    optionInstances[opt]:Destroy()
+                                    table.remove(optionInstances, table.find(optionInstances, opt))
+                                end
+                            )
+
+                            table.remove(contentTable, table.find(contentTable, opt))
+                            --dropdown_info:Refresh(contentTable)
+
+                            if content.Visible then
+                                local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y - 16)
+                                custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
+                            end
+
+                            if not multiChoice then
+                                if curValue == opt then
+                                    curValue = nil
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 = theme.DisabledText
+                                            value.Text = "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+                                    table.remove(contentTable, table.find(contentTable, curValue))
+                                --dropdown_info:Refresh(contentTable)
+                                end
+                            else
+                                if table.find(chosen, opt) then
+                                    table.remove(chosen, table.find(chosen, opt))
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 =
+                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
+                                            value.Text =
+                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+                                end
+                            end
+                        end
+                    end
+
                     if content.Visible then
                         local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
                         custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
                     end
                 end
 
-                function dropdownTypes:Hide()
+                function dropdown_info:Hide()
                     dropdown.Visible = false
                 end
 
-                function dropdownTypes:Show()
+                function dropdown_info:Show()
                     dropdown.Visible = true
                 end
 
-                return dropdownTypes
+                return dropdown_info
             end
 
-            function sectionTypes:Keybind(opts)
+            function section_info:CreateKeybind(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
                 local callback = options.callback or function()
                     end
-                
+
                 local keyChosen = default
 
                 local keys = {
@@ -1822,10 +1826,10 @@ function library:Load(opts)
                     end
                 )
 
-                local keybindTypes = {}
-                keybindTypes = custom.formatTable(keybindTypes)
+                local keybind_info = {}
+                keybind_info = custom.formatTable(keybind_info)
 
-                function keybindTypes:Set(newKey)
+                function keybind_info:Set(newKey)
                     local key = keys[newKey]
                     value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
                     custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
@@ -1835,18 +1839,18 @@ function library:Load(opts)
                     callback(newKey)
                 end
 
-                function keybindTypes:Hide()
+                function keybind_info:Hide()
                     keybind.Visible = false
                 end
 
-                function keybindTypes:Show()
+                function keybind_info:Show()
                     keybind.Visible = true
                 end
 
-                return keybindTypes
+                return keybind_info
             end
 
-            function sectionTypes:ToggleKeybind(opts)
+            function section_info:CreateToggle_or_Keybind(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
@@ -1854,7 +1858,7 @@ function library:Load(opts)
                     end
                 local toggleCallback = options.toggleCallback or function()
                     end
-                
+
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
@@ -2077,16 +2081,16 @@ function library:Load(opts)
                     end
                 )
 
-                local toggleKeybindTypes = {}
-                toggleKeybindTypes = custom.formatTable(toggleKeybindTypes)
+                local tork_info = {}
+                tork_info = custom.formatTable(tork_info)
 
-                function toggleKeybindTypes:Toggle(bool)
+                function tork_info:Toggle(bool)
                     if toggled ~= bool then
                         toggleToggle()
                     end
                 end
 
-                function toggleKeybindTypes:Set(newKey)
+                function tork_info:Set(newKey)
                     local key = keys[newKey]
                     value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
                     custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
@@ -2096,24 +2100,24 @@ function library:Load(opts)
                     keybindCallback(newKey)
                 end
 
-                function toggleKeybindTypes:Hide()
+                function tork_info:Hide()
                     toggleKeybind.Visible = false
                 end
 
-                function toggleKeybindTypes:Show()
+                function tork_info:Show()
                     toggleKeybind.Visible = true
                 end
 
-                return toggleKeybindTypes
+                return tork_info
             end
 
-            function sectionTypes:ToggleKeybindTest(opts)
+            function section_info:CreateToggle_and_Keybind(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
                 local Callback = options.Callback or function()
                     end
-                
+
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
@@ -2321,16 +2325,16 @@ function library:Load(opts)
                     end
                 )
 
-                local toggleKeybindTypes = {}
-                toggleKeybindTypes = custom.formatTable(toggleKeybindTypes)
+                local tandk_info = {}
+                tandk_info = custom.formatTable(tandk_info)
 
-                function toggleKeybindTypes:Toggle(bool)
+                function tandk_info:Toggle(bool)
                     if toggled ~= bool then
                         toggleToggle()
                     end
                 end
 
-                function toggleKeybindTypes:Set(newKey)
+                function tandk_info:Set(newKey)
                     local key = keys[newKey]
                     value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
                     custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
@@ -2340,23 +2344,23 @@ function library:Load(opts)
                     Callback(toggled, keyChosen)
                 end
 
-                function toggleKeybindTypes:Hide()
+                function tandk_info:Hide()
                     toggleKeybind.Visible = false
                 end
 
-                function toggleKeybindTypes:Show()
+                function tandk_info:Show()
                     toggleKeybind.Visible = true
                 end
 
-                return toggleKeybindTypes
+                return tandk_info
             end
 
-            return sectionTypes
+            return section_info
         end
 
-        return tabTypes
+        return tab_info
     end
 
-    return windowTypes
+    return window_info
 end
 return library
