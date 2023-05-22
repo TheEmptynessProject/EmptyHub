@@ -83,6 +83,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     universalColumn1:CreateBox(
         {
             Name = "Test",
+            Clear = false,
             Callback = function(test)
                 notifLib:Notify(test)
             end
