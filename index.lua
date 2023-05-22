@@ -272,7 +272,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
     universalColumn2:CreateToggle_and_Keybind({
     Name = "Hex Spitter Kill All",
-    Default = Enum.KeyCode.LeftAlt,
+    Default = Enum.KeyCode.G,
     Callback = function(bool, key)
         if not bool then return end
         for _, player in ipairs(game.Players:GetPlayers()) do
