@@ -27,11 +27,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 
     notifLib:BuildUI()
 
-    local default = main:NewTab("Universal")
+    local uniTab = mainLib:NewTab("Universal Tab 1")
     local universalColumn1 =
-        default:NewSection(
+        uniTab:NewSection(
         {
-            Name = "Test",
+            Name = "Universal",
             column = 1
         }
     )
