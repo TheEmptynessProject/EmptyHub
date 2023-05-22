@@ -80,15 +80,15 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateLine(2)
-    universalColumn1:CreateToggle(
+    universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
+    universalColumn1:CreateButton(
         {
             Name = "Tool Reach",
-            Callback = function(bool)
+            Callback = function()
                 local range = 15
                 local player = game:GetService("Players").LocalPlayer
                 local mouse = player:GetMouse()
-                local reachAdornment = nil
+
                 local function adorn(part, radius)
                     local sphereAdornment = Instance.new("SphereHandleAdornment")
                     sphereAdornment.Name = "Reach"
@@ -104,7 +104,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local function updateAdornment()
                     local head = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
                     if head then
-                        reachAdornment = head:FindFirstChild("Reach")
+                        local reachAdornment = head:FindFirstChild("Reach")
                         if reachAdornment and reachAdornment:IsA("SphereHandleAdornment") then
                             reachAdornment.Radius = range
                         else
@@ -126,9 +126,6 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 end
 
                 local function checkPlayerReach()
-                    if not bool then
-                        return
-                    end
                     local p = game.Players:GetPlayers()
                     for i = 2, #p do
                         local v = p[i].Character
@@ -151,35 +148,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         end
                     end
                 end
-                local connection1, connection2, connection3, connection4 = nil, nil, nil, nil
-                if bool then
-                    connection1 = mouse.KeyDown:Connect(handleKeyDown)
-                    connection2 = game.Players.PlayerAdded:Connect(updateAdornment)
-                    connection3 = game.Players.PlayerRemoving:Connect(updateAdornment)
-                    connection4 = game:GetService("RunService").RenderStepped:Connect(checkPlayerReach)
-                    updateAdornment()
-                else
-                    if connection1 then
-                        connection1:Disconnect()
-                        connection1 = nil
-                    end
-                    if connection2 then
-                        connection2:Disconnect()
-                        connection2 = nil
-                    end
-                    if connection3 then
-                        connection3:Disconnect()
-                        connection3 = nil
-                    end
-                    if connection4 then
-                        connection4:Disconnect()
-                        connection4 = nil
-                    end
-                    if reachAdornment and reachAdornment:IsA("SphereHandleAdornment") then
-                        reachAdornment:Destroy()
-                        reachAdornment = nil
-                    end
-                end
+                mouse.KeyDown:Connect(handleKeyDown)
+                game.Players.PlayerAdded:Connect(updateAdornment)
+                game.Players.PlayerRemoving:Connect(updateAdornment)
+                game:GetService("RunService").RenderStepped:Connect(checkPlayerReach)
+                updateAdornment()
             end
         }
     )
