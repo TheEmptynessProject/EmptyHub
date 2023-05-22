@@ -94,7 +94,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Callback = function(test)
                 for i,v in pairs(game.Players:GetChildren()) do
                         if (v.DisplayName == test or v.Name == test) then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[v.Name].Character.HumanoidRootPart.CFrame
                             return 
                         end
                     end
