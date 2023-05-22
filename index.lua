@@ -291,7 +291,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         end
     end
 })
-    universalColumn2:Slider({
+    universalColumn2:CreateSlider({
     Name = "WalkSpeed",
     Min = 10,
     Max = 100,
@@ -301,7 +301,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
     end
 })
-universalColumn2:Slider({
+universalColumn2:CreateSlider({
     Name = "JumpPower",
     Min = 10,
     Max = 100,
