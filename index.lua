@@ -270,6 +270,27 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    universalColumn2:CreateToggle_and_Keybind({
+    Name = "Hex Spitter Kill All",
+    Default = Enum.KeyCode.LeftAlt,
+    Callback = function(bool, key)
+        if not bool then return end
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            while player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 do
+                local c = {
+                    [1] = "RayHit",
+                    [2] = {
+                        ["Position"] = Vector3.new(0, 0, 0),
+                        ["Hit"] = player.Character.HumanoidRootPart
+                    }
+                }
+                game:GetService("Players").LocalPlayer.Character.HexSpitter.Remotes.ServerControl:InvokeServer(unpack(c))
+                        task.wait()
+            end
+        end
+    end
+})
+
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
