@@ -225,8 +225,8 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     local targetCharacter = targetPlayer.Character
                     local targetRootPart = targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart")
                     local playerRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-
-                    if targetRootPart and playerRootPart then
+                    
+                    if targetRootPart and playerRootPart and game.Players.LocalPlayer.Team ~= targetPlayer.Team then
                         local targetCFrame = targetRootPart.CFrame
                         local targetLookVector = targetCFrame.LookVector
                         local offset = targetLookVector * -2
@@ -243,6 +243,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         if
                             vCharacter and vCharacter:FindFirstChild("Humanoid") and
                                 not vCharacter:FindFirstChildOfClass("ForceField") and
+                                game.Players.LocalPlayer.Team ~= v.Team and
                                 vCharacter.Humanoid.Health > 0 and
                                 vCharacter:FindFirstChild("HumanoidRootPart") and
                                 player:DistanceFromCharacter(vCharacter.HumanoidRootPart.Position) <= range
