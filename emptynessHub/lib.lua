@@ -740,7 +740,7 @@ function library:New(opts)
                 return toggle_info
             end
 
-            function section_info:CreateBox(opts)
+            function section_info:CreateInputBox(opts)
                 local options = custom.formatTable(opts)
                 local placeholder = options.name
                 local default = options.default or ""
@@ -810,23 +810,23 @@ function library:New(opts)
 
                 box.FocusLost:Connect(boxFinished)
 
-                local box_info = {}
-                box_info = custom.formatTable(box_info)
+                local inputBox_info = {}
+                inputBox_info = custom.formatTable(box_info)
 
-                function box_info:Set(text)
+                function inputBox_info:Set(text)
                     box.Text = text
                     boxFinished()
                 end
 
-                function box_info:Hide()
+                function inputBox_info:Hide()
                     box.Visible = false
                 end
 
-                function box_info:Show()
+                function inputBox_info:Show()
                     box.Visible = true
                 end
 
-                return box_info
+                return inputBox_info
             end
 
             function section_info:CreateSlider(opts)
