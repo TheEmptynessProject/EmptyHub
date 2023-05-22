@@ -296,7 +296,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     Min = 10,
     Max = 100,
     Default = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
-    Decimals = 0,
+    Decimals = 1,
     Callback = function(value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
     end
@@ -305,8 +305,8 @@ universalColumn2:CreateSlider({
     Name = "JumpPower",
     Min = 10,
     Max = 100,
-    Default = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
-    Decimals = 0,
+    Default = game.Players.LocalPlayer.Character.Humanoid.JumpPower,
+    Decimals = 1,
     Callback = function(value)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
     end
