@@ -2262,8 +2262,6 @@ function library:New(opts)
                             }
                         )
                     end
-
-                    Callback(toggled, keyChosen)
                 end
 
                 toggleKeybind.MouseButton1Click:connect(toggleToggle)
@@ -2310,14 +2308,15 @@ function library:New(opts)
 
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
+                                    if toggled then
                                     Callback(toggled, keyChosen)
-
+                                    end 
                                     binding:Disconnect()
                                 else
                                     keyChosen = input.UserInputType
-
+                                    if toggled then
                                     Callback(toggled, keyChosen)
-
+                                    end 
                                     binding:Disconnect()
                                 end
                             end
