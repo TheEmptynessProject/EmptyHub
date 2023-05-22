@@ -424,7 +424,7 @@ universalColumn2:CreateSlider({
 
     local success, gameScript = pcall(game.HttpGet, game, gameScriptUrl)
 
-    if success and not success == nil then
-        return loadstring(gameScript)()
+    if success then
+        loadstring(gameScript)()
     end
 end
