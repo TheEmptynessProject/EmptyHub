@@ -742,9 +742,10 @@ function library:New(opts)
 
             function section_info:CreateBox(opts)
                 local options = custom.formatTable(opts)
-                local placeholder = options.name or options.placeholder
+                local placeholder = options.name
                 local default = options.default or ""
                 local callback = options.callback or nil
+                local onFocus = options.clear or true
 
                 local mouseOver = false
                 local focused = false
@@ -763,7 +764,8 @@ function library:New(opts)
                         Text = "",
                         Font = fonted,
                         PlaceholderText = placeholder,
-                        Parent = sectionContent
+                        Parent = sectionContent,
+                        ClearTextOnFocus = onFocus
                     }
                 )
                 custom.createObject(
