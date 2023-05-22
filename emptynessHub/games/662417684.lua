@@ -38,7 +38,6 @@ PlaceId:CreateButton(
             end
         }
     )
-PlaceId:CreateLine(1)
 PlaceId:CreateButton(
         {
             Name = "Get Galaxy Block",
@@ -47,5 +46,3 @@ PlaceId:CreateButton(
             end
         }
     )
-PlaceId:CreateLine(20)
-PlaceId:CreateLabel("Test")
