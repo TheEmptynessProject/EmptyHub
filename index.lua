@@ -92,15 +92,12 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Teleport To Player",
             Clear = false,
             Callback = function(test)
-                local target = false
                 for i,v in pairs(game.Players:GetChildren()) do
                         if (v.DisplayName == test or v.Name == test) then
-                            target = v 
-                        break
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+                            return 
                         end
                     end
-                
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
             end
         }
     )
