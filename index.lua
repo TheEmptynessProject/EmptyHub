@@ -80,6 +80,14 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    universalColumn1:CreateBox(
+        {
+            Name = "Test",
+            Callback = function(test)
+                notifLib:Notify(test)
+            end
+        }
+    )
     universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
     universalColumn1:CreateButton(
         {
