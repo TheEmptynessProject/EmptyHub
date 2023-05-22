@@ -290,6 +290,39 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         end
     end
+})local slider = section:Slider({Name = "Slider" Flag = "Slider", Callback = function(slider)
+   print(slider)
+end})
+    universalColumn2:Slider({
+    Name = "WalkSpeed",
+    Min = 10,
+    Max = 100,
+    Default = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
+    Decimals = 0,
+    Callback = function(value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+    end
+})
+    universalColumn2:CreateToggle_and_Keybind({
+    Name = "Hex Spitter Kill All",
+    Default = Enum.KeyCode.G,
+    Callback = function(bool, key)
+        if not bool then return end
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 and not player.Character:FindFirstChildOfClass("ForceField") then
+                        notifLib:Notify("Player " .. player.Name .. " now has " .. player.Character.Humanoid.Health)
+                local c = {
+                    [1] = "RayHit",
+                    [2] = {
+                        ["Position"] = Vector3.new(0, 0, 0),
+                        ["Hit"] = player.Character.HumanoidRootPart
+                    }
+                }
+                game:GetService("Players").LocalPlayer.Character.HexSpitter.Remotes.ServerControl:InvokeServer(unpack(c))
+                        task.wait()
+            end
+        end
+    end
 })
 
     local gameScriptUrl =
