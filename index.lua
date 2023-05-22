@@ -312,6 +312,17 @@ universalColumn2:CreateSlider({
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
     end
 })
+    universalColumn2:CreateSlider({
+    Name = "Camera Zoom Distance",
+    Min = 0,
+    Max = 200000,
+    Default = game.Players.LocalPlayer.CameraMaxZoomDistance,
+    Decimals = 0.0001,
+    Callback = function(value)
+        game.Players.LocalPlayer.CameraMaxZoomDistance = value
+    end
+})
+    
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
