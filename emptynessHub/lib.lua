@@ -1115,8 +1115,9 @@ function library:New(opts)
                 )
 
                 for i, v in next, contentTable do
+                    local option
                     if v.Name ~= nil and typeof(v.Name) == "string" then
-                        local option =
+                        option =
                             custom.createObject(
                             "TextButton",
                             {
@@ -1134,7 +1135,7 @@ function library:New(opts)
                             }
                         )
                     else
-                        local option =
+                        option =
                             custom.createObject(
                             "TextButton",
                             {
