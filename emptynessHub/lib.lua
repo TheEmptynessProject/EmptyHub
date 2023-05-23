@@ -1115,27 +1115,7 @@ function library:New(opts)
                 )
 
                 for i, v in next, contentTable do
-                    local option
-                    if v.Name ~= nil and typeof(v.Name) == "string" then
-                        option =
-                            custom.createObject(
-                            "TextButton",
-                            {
-                                ZIndex = 11,
-                                Size = UDim2.new(1, 0, 0, 16),
-                                BackgroundTransparency = 1,
-                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                FontSize = Enum.FontSize.Size12,
-                                TextSize = 12,
-                                TextColor3 = v.Name == default and theme.EnabledText or theme.DisabledText,
-                                Text = v.Name,
-                                Font = fonted,
-                                TextXAlignment = Enum.TextXAlignment.Left,
-                                Parent = contentHolder
-                            }
-                        )
-                    else
-                        option =
+                     local option =
                             custom.createObject(
                             "TextButton",
                             {
@@ -1152,7 +1132,6 @@ function library:New(opts)
                                 Parent = contentHolder
                             }
                         )
-                    end
 
                     optionInstances[v] = option
 
