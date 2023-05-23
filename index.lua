@@ -106,18 +106,18 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     universalColumn1:CreateLabel("Teleport")
     local dropdownPlayerArray = {}
     for _, player in ipairs(game.Players:GetPlayers()) do
-       table.insert(dropdownPlayerArray, player.Name)
+       table.insert(dropdownPlayerArray, player.DisplayName)
     end
     game.Players.PlayerAdded:Connect(
         function(player)
-            table.insert(dropdownPlayerArray, player.Name)
+            table.insert(dropdownPlayerArray, player.DisplayName)
         end
     )
 
     game.Players.PlayerRemoving:Connect(
         function(player)
             for i, playerName in ipairs(dropdownPlayerArray) do
-                if playerName == player.Name then
+                if playerName == player.DisplayName then
                     table.remove(dropdownPlayerArray, i)
                     break
                 end
@@ -125,23 +125,27 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         end
     )
 
-    notifLib:Notify("Here", {Color = Color3.new(255, 255, 0)})
-
-    universalColumn1:CreateDropdown(
-        {
-            Content = dropdownPlayerArray,
-            MultiChoice = false,
-            Callback = function(selectedPlayer)
-                local targetPlayer = game.Players:FindFirstChild(selectedPlayer)
-                if targetPlayer then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        targetPlayer.Character.HumanoidRootPart.CFrame
-                else
-                    notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
-                end
+    universalColumn1:CreateDropdown({
+    Content = dropdownPlayerArray,
+    MultiChoice = false,
+    Callback = function(selectedPlayer)
+        local targetPlayer = nil
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player.DisplayName == selectedPlayer then
+                targetPlayer = player
+                break
             end
-        }
-    )
+        end
+
+        if targetPlayer then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                targetPlayer.Character.HumanoidRootPart.CFrame
+        else
+            notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
+        end
+    end
+})
+
 
     universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
     universalColumn1:CreateButton(
