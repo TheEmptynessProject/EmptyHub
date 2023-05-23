@@ -480,7 +480,63 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-
+    local connection_infJUMP
+                universalColumn2:CreateToggle_and_Keybind(
+                    {
+                        Name = "Infinite Jump",
+                        Default = Enum.KeyCode.Space,
+                        Callback = function(bool, keyed)
+                            if (bool) then
+                                connection_infJUMP =
+                                    game:GetService("UserInputService").InputBegan:Connect(
+                                    function(input)
+                                        if (input.KeyCode == keyed) then
+                                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(
+                                                "Jumping"
+                                            )
+                                        end
+                                    end
+                                )
+                            else
+                                connection_infJUMP:Disconnect()
+                            end
+                        end
+                    }
+                )
+    local connection_noclip_one, connection_noclip_two
+                universalColumn2:CreateToggle_and_Keybind(
+                    {
+                        Default = Enum.KeyCode.E,
+                        Name = "Noclip",
+                        Callback = function(bool, keyed)
+                            if bool then
+                                local toggled = false
+                                connection_noclip_one =
+                                    game:GetService("RunService").Stepped:connect(
+                                    function()
+                                        if bool and toggled then
+                                            game.Players.LocalPlayer.Character.Head.CanCollide = false
+                                            game.Players.LocalPlayer.Character.Torso.CanCollide = false
+                                        end
+                                    end
+                                )
+                                connection_noclip_two =
+                                    game:GetService("UserInputService").InputBegan:Connect(
+                                    function(input)
+                                        if (input.KeyCode == keyed) then
+                                            toggled = not toggled
+                                            game.Players.LocalPlayer.Character.Head.CanCollide = true
+                                            game.Players.LocalPlayer.Character.Torso.CanCollide = true
+                                        end
+                                    end
+                                )
+                            else
+                                connection_noclip_one:Disconnect()
+                                connection_noclip_two:Disconnect()
+                            end
+                        end
+                    }
+                )
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
