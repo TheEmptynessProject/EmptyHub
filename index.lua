@@ -87,17 +87,41 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateInputBox(
+    universalColumn1:CreateInput(
         {
             Name = "Teleport To Player",
             Clear = false,
             Callback = function(test)
+                test = test:lower()
                 for i,v in pairs(game.Players:GetChildren()) do
-                        if (v.DisplayName == test or v.Name == test) then
+                        if (v.DisplayName:lower() == test or v.Name:lower() == test) then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[v.Name].Character.HumanoidRootPart.CFrame
                             return 
                         end
                     end
+            end
+        }
+    )
+    universalColumn1:CreateLabel("Teleport")
+    local dropdownPlayerArray = game.Players:GetPlayers()
+    
+    game.Players.PlayerAdded:Connect(function(player)
+        dropdownPlayerArray = game.Players:GetPlayers()
+    end)
+
+    game.Players.PlayerRemoving:Connect(function(player)
+        dropdownPlayerArray = game.Players:GetPlayers()
+    end)
+    
+    universalColumn1:CreateDropdown(
+        {
+            Content = dropdownPlayerArray,
+            MultiChoice = false,
+            Callback = function(test)
+                if (game.Players[test.name]) then
+                        return game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = test.Character.HumanoidRootPart.CFrame
+                    end
+                notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
             end
         }
     )
@@ -137,11 +161,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local function handleKeyDown(key)
                     if key == "c" then
                         range = range + 2
-                        notifLib:Notify("Range Increased")
+                        notifLib:Notify("Range Increased", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     elseif key == "v" then
                         range = range - 2
-                        notifLib:Notify("Range Decreased")
+                        notifLib:Notify("Range Decreased", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     end
                 end
@@ -212,11 +236,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local function handleKeyDown(key)
                     if key == "c" then
                         range = range + 2
-                        notifLib:Notify("Range Increased")
+                        notifLib:Notify("Range Increased", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     elseif key == "v" then
                         range = range - 2
-                        notifLib:Notify("Range Decreased")
+                        notifLib:Notify("Range Decreased", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     end
                 end
@@ -305,11 +329,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local function handleKeyDown(key)
                     if key == "c" then
                         range = range + 2
-                        notifLib:Notify("Range Increased")
+                        notifLib:Notify("Range Increased", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     elseif key == "v" then
                         range = range - 2
-                        notifLib:Notify("Range Decreased")
+                        notifLib:Notify("Range Decreased", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     end
                 end
@@ -371,7 +395,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         if not bool then return end
         for _, player in ipairs(game.Players:GetPlayers()) do
             if player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 and not player.Character:FindFirstChildOfClass("ForceField") then
-                        notifLib:Notify("Player " .. player.Name .. " now has " .. player.Character.Humanoid.Health)
+                        notifLib:Notify("Player " .. player.Name .. " now has " .. player.Character.Humanoid.Health, {Color = Color3.new(255, 255, 255)})
                 local c = {
                     [1] = "RayHit",
                     [2] = {
