@@ -104,32 +104,45 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         }
     )
     universalColumn1:CreateLabel("Teleport")
-    local dropdownPlayerArray = game.Players:GetPlayers()
-
+    local dropdownPlayerArray = {}
+    for _, player in ipairs(game.Players:GetPlayers()) do
+       table.insert(dropdownPlayerArray, player.Name)
+    end
     game.Players.PlayerAdded:Connect(
         function(player)
-            dropdownPlayerArray = game.Players:GetPlayers()
+            table.insert(dropdownPlayerArray, player.Name)
         end
     )
 
     game.Players.PlayerRemoving:Connect(
         function(player)
-            dropdownPlayerArray = game.Players:GetPlayers()
+            for i, playerName in ipairs(dropdownPlayerArray) do
+                if playerName == player.Name then
+                    table.remove(dropdownPlayerArray, i)
+                    break
+                end
+            end
         end
     )
+
     notifLib:Notify("Here", {Color = Color3.new(255, 255, 0)})
-   universalColumn1:CreateDropdown(
+
+    universalColumn1:CreateDropdown(
         {
             Content = dropdownPlayerArray,
             MultiChoice = false,
-            Callback = function(test)
-                if game.Players[test.Name] then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = test.Character.HumanoidRootPart.CFrame
+            Callback = function(selectedPlayer)
+                local targetPlayer = game.Players:FindFirstChild(selectedPlayer)
+                if targetPlayer then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        targetPlayer.Character.HumanoidRootPart.CFrame
+                else
+                    notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
                 end
-                notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
             end
         }
     )
+
     universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
     universalColumn1:CreateButton(
         {
