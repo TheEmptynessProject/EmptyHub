@@ -106,7 +106,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     universalColumn1:CreateLabel("Teleport")
     local dropdownPlayerArray = game.Players:GetPlayers()
 
-    --[[game.Players.PlayerAdded:Connect(
+    game.Players.PlayerAdded:Connect(
         function(player)
             dropdownPlayerArray = game.Players:GetPlayers()
         end
@@ -116,9 +116,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         function(player)
             dropdownPlayerArray = game.Players:GetPlayers()
         end
-    )]]
+    )
     notifLib:Notify("Here", {Color = Color3.new(255, 255, 0)})
-   --[[ universalColumn1:CreateDropdown(
+   universalColumn1:CreateDropdown(
         {
             Content = dropdownPlayerArray,
             MultiChoice = false,
@@ -129,7 +129,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
             end
         }
-    )]]
+    )
     universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
     universalColumn1:CreateButton(
         {
