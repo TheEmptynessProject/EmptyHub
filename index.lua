@@ -93,34 +93,39 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Clear = false,
             Callback = function(test)
                 test = test:lower()
-                for i,v in pairs(game.Players:GetChildren()) do
-                        if (v.DisplayName:lower() == test or v.Name:lower() == test) then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[v.Name].Character.HumanoidRootPart.CFrame
-                            return 
-                        end
+                for i, v in pairs(game.Players:GetChildren()) do
+                    if (v.DisplayName:lower() == test or v.Name:lower() == test) then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game.Players[v.Name].Character.HumanoidRootPart.CFrame
+                        return
                     end
+                end
             end
         }
     )
     universalColumn1:CreateLabel("Teleport")
     local dropdownPlayerArray = game.Players:GetPlayers()
-    
-    game.Players.PlayerAdded:Connect(function(player)
-        dropdownPlayerArray = game.Players:GetPlayers()
-    end)
 
-    game.Players.PlayerRemoving:Connect(function(player)
-        dropdownPlayerArray = game.Players:GetPlayers()
-    end)
-    
+    game.Players.PlayerAdded:Connect(
+        function(player)
+            dropdownPlayerArray = game.Players:GetPlayers()
+        end
+    )
+
+    game.Players.PlayerRemoving:Connect(
+        function(player)
+            dropdownPlayerArray = game.Players:GetPlayers()
+        end
+    )
+
     universalColumn1:CreateDropdown(
         {
             Content = dropdownPlayerArray,
             MultiChoice = false,
             Callback = function(test)
-                if (game.Players[test.name]) then
-                        return game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = test.Character.HumanoidRootPart.CFrame
-                    end
+                if game.Players[test.Name] then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = test.Character.HumanoidRootPart.CFrame
+                end
                 notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
             end
         }
@@ -249,7 +254,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     local targetCharacter = targetPlayer.Character
                     local targetRootPart = targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart")
                     local playerRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-                    
+
                     if targetRootPart and playerRootPart then
                         local targetCFrame = targetRootPart.CFrame
                         local targetLookVector = targetCFrame.LookVector
@@ -342,7 +347,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     local targetCharacter = targetPlayer.Character
                     local targetRootPart = targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart")
                     local playerRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-                    
+
                     if targetRootPart and playerRootPart and game.Players.LocalPlayer.Team ~= targetPlayer.Team then
                         local targetCFrame = targetRootPart.CFrame
                         local targetLookVector = targetCFrame.LookVector
@@ -388,58 +393,77 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn2:CreateToggle_and_Keybind({
-    Name = "Hex Spitter Kill All",
-    Default = Enum.KeyCode.G,
-    Callback = function(bool, key)
-        if not bool then return end
-        for _, player in ipairs(game.Players:GetPlayers()) do
-            if player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 and not player.Character:FindFirstChildOfClass("ForceField") then
-                        notifLib:Notify("Player " .. player.Name .. " now has " .. player.Character.Humanoid.Health, {Color = Color3.new(255, 255, 255)})
-                local c = {
-                    [1] = "RayHit",
-                    [2] = {
-                        ["Position"] = Vector3.new(0, 0, 0),
-                        ["Hit"] = player.Character.HumanoidRootPart
-                    }
-                }
-                game:GetService("Players").LocalPlayer.Character.HexSpitter.Remotes.ServerControl:InvokeServer(unpack(c))
+    universalColumn2:CreateToggle_and_Keybind(
+        {
+            Name = "Hex Spitter Kill All",
+            Default = Enum.KeyCode.G,
+            Callback = function(bool, key)
+                if not bool then
+                    return
+                end
+                for _, player in ipairs(game.Players:GetPlayers()) do
+                    if
+                        player.Character and player.Character:FindFirstChild("Humanoid") and
+                            player.Character.Humanoid.Health > 0 and
+                            not player.Character:FindFirstChildOfClass("ForceField")
+                     then
+                        notifLib:Notify(
+                            "Player " .. player.Name .. " now has " .. player.Character.Humanoid.Health,
+                            {Color = Color3.new(255, 255, 255)}
+                        )
+                        local c = {
+                            [1] = "RayHit",
+                            [2] = {
+                                ["Position"] = Vector3.new(0, 0, 0),
+                                ["Hit"] = player.Character.HumanoidRootPart
+                            }
+                        }
+                        game:GetService("Players").LocalPlayer.Character.HexSpitter.Remotes.ServerControl:InvokeServer(
+                            unpack(c)
+                        )
                         task.wait()
+                    end
+                end
             end
-        end
-    end
-})
-    universalColumn2:CreateSlider({
-    Name = "WalkSpeed",
-    Min = 10,
-    Max = 200,
-    Default = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed or 10,
-    Decimals = 1,
-    Callback = function(value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
-    end
-})
-universalColumn2:CreateSlider({
-    Name = "JumpPower",
-    Min = 10,
-    Max = 200,
-    Default =game.Players.LocalPlayer.Character.Humanoid.JumpPower or 10,
-    Decimals = 1,
-    Callback = function(value)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
-    end
-})
-    universalColumn2:CreateSlider({
-    Name = "Camera Zoom Distance",
-    Min = 0,
-    Max = 200000,
-    Default = game.Players.LocalPlayer.CameraMaxZoomDistance,
-    Decimals = 0.0001,
-    Callback = function(value)
-        game.Players.LocalPlayer.CameraMaxZoomDistance = value
-    end
-})
-    
+        }
+    )
+    universalColumn2:CreateSlider(
+        {
+            Name = "WalkSpeed",
+            Min = 10,
+            Max = 200,
+            Default = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed or 10,
+            Decimals = 1,
+            Callback = function(value)
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+            end
+        }
+    )
+    universalColumn2:CreateSlider(
+        {
+            Name = "JumpPower",
+            Min = 10,
+            Max = 200,
+            Default = game.Players.LocalPlayer.Character.Humanoid.JumpPower or 10,
+            Decimals = 1,
+            Callback = function(value)
+                game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
+            end
+        }
+    )
+    universalColumn2:CreateSlider(
+        {
+            Name = "Camera Zoom Distance",
+            Min = 0,
+            Max = 200000,
+            Default = game.Players.LocalPlayer.CameraMaxZoomDistance,
+            Decimals = 0.0001,
+            Callback = function(value)
+                game.Players.LocalPlayer.CameraMaxZoomDistance = value
+            end
+        }
+    )
+
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
