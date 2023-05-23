@@ -931,9 +931,8 @@ function library:New(opts)
 
                 inputService.InputChanged:Connect(
                     function(input)
-                        if
-                            input.UserInputType == Enum.UserInputType.MouseMovement and holding then
-                                slide(input)
+                        if input.UserInputType == Enum.UserInputType.MouseMovement and holding then
+                            slide(input)
                         end
                     end
                 )
@@ -1117,42 +1116,42 @@ function library:New(opts)
 
                 for i, v in next, contentTable do
                     if v.Name ~= nil and typeof(v.Name) == "string" then
-                    local option =
-                        custom.createObject(
-                        "TextButton",
-                        {
-                            ZIndex = 11,
-                            Size = UDim2.new(1, 0, 0, 16),
-                            BackgroundTransparency = 1,
-                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                            FontSize = Enum.FontSize.Size12,
-                            TextSize = 12,
-                            TextColor3 = v.Name == default and theme.EnabledText or theme.DisabledText,
-                            Text = v.Name,
-                            Font = fonted,
-                            TextXAlignment = Enum.TextXAlignment.Left,
-                            Parent = contentHolder
-                        }
-                            else
-                            local option =
-                        custom.createObject(
-                        "TextButton",
-                        {
-                            ZIndex = 11,
-                            Size = UDim2.new(1, 0, 0, 16),
-                            BackgroundTransparency = 1,
-                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                            FontSize = Enum.FontSize.Size12,
-                            TextSize = 12,
-                            TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
-                            Text = v,
-                            Font = fonted,
-                            TextXAlignment = Enum.TextXAlignment.Left,
-                            Parent = contentHolder
-                        }
-                            
-                            end
-                    )
+                        local option =
+                            custom.createObject(
+                            "TextButton",
+                            {
+                                ZIndex = 11,
+                                Size = UDim2.new(1, 0, 0, 16),
+                                BackgroundTransparency = 1,
+                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                FontSize = Enum.FontSize.Size12,
+                                TextSize = 12,
+                                TextColor3 = v.Name == default and theme.EnabledText or theme.DisabledText,
+                                Text = v.Name,
+                                Font = fonted,
+                                TextXAlignment = Enum.TextXAlignment.Left,
+                                Parent = contentHolder
+                            }
+                        )
+                    else
+                        local option =
+                            custom.createObject(
+                            "TextButton",
+                            {
+                                ZIndex = 11,
+                                Size = UDim2.new(1, 0, 0, 16),
+                                BackgroundTransparency = 1,
+                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                FontSize = Enum.FontSize.Size12,
+                                TextSize = 12,
+                                TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
+                                Text = v,
+                                Font = fonted,
+                                TextXAlignment = Enum.TextXAlignment.Left,
+                                Parent = contentHolder
+                            }
+                        )
+                    end
 
                     optionInstances[v] = option
 
@@ -2332,13 +2331,13 @@ function library:New(opts)
                                     keyChosen = input.KeyCode
                                     if toggled then
                                         Callback(toggled, keyChosen)
-                                    end 
+                                    end
                                     binding:Disconnect()
                                 else
                                     keyChosen = input.UserInputType
                                     if toggled then
                                         Callback(toggled, keyChosen)
-                                    end 
+                                    end
                                     binding:Disconnect()
                                 end
                             end
@@ -2351,19 +2350,19 @@ function library:New(opts)
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             if input.KeyCode == keyChosen then
                                 if toggled then
-                                        Callback(toggled, keyChosen)
-                                    end 
+                                    Callback(toggled, keyChosen)
+                                end
                             end
                         else
                             if input.UserInputType == keyChosen then
                                 if toggled then
-                                        Callback(toggled, keyChosen)
-                                    end
+                                    Callback(toggled, keyChosen)
+                                end
                             end
                         end
                     end
                 )
-                
+
                 local tandk_info = {}
                 tandk_info = custom.formatTable(tandk_info)
 
