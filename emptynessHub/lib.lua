@@ -740,12 +740,12 @@ function library:New(opts)
                 return toggle_info
             end
 
-            function section_info:CreateInputBox(opts)
+            function section_info:CreateInput(opts)
                 local options = custom.formatTable(opts)
                 local placeholder = options.name
                 local default = options.default or ""
                 local callback = options.callback or nil
-                local onFocus = options.clear or true
+                local onFocus = options.clear
 
                 local mouseOver = false
                 local focused = false
