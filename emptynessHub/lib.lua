@@ -1116,7 +1116,7 @@ function library:New(opts)
                 )
 
                 for i, v in next, contentTable do
-                    if v:IsA("Instance") then
+                    if v.Name ~= nil and typeof(v.Name) == "string" then
                     local option =
                         custom.createObject(
                         "TextButton",
@@ -1127,7 +1127,7 @@ function library:New(opts)
                             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                             FontSize = Enum.FontSize.Size12,
                             TextSize = 12,
-                            TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
+                            TextColor3 = v.Name == default and theme.EnabledText or theme.DisabledText,
                             Text = v.Name,
                             Font = fonted,
                             TextXAlignment = Enum.TextXAlignment.Left,
