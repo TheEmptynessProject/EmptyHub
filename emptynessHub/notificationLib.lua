@@ -78,18 +78,19 @@ function notifications:BuildUI()
     })
 end
 
-function notifications:Notify(text)
+function notifications:Notify(text, options)
+    options = custom.formatTable(options)
     local notification = custom.createObject("TextLabel", {
         Parent = self.ui.frame,
         BackgroundColor3 = Color3.new(1, 1, 1),
         BackgroundTransparency = 1,
         Size = UDim2.new(0, 222, 0, 14),
         Text = text or nil,
-        Font = self.textFont,
-        TextColor3 = self.textColor,
-        TextSize = self.textSize,
-        TextStrokeColor3 = self.textStrokeColor,
-        TextStrokeTransparency = self.textStrokeTransparency
+        Font = options.font or self.textFont,
+        TextColor3 = options.color or self.textColor,
+        TextSize = options.size or self.textSize,
+        TextStrokeColor3 = options.strkcolor or self.textStrokeColor,
+        TextStrokeTransparency = options.strkopacity or textStrokeTransparency
     })
     notification.Active = true
 
