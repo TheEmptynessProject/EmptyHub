@@ -408,7 +408,7 @@ function library:New(opts)
             local name = options.name
             local column = options.column or 1
             column = column == 1 and column1 or column == 2 and column2
-
+            if name and name ~= "" then
             local section =
                 custom.createObject(
                 "Frame",
@@ -427,7 +427,25 @@ function library:New(opts)
                     Parent = section
                 }
             )
-
+            
+            custom.createObject(
+                    "TextLabel",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(0, 1, 0, 16),
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(0, 8, 0, 4),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        FontSize = Enum.FontSize.Size12,
+                        TextSize = 12,
+                        TextColor3 = theme.TextColor,
+                        Text = name,
+                        Font = fonted,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = section
+                    }
+                )
+            
             local sectionContent =
                 custom.createObject(
                 "Frame",
@@ -448,7 +466,47 @@ function library:New(opts)
                     Parent = sectionContent
                 }
             )
+            else
+                local section =
+                custom.createObject(
+                "Frame",
+                {
+                    ZIndex = 5,
+                    Size = UDim2.new(1, 0, 0, 8),
+                    BackgroundColor3 = theme.Section,
+                    Parent = column
+                }
+            )
 
+            custom.createObject(
+                "UICorner",
+                {
+                    CornerRadius = UDim.new(0, 4),
+                    Parent = section
+                }
+            )
+                
+            local sectionContent =
+                custom.createObject(
+                "Frame",
+                {
+                    Size = UDim2.new(1, -9, 1, -8),
+                    Position = UDim2.new(0, 5, 0, 22),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    Parent = section
+                }
+            )
+
+            local sectionContentList =
+                custom.createObject(
+                "UIListLayout",
+                {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Padding = UDim.new(0, 6),
+                    Parent = sectionContent
+                }
+            )
+            end
             sectionContentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(
                 function()
                     section.Size = UDim2.new(1, 0, 0, sectionContentList.AbsoluteContentSize.Y + 27)
