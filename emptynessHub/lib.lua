@@ -408,7 +408,9 @@ function library:New(opts)
             local name = options.name
             local column = options.column or 1
             column = column == 1 and column1 or column == 2 and column2
-            local section, sectionContent, sectionContentList
+            local section
+            local sectionContent
+            local sectionContentList
             if name and name ~= "" then
             section =
                 custom.createObject(
