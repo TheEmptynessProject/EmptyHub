@@ -543,11 +543,10 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         game.PlaceId
     )
 
-    local HttpService = game:GetService("HttpService")
-local success, gameScript = pcall(HttpService.GetAsync, HttpService, gameScriptUrl)
+local success, gameScript = pcall(game.HttpGet, game, gameScriptUrl)
 
-if success then
-    loadstring(gameScript)()
-end
+    if success and gameScript then
+        loadstring(gameScript)()
+    end
 
 end
