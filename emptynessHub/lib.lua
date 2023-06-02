@@ -427,7 +427,7 @@ function library:New(opts)
                     Parent = section
                 }
             )
-
+            if name and name ~= "" then
             custom.createObject(
                 "TextLabel",
                 {
@@ -445,6 +445,7 @@ function library:New(opts)
                     Parent = section
                 }
             )
+            end
 
             local sectionContent =
                 custom.createObject(
