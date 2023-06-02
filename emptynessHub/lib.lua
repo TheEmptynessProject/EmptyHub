@@ -408,8 +408,9 @@ function library:New(opts)
             local name = options.name
             local column = options.column or 1
             column = column == 1 and column1 or column == 2 and column2
+            local section, sectionContent, sectionContentList
             if name and name ~= "" then
-            local section =
+            section =
                 custom.createObject(
                 "Frame",
                 {
@@ -446,7 +447,7 @@ function library:New(opts)
                     }
                 )
             
-            local sectionContent =
+            sectionContent =
                 custom.createObject(
                 "Frame",
                 {
@@ -457,7 +458,7 @@ function library:New(opts)
                 }
             )
 
-            local sectionContentList =
+            sectionContentList =
                 custom.createObject(
                 "UIListLayout",
                 {
@@ -467,7 +468,7 @@ function library:New(opts)
                 }
             )
             else
-                local section =
+                section =
                 custom.createObject(
                 "Frame",
                 {
@@ -486,7 +487,7 @@ function library:New(opts)
                 }
             )
                 
-            local sectionContent =
+            sectionContent =
                 custom.createObject(
                 "Frame",
                 {
@@ -497,7 +498,7 @@ function library:New(opts)
                 }
             )
 
-            local sectionContentList =
+            sectionContentList =
                 custom.createObject(
                 "UIListLayout",
                 {
