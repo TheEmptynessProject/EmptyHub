@@ -428,23 +428,23 @@ function library:New(opts)
                 }
             )
             if name and name ~= "" then
-            custom.createObject(
-                "TextLabel",
-                {
-                    ZIndex = 6,
-                    Size = UDim2.new(0, 1, 0, 16),
-                    BackgroundTransparency = 1,
-                    Position = UDim2.new(0, 8, 0, 4),
-                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    FontSize = Enum.FontSize.Size12,
-                    TextSize = 12,
-                    TextColor3 = theme.TextColor,
-                    Text = name,
-                    Font = fonted,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = section
-                }
-            )
+                custom.createObject(
+                    "TextLabel",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(0, 1, 0, 16),
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(0, 8, 0, 4),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        FontSize = Enum.FontSize.Size12,
+                        TextSize = 12,
+                        TextColor3 = theme.TextColor,
+                        Text = name,
+                        Font = fonted,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = section
+                    }
+                )
             end
 
             local sectionContent =
@@ -1025,20 +1025,6 @@ function library:New(opts)
                     }
                 )
 
-                local icon =
-                    custom.createObject(
-                    "ImageLabel",
-                    {
-                        ZIndex = 7,
-                        Size = UDim2.new(0, 10, 0, 11),
-                        Rotation = 180,
-                        BackgroundTransparency = 1,
-                        Position = UDim2.new(1, -16, 0, 3),
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        Parent = dropdown
-                    }
-                )
-
                 local content =
                     custom.createObject(
                     "Frame",
@@ -1080,25 +1066,30 @@ function library:New(opts)
                         Parent = contentHolder
                     }
                 )
-
                 local function toggleDropdown()
-                    open = not open
-                    local sizeX = UDim2.new(1, 0, 0, open and contentList.AbsoluteContentSize.Y or 0)
-                    local rotation = open and 0 or 180
+                    if emptyCustoms.Enabled and open then
+                        open = false
+                        content.Visible = false
+                        custom.animate(icon, {0.2}, {Rotation = 180})
+                    else
+                        open = not open
+                        local sizeX = UDim2.new(1, 0, 0, open and contentList.AbsoluteContentSize.Y or 0)
+                        local rotation = open and 0 or 180
 
-                    if open then
-                        content.Visible = open
-                    end
-
-                    custom.animate(
-                        content,
-                        {#contentTable * 0.1},
-                        {Size = sizeX},
-                        function()
+                        if open then
                             content.Visible = open
                         end
-                    )
-                    custom.animate(icon, {0.2}, {Rotation = rotation})
+
+                        custom.animate(
+                            content,
+                            {#contentTable * 0.1},
+                            {Size = sizeX},
+                            function()
+                                content.Visible = open
+                            end
+                        )
+                        custom.animate(icon, {0.2}, {Rotation = rotation})
+                    end
                 end
 
                 dropdown.MouseButton1Click:connect(toggleDropdown)
@@ -1116,23 +1107,23 @@ function library:New(opts)
                 )
 
                 for i, v in next, contentTable do
-                     local option =
-                            custom.createObject(
-                            "TextButton",
-                            {
-                                ZIndex = 11,
-                                Size = UDim2.new(1, 0, 0, 16),
-                                BackgroundTransparency = 1,
-                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                FontSize = Enum.FontSize.Size12,
-                                TextSize = 12,
-                                TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
-                                Text = v,
-                                Font = fonted,
-                                TextXAlignment = Enum.TextXAlignment.Left,
-                                Parent = contentHolder
-                            }
-                        )
+                    local option =
+                        custom.createObject(
+                        "TextButton",
+                        {
+                            ZIndex = 11,
+                            Size = UDim2.new(1, 0, 0, 16),
+                            BackgroundTransparency = 1,
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                            FontSize = Enum.FontSize.Size12,
+                            TextSize = 12,
+                            TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
+                            Text = v,
+                            Font = fonted,
+                            TextXAlignment = Enum.TextXAlignment.Left,
+                            Parent = contentHolder
+                        }
+                    )
 
                     optionInstances[v] = option
 
