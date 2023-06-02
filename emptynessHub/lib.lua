@@ -438,7 +438,7 @@ function library:New(opts)
                         FontSize = Enum.FontSize.Size12,
                         TextSize = 12,
                         TextColor3 = theme.TextColor,
-                        Text = "dfhjklçº",
+                        Text = name,
                         Font = fonted,
                         TextXAlignment = Enum.TextXAlignment.Left,
                         Parent = section
@@ -449,7 +449,7 @@ function library:New(opts)
                 custom.createObject(
                 "Frame",
                 {
-                    Size = UDim2.new(1, -10, 1, -24),
+                    Size = UDim2.new(1, -10, 1, -0),
                     Position = UDim2.new(0, 5, 0, 22),
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     Parent = section
