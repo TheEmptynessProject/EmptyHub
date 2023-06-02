@@ -413,7 +413,7 @@ function library:New(opts)
                 "Frame",
                 {
                     ZIndex = 5,
-                    Size = UDim2.new(1, 0, 0, 24),
+                    Size = UDim2.new(0, 0, 0, 24),
                     BackgroundColor3 = theme.Section,
                     Parent = column
                 }
@@ -431,7 +431,7 @@ function library:New(opts)
                 custom.createObject(
                 "Frame",
                 {
-                    Size = UDim2.new(1, -16, 1, -45765),
+                    Size = UDim2.new(1, -16, 1, -24),
                     Position = UDim2.new(0, 5, 0, 22),
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     Parent = section
