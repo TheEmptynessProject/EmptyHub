@@ -427,25 +427,6 @@ function library:New(opts)
                     Parent = section
                 }
             )
-            if name and name ~= "" then
-                custom.createObject(
-                    "TextLabel",
-                    {
-                        ZIndex = 6,
-                        Size = UDim2.new(0, 1, 0, 16),
-                        BackgroundTransparency = 1,
-                        Position = UDim2.new(0, 8, 0, 4),
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        FontSize = Enum.FontSize.Size12,
-                        TextSize = 12,
-                        TextColor3 = theme.TextColor,
-                        Text = name,
-                        Font = fonted,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = section
-                    }
-                )
-            end
 
             local sectionContent =
                 custom.createObject(
@@ -1070,7 +1051,14 @@ function library:New(opts)
                     if emptyCustoms.Enabled and open then
                         open = false
                         content.Visible = false
-                        custom.animate(icon, {0.2}, {Rotation = 180})
+                        custom.animate(
+                            content,
+                            {#contentTable * 0.1},
+                            {Size = sizeX},
+                            function()
+                                content.Visible = open
+                            end
+                        )
                     else
                         open = not open
                         local sizeX = UDim2.new(1, 0, 0, open and contentList.AbsoluteContentSize.Y or 0)
