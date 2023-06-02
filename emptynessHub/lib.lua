@@ -413,7 +413,7 @@ function library:New(opts)
                 "Frame",
                 {
                     ZIndex = 5,
-                    Size = UDim2.new(1, 0, 0, 24),
+                    Size = UDim2.new(1, -8, 0, 24),
                     BackgroundColor3 = theme.Section,
                     Parent = column
                 }
