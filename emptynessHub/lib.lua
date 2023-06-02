@@ -427,29 +427,11 @@ function library:New(opts)
                 }
             )
             
-            custom.createObject(
-                    "TextLabel",
-                    {
-                        ZIndex = 6,
-                        Size = UDim2.new(0, 1, 0, 16),
-                        BackgroundTransparency = 1,
-                        Position = UDim2.new(0, 8, 0, 4),
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        FontSize = Enum.FontSize.Size12,
-                        TextSize = 12,
-                        TextColor3 = theme.TextColor,
-                        Text = name,
-                        Font = fonted,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = section
-                    }
-                )
-            
             local sectionContent =
                 custom.createObject(
                 "Frame",
                 {
-                    Size = UDim2.new(1, -10, 1, -0),
+                    Size = UDim2.new(1, -0, 1, -24),
                     Position = UDim2.new(0, 5, 0, 22),
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     Parent = section
