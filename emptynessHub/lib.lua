@@ -2279,7 +2279,7 @@ function library:New(opts)
                 local default = options.default
                 local Callback = options.Callback or function()
                     end
-
+                local changeAtClick = options.Click or false
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
@@ -2490,15 +2490,26 @@ function library:New(opts)
                     function(input)
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             if input.KeyCode == keyChosen then
-                                if toggled then
-                                    Callback(toggled, keyChosen)
-                                end
+                                if changeAtClick then
+                                        toggled = not toggled
+                                        Callback(toggled, keyChosen)
+                                    else
+                                    if toggled then
+                                         Callback(toggled, keyChosen)
+                                      end
+                                    end
+                                
                             end
                         else
                             if input.UserInputType == keyChosen then
-                                if toggled then
-                                    Callback(toggled, keyChosen)
-                                end
+                                if changeAtClick then
+                                        toggled = not toggled
+                                        Callback(toggled, keyChosen)
+                                    else
+                                    if toggled then
+                                         Callback(toggled, keyChosen)
+                                      end
+                                    end
                             end
                         end
                     end
