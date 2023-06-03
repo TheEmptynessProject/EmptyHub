@@ -107,7 +107,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     universalColumn1:CreateLabel("Teleport")
     local dropdownPlayerArray = {}
     for _, player in ipairs(game.Players:GetPlayers()) do
-       table.insert(dropdownPlayerArray, player.DisplayName)
+        table.insert(dropdownPlayerArray, player.DisplayName)
     end
     game.Players.PlayerAdded:Connect(
         function(player)
@@ -126,27 +126,28 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         end
     )
 
-    universalColumn1:CreateDropdown({
-    Content = dropdownPlayerArray,
-    MultiChoice = false,
-    Callback = function(selectedPlayer)
-        local targetPlayer = nil
-        for _, player in ipairs(game.Players:GetPlayers()) do
-            if player.DisplayName == selectedPlayer then
-                targetPlayer = player
-                break
+    universalColumn1:CreateDropdown(
+        {
+            Content = dropdownPlayerArray,
+            MultiChoice = false,
+            Callback = function(selectedPlayer)
+                local targetPlayer = nil
+                for _, player in ipairs(game.Players:GetPlayers()) do
+                    if player.DisplayName == selectedPlayer then
+                        targetPlayer = player
+                        break
+                    end
+                end
+
+                if targetPlayer then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        targetPlayer.Character.HumanoidRootPart.CFrame
+                else
+                    notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
+                end
             end
-        end
-
-        if targetPlayer then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                targetPlayer.Character.HumanoidRootPart.CFrame
-        else
-            notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
-        end
-    end
-})
-
+        }
+    )
 
     universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
     universalColumn1:CreateButton(
@@ -482,58 +483,61 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         }
     )
     local connection_infJUMP
-                universalColumn2:CreateToggle_and_Keybind(
-                    {
-                        Name = "Infinite Jump",
-                        Default = Enum.KeyCode.Space,
-                        Callback = function(bool, keyed)
-                            if (bool) then
-                                connection_infJUMP = game:GetService("UserInputService").InputBegan:Connect(
-                                    function(input)
-                                        if (input.KeyCode == keyed) then
-                                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(
-                                                "Jumping"
-                                            )
-                                        end
-                                    end
+    universalColumn2:CreateToggle_and_Keybind(
+        {
+            Name = "Infinite Jump",
+            Default = Enum.KeyCode.Space,
+            Callback = function(bool, keyed)
+                if (bool) then
+                    connection_infJUMP =
+                        game:GetService("UserInputService").InputBegan:Connect(
+                        function(input)
+                            if (input.KeyCode == keyed) then
+                                game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(
+                                    "Jumping"
                                 )
-                            else
-                                connection_infJUMP:Disconnect()
                             end
                         end
-                    }
-                )
+                    )
+                else
+                    connection_infJUMP:Disconnect()
+                end
+            end
+        }
+    )
     local connection_noclip_one
-                universalColumn2:CreateToggle_and_Keybind(
-                    {
-                        Default = Enum.KeyCode.E,
-                        Name = "Noclip",
-			Click = true,
-                        Callback = function(bool, toggled, keyed)
-                            if not connection_noclip_one and bool then
-                                connection_noclip_one = game:GetService("RunService").Stepped:connect(
-                                    function()
-                                        if not toggled or not bool then return
-										end
-                                            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-												if v:IsA("BasePart") then
-											    	v.CanCollide = false
-												end
-											end
-                                    end
-                                )
-								elseif connection_noclip_one and (not bool or not toggled) then
-									for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-												if v:IsA("BasePart") then
-											    	v.CanCollide = true 
-												end
-											end
-											connection_noclip_one:Disconnect()
-											connection_noclip_one = nil
-								end
+    universalColumn2:CreateToggle_and_Keybind(
+        {
+            Default = Enum.KeyCode.E,
+            Name = "Noclip",
+            Click = true,
+            Callback = function(bool, toggled, keyed)
+                if not connection_noclip_one and bool then
+                    connection_noclip_one =
+                        game:GetService("RunService").Stepped:connect(
+                        function()
+                            if not toggled or not bool then
+                                return
+                            end
+                            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                                if v:IsA("BasePart") then
+                                    v.CanCollide = false
+                                end
+                            end
                         end
-                    }
-                )
+                    )
+                elseif connection_noclip_one and (not bool or not toggled) then
+                    for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                        if v:IsA("BasePart") then
+                            v.CanCollide = true
+                        end
+                    end
+                    connection_noclip_one:Disconnect()
+                    connection_noclip_one = nil
+                end
+            end
+        }
+    )
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
