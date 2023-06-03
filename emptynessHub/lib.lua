@@ -2452,7 +2452,7 @@ function library:New(opts)
                         )
                     end
                 )
-
+ local temp = false
                 value.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
@@ -2470,14 +2470,24 @@ function library:New(opts)
 
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
+                                    if changeAtClick then
+                                        temp = not temp
+                                        Callback(toggled, temp, keyChosen)
+                                    else
                                     if toggled then
-                                        Callback(toggled, keyChosen)
+                                         Callback(toggled, keyChosen)
+                                      end
                                     end
                                     binding:Disconnect()
                                 else
                                     keyChosen = input.UserInputType
+                                    if changeAtClick then
+                                        temp = not temp
+                                        Callback(toggled, temp, keyChosen)
+                                    else
                                     if toggled then
-                                        Callback(toggled, keyChosen)
+                                         Callback(toggled, keyChosen)
+                                      end
                                     end
                                     binding:Disconnect()
                                 end
@@ -2485,7 +2495,7 @@ function library:New(opts)
                         )
                     end
                 )
-                local temp = false
+               
                 
                 inputService.InputBegan:Connect(
                     function(input)
@@ -2493,8 +2503,6 @@ function library:New(opts)
                             if input.KeyCode == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
-                                    print("Here")
-                                    print(toggled, temp, keyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
@@ -2507,8 +2515,6 @@ function library:New(opts)
                             if input.UserInputType == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
-                                    print("Here2")
-                                    print(toggled, temp, keyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
