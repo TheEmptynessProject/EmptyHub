@@ -2540,7 +2540,11 @@ function library:New(opts)
 
                     keyChosen = newKey
 
-                    Callback(toggled, keyChosen)
+                     if changeAtClick then
+                                        Callback(toggled, temp, keyChosen)
+                                    else
+                                         Callback(toggled, keyChosen)
+                                    end
                 end
 
                 function tandk_info:Hide()
