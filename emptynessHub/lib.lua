@@ -2486,12 +2486,15 @@ function library:New(opts)
                     end
                 )
                 local temp = false
+                
                 inputService.InputBegan:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             if input.KeyCode == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
+                                    print("Here")
+                                    print(toggled, temp, KeyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
@@ -2504,6 +2507,8 @@ function library:New(opts)
                             if input.UserInputType == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
+                                    print("Here2")
+                                    print(toggled, temp, KeyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
