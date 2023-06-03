@@ -513,7 +513,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             if bool then
                                 connection_noclip_one = game:GetService("RunService").Stepped:connect(
                                     function()
-                                        if not toggled then return end
+                                        if not toggled or bool then return end
                                             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 												if v:IsA("BasePart") then
 											    	v.CanCollide = false
@@ -521,7 +521,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 											end
                                     end
                                 )
-                            else
+                            elseif not bool or not toggled then
                                 connection_noclip_one:Disconnect()
                                   for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 												if v:IsA("BasePart") then
