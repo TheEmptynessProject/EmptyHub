@@ -2402,7 +2402,7 @@ function library:New(opts)
 
                 value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
                 value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
-
+                local temp = false
                 local function toggleToggle()
                     toggled = not toggled
 
@@ -2424,6 +2424,11 @@ function library:New(opts)
                             }
                         )
                     end
+                    if changeAtClick then
+                                        Callback(toggled, temp, keyChosen)
+                                    else
+                                         Callback(toggled, keyChosen)
+                                    end
                 end
 
                 toggleKeybind.MouseButton1Click:connect(toggleToggle)
@@ -2452,7 +2457,7 @@ function library:New(opts)
                         )
                     end
                 )
- local temp = false
+
                 value.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
@@ -2474,9 +2479,7 @@ function library:New(opts)
                                         temp = not temp
                                         Callback(toggled, temp, keyChosen)
                                     else
-                                    if toggled then
                                          Callback(toggled, keyChosen)
-                                      end
                                     end
                                     binding:Disconnect()
                                 else
@@ -2485,9 +2488,7 @@ function library:New(opts)
                                         temp = not temp
                                         Callback(toggled, temp, keyChosen)
                                     else
-                                    if toggled then
                                          Callback(toggled, keyChosen)
-                                      end
                                     end
                                     binding:Disconnect()
                                 end
@@ -2506,9 +2507,7 @@ function library:New(opts)
                                         print(toggled, temp, keyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
-                                    if toggled then
                                          Callback(toggled, keyChosen)
-                                      end
                                     end
                                 
                             end
@@ -2518,9 +2517,7 @@ function library:New(opts)
                                         temp = not temp
                                         Callback(toggled, temp, keyChosen)
                                     else
-                                    if toggled then
                                          Callback(toggled, keyChosen)
-                                      end
                                     end
                             end
                         end
