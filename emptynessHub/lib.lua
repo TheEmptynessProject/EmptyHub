@@ -2494,7 +2494,7 @@ function library:New(opts)
                                 if changeAtClick then
                                         temp = not temp
                                     print("Here")
-                                    print(toggled, temp, KeyChosen)
+                                    print(toggled, temp, keyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
@@ -2508,7 +2508,7 @@ function library:New(opts)
                                 if changeAtClick then
                                         temp = not temp
                                     print("Here2")
-                                    print(toggled, temp, KeyChosen)
+                                    print(toggled, temp, keyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
