@@ -521,7 +521,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 											end
                                     end
                                 )
-                            elseif not bool or not toggled then
+                            elseif connection_noclip_one and (not bool or not toggled) then
                                 connection_noclip_one:Disconnect()
                                   for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 												if v:IsA("BasePart") then
