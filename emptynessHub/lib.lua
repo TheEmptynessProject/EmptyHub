@@ -2425,10 +2425,10 @@ function library:New(opts)
                         )
                     end
                     if changeAtClick then
-                                        Callback(toggled, temp, keyChosen)
-                                    else
-                                         Callback(toggled, keyChosen)
-                                    end
+                        Callback(toggled, temp, keyChosen)
+                    else
+                        Callback(toggled, keyChosen)
+                    end
                 end
 
                 toggleKeybind.MouseButton1Click:connect(toggleToggle)
@@ -2479,7 +2479,7 @@ function library:New(opts)
                                         temp = not temp
                                         Callback(toggled, temp, keyChosen)
                                     else
-                                         Callback(toggled, keyChosen)
+                                        Callback(toggled, keyChosen)
                                     end
                                     binding:Disconnect()
                                 else
@@ -2488,7 +2488,7 @@ function library:New(opts)
                                         temp = not temp
                                         Callback(toggled, temp, keyChosen)
                                     else
-                                         Callback(toggled, keyChosen)
+                                        Callback(toggled, keyChosen)
                                     end
                                     binding:Disconnect()
                                 end
@@ -2496,29 +2496,27 @@ function library:New(opts)
                         )
                     end
                 )
-               
-                
+
                 inputService.InputBegan:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             if input.KeyCode == keyChosen then
                                 if changeAtClick then
-                                        temp = not temp
-                                        print(toggled, temp, keyChosen)
-                                        Callback(toggled, temp, keyChosen)
-                                    else
-                                         Callback(toggled, keyChosen)
-                                    end
-                                
+                                    temp = not temp
+                                    print(toggled, temp, keyChosen)
+                                    Callback(toggled, temp, keyChosen)
+                                else
+                                    Callback(toggled, keyChosen)
+                                end
                             end
                         else
                             if input.UserInputType == keyChosen then
                                 if changeAtClick then
-                                        temp = not temp
-                                        Callback(toggled, temp, keyChosen)
-                                    else
-                                         Callback(toggled, keyChosen)
-                                    end
+                                    temp = not temp
+                                    Callback(toggled, temp, keyChosen)
+                                else
+                                    Callback(toggled, keyChosen)
+                                end
                             end
                         end
                     end
@@ -2540,11 +2538,11 @@ function library:New(opts)
 
                     keyChosen = newKey
 
-                     if changeAtClick then
-                                        Callback(toggled, temp, keyChosen)
-                                    else
-                                         Callback(toggled, keyChosen)
-                                    end
+                    if changeAtClick then
+                        Callback(toggled, temp, keyChosen)
+                    else
+                        Callback(toggled, keyChosen)
+                    end
                 end
 
                 function tandk_info:Hide()
