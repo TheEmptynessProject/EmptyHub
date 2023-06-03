@@ -34,3 +34,27 @@ PlaceId:CreateButton(
         end
     }
 )
+PlaceId:CreateButton(
+    {
+        Name = "Fire All Jets",
+        Callback = function()
+            for i, v in pairs(game.Workspace:GetDescendants()) do
+                if string.find(v.Parent.Name, "Turbine") and v:IsA("ClickDetector") then
+                    fireclickdetector(v, 0)
+                end
+            end
+        end
+    }
+)
+PlaceId:CreateButton(
+    {
+        Name = "Touch Glue Blocks",
+        Callback = function()
+            for i, v in pairs(game.Workspace:GetDescendants()) do
+                if v.Parent.Name == "Glue" and v:IsA("ClickDetector") then
+                    fireclickdetector(v, 0)
+                end
+            end
+        end
+    }
+)
