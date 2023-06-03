@@ -80,11 +80,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Get Place Info",
             Callback = function()
-                print(game.PlaceId)
-                print(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
                 setclipboard(tostring(game.PlaceId))
-                notifLib:Notify(game.PlaceId)
-                notifLib:Notify(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
             end
         }
     )
@@ -92,9 +88,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Get Self Position",
             Callback = function()
-                print(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
                 setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
-                notifLib:Notify(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
             end
         }
     )
