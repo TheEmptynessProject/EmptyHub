@@ -503,7 +503,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         end
                     }
                 )
-    local connection_noclip_one, connection_noclip_two
+    local connection_noclip_one
                 universalColumn2:CreateToggle_and_Keybind(
                     {
                         Default = Enum.KeyCode.E,
@@ -523,7 +523,6 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                                 )
                             else
                                 connection_noclip_one:Disconnect()
-                                connection_noclip_two:Disconnect()
                                   for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 												if v:IsA("BasePart") then
 											    	v.CanCollide = true 
