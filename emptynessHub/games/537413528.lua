@@ -70,3 +70,15 @@ PlaceId:CreateButton(
         end
     }
 )
+PlaceId:CreateButton(
+    {
+        Name = "Touch Cannons",
+        Callback = function()
+            for i, v in pairs(game.Workspace:GetDescendants()) do
+                if string.find(v.Parent.Name, "Cannon") and v:IsA("ClickDetector") then
+                    fireclickdetector(v, 0)
+                end
+            end
+        end
+    }
+)
