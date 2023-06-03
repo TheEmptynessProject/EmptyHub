@@ -2485,14 +2485,14 @@ function library:New(opts)
                         )
                     end
                 )
-
+                local temp = false
                 inputService.InputBegan:Connect(
                     function(input)
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             if input.KeyCode == keyChosen then
                                 if changeAtClick then
-                                        toggled = not toggled
-                                        Callback(toggled, keyChosen)
+                                        temp = not temp
+                                        Callback(temp, keyChosen)
                                     else
                                     if toggled then
                                          Callback(toggled, keyChosen)
@@ -2503,8 +2503,8 @@ function library:New(opts)
                         else
                             if input.UserInputType == keyChosen then
                                 if changeAtClick then
-                                        toggled = not toggled
-                                        Callback(toggled, keyChosen)
+                                        temp = not temp
+                                        Callback(temp, keyChosen)
                                     else
                                     if toggled then
                                          Callback(toggled, keyChosen)
