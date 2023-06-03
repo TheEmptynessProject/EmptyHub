@@ -10,10 +10,15 @@ local default = getgenv().mainLib:NewTab("Game Tab 1")
         {
             Name = "Disable Water Damage",
             Callback = function()
-                local wah_uh = game.workspace.Water:Clone()
-                wah_uh.Parent = nil
-                game.workspace.Water:Destroy()
-                wah_uh.Parent = workspace
+            for i,v in pairs(game.workspace:GetDescendants()) do
+                if v.Name == "Water" then
+                local wah_uh = v:Clone()
+                    local wah_uh_parent = v.Parent
+                    wah_uh.Parent = nil
+                    v:Destroy()
+                    wah_uh.Parent = wah_uh_parent
+                    end
+                end
             end
         }
     )
