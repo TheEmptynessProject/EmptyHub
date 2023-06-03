@@ -88,6 +88,16 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    universalColumn1:CreateButton(
+        {
+            Name = "Get Self Position",
+            Callback = function()
+                print(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+                setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
+                notifLib:Notify(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+            end
+        }
+    )
     universalColumn1:CreateLabel("Teleport")
     local dropdownPlayerArray = {}
     for _, player in ipairs(game.Players:GetPlayers()) do
