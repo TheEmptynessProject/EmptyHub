@@ -508,6 +508,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     {
                         Default = Enum.KeyCode.E,
                         Name = "Noclip",
+			Click = true,
                         Callback = function(bool, keyed)
                             if bool then
                                 connection_noclip_one = game:GetService("RunService").Stepped:connect(
