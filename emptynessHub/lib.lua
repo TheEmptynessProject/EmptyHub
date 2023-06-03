@@ -46,6 +46,9 @@ function _destroy()
     if (coreGui:FindFirstChild(custom.generateString(32, 1))) then
         coreGui[custom.generateString(32, 1)]:Destroy()
     end
+    if (coreGui:FindFirstChild(custom.generateString(32, 1.1))) then
+        coreGui[custom.generateString(32, 1)]:Destroy()
+    end
     getgenv()[custom.generateString(32, 0)] = false
 end
 
@@ -60,18 +63,28 @@ for i, v in next, themes.Default do
     themeObjects[i] = {}
 end
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------
-emptyCustoms = custom.createObject("ScreenGui", {})
-emptyCustoms.Parent = game:GetService("CoreGui")
-emptyCustoms.Name = custom.generateString(32, 1)
+emptyCustoms =
+    custom.createObject(
+    "ScreenGui",
+    {
+        Parent = game:GetService("CoreGui"),
+        Name = custom.generateString(32, 1)
+    }
+)
 library = custom.formatTable(library)
 
 inputService.InputBegan:Connect(
     function(input)
         if input.KeyCode == library.toggleBind then
             emptyCustoms.Enabled = not emptyCustoms.Enabled
+            if console then
+                console.Enabled = emptyCustoms.Enabled
+            end
         elseif input.KeyCode == library.closeBind then
             emptyCustoms:Destroy()
+            if console then
+                console:Destroy()
+            end
         end
     end
 )
@@ -83,6 +96,7 @@ function library:New(opts)
     local sizeY = options.sizeY or 480
     local theme = options.theme or themes.Default
     local fonted = options.font or Enum.Font.Ubuntu
+    local consoleEnabled = options.console
 
     local holder =
         custom.createObject(
@@ -118,9 +132,9 @@ function library:New(opts)
     spawn(
         function()
             while true do
-                for i = 0, 1, 1 / 5000 do
+                for i = 0, 1, 1 / 2000 do
                     title.TextColor3 = Color3.fromHSV(i, 1, 1)
-                    wait()
+                    task.wait()
                 end
             end
         end
@@ -218,6 +232,128 @@ function library:New(opts)
         }
     )
 
+    if consoleEnabled then
+        console =
+            custom.createObject(
+            "ScreenGui",
+            {
+                Parent = game:GetService("CoreGui"),
+                Name = custom.generateString(32, 1.1)
+            }
+        )
+        local consoleBG =
+            custom.createObject(
+            "Frame",
+            {
+                Size = UDim2.new(0, 400, 0, 250),
+                Position = UDim2.new(0, 6, 0, 6),
+                BackgroundColor3 = themes.Default.Section,
+                BackgroundTransparency = 0,
+                Parent = console,
+                BorderMode = 0
+            }
+        )
+        custom.enableDrag(consoleBG, library.dragSpeed)
+
+        local consoleBox =
+            custom.createObject(
+            "TextBox",
+            {
+                Parent = consoleBG,
+                BackgroundColor3 = themes.Default.Box,
+                BorderColor3 = themes.Default.TextColor,
+                BorderSizePixel = 2,
+                Selectable = false,
+                TextEditable = false,
+                Size = UDim2.new(1, 0, 1, -50),
+                ClearTextOnFocus = false,
+                Font = Enum.Font.Ubuntu,
+                MultiLine = true,
+                PlaceholderColor3 = themes.Default.DisabledText,
+                Text = "Logs",
+                TextColor3 = themes.Default.TextColor,
+                TextSize = 14,
+                TextWrapped = true,
+                ZIndex = 2,
+                BorderMode = 0
+            }
+        )
+        local consoleButton1 =
+            custom.createObject(
+            "TextButton",
+            {
+                Parent = consoleBG,
+                Position = UDim2.new(0, 0, 0, 200),
+                BackgroundColor3 = themes.Default.Button,
+                Size = UDim2.new(0, 150, 0, 50),
+                Font = Enum.Font.Ubuntu,
+                Text = "Clear",
+                TextColor3 = themes.Default.EnabledText,
+                TextSize = 16,
+                ClipsDescendants = true,
+                BorderMode = 0
+            }
+        )
+
+        local consoleButton2 =
+            custom.createObject(
+            "TextButton",
+            {
+                Parent = consoleBG,
+                Position = UDim2.new(0, 250, 0, 200),
+                BackgroundColor3 = themes.Default.Button,
+                Size = UDim2.new(0, 150, 0, 50),
+                Font = Enum.Font.Ubuntu,
+                Text = "Copy",
+                TextColor3 = themes.Default.EnabledText,
+                TextSize = 16,
+                ClipsDescendants = true,
+                BorderMode = 0
+            }
+        )
+        spawn(
+            function()
+                while true do
+                    for i = 0, 1, 1 / 2000 do
+                        consoleBG.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        consoleBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        consoleButton1.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        consoleButton2.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        task.wait()
+                    end
+                end
+            end
+        )
+        local logTable = {}
+        game:GetService("LogService").MessageOut:Connect(
+            function(msg)
+                repeat
+                    task.wait(0.1)
+                until msg
+                logTable[#logTable + 1] = msg
+                consoleBox.Text = table.concat(logTable, "\n")
+                if #logTable == 10 then
+                    table.remove(logTable, 1)
+                end
+            end
+        )
+
+        consoleButton1.MouseButton1Click:Connect(
+            function()
+                custom.createRipple(consoleButton1)
+                logTable = {}
+                consoleBox.Text = "Logs"
+            end
+        )
+
+        consoleButton2.MouseButton1Click:Connect(
+            function()
+                custom.createRipple(consoleButton2)
+                setclipboard(consoleBox.Text)
+            end
+        )
+    end
+
     local window_info = {count = 0}
     window_info = custom.formatTable(window_info)
 
@@ -244,24 +380,6 @@ function library:New(opts)
         if tabToggle.TextBounds.X + 16 > 52 then
             tabToggle.Size = UDim2.new(0, tabToggle.TextBounds.X + 16, 1, 0)
         end
-
-        local noround =
-            custom.createObject(
-            "Frame",
-            {
-                ZIndex = 3,
-                Size = UDim2.new(1, 0, 1, 5),
-                Position = UDim2.new(0, 0, 1, -10),
-                BackgroundColor3 = toggled and theme.TabToggleEnabled or theme.TabToggleDisabled,
-                Parent = tabToggle
-            }
-        )
-
-        tabToggle:GetPropertyChangedSignal("BackgroundColor3"):Connect(
-            function()
-                noround.BackgroundColor3 = tabToggle.BackgroundColor3
-            end
-        )
 
         custom.createObject(
             "UICorner",
@@ -408,12 +526,14 @@ function library:New(opts)
             local name = options.name
             local column = options.column or 1
             column = column == 1 and column1 or column == 2 and column2
+            local sectionContent
+            local sectionContentList
             local section =
                 custom.createObject(
                 "Frame",
                 {
                     ZIndex = 5,
-                    Size = UDim2.new(1, -8, 0, 24),
+                    Size = UDim2.new(1, 0, 0, 24),
                     BackgroundColor3 = theme.Section,
                     Parent = column
                 }
@@ -426,34 +546,101 @@ function library:New(opts)
                     Parent = section
                 }
             )
-            
-            local sectionContent =
-                custom.createObject(
-                "Frame",
-                {
-                    Size = UDim2.new(1, -16, 1, -24),
-                    Position = UDim2.new(0, 5, 0, 22),
-                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    Parent = section
-                }
-            )
+            if not name or name == "" then
+                sectionContent =
+                    custom.createObject(
+                    "Frame",
+                    {
+                        Size = UDim2.new(1, -10, 0, -16),
+                        Position = UDim2.new(0, 5, 0, 22),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        Parent = section
+                    }
+                )
 
-            local sectionContentList =
-                custom.createObject(
-                "UIListLayout",
-                {
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    Padding = UDim.new(0, 6),
-                    Parent = sectionContent
-                }
-            )
+                sectionContentList =
+                    custom.createObject(
+                    "UIListLayout",
+                    {
+                        SortOrder = Enum.SortOrder.LayoutOrder,
+                        Padding = UDim.new(0, 8),
+                        Parent = sectionContent
+                    }
+                )
 
-            sectionContentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(
-                function()
-                    section.Size = UDim2.new(1, 0, 0, sectionContentList.AbsoluteContentSize.Y + 27)
+                sectionContentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(
+                    function()
+                        section.Size = UDim2.new(1, 0, 0, sectionContentList.AbsoluteContentSize.Y + 18)
+                    end
+                )
+            else
+                sectionContent =
+                    custom.createObject(
+                    "Frame",
+                    {
+                        Size = UDim2.new(1, -10, 1, -24),
+                        Position = UDim2.new(0, 5, 0, 22),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        Parent = section
+                    }
+                )
+                if
+                    (game:GetService("TextService"):GetTextSize(name, 12, fonted, Vector2.new(math.huge, math.huge)).X >
+                        80)
+                 then
+                    custom.createObject(
+                        "TextLabel",
+                        {
+                            ZIndex = 6,
+                            Size = UDim2.new(0, 1, 0, 16),
+                            BackgroundTransparency = 1,
+                            Position = UDim2.new(0, 5, 0, 4),
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                            FontSize = Enum.FontSize.Size12,
+                            TextSize = 12,
+                            TextColor3 = theme.TextColor,
+                            Text = name,
+                            Font = fonted,
+                            TextXAlignment = Enum.TextXAlignment.Left,
+                            Parent = section
+                        }
+                    )
+                else
+                    custom.createObject(
+                        "TextLabel",
+                        {
+                            ZIndex = 6,
+                            Size = UDim2.new(0, 1, 0, 16),
+                            BackgroundTransparency = 1,
+                            Position = UDim2.new(0.5, -10, 0, 4),
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                            FontSize = Enum.FontSize.Size12,
+                            TextSize = 12,
+                            TextColor3 = theme.TextColor,
+                            Text = name,
+                            Font = fonted,
+                            TextXAlignment = Enum.TextXAlignment.Left,
+                            Parent = section
+                        }
+                    )
                 end
-            )
 
+                sectionContentList =
+                    custom.createObject(
+                    "UIListLayout",
+                    {
+                        SortOrder = Enum.SortOrder.LayoutOrder,
+                        Padding = UDim.new(0, 8),
+                        Parent = sectionContent
+                    }
+                )
+
+                sectionContentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(
+                    function()
+                        section.Size = UDim2.new(1, 0, 0, sectionContentList.AbsoluteContentSize.Y + 27)
+                    end
+                )
+            end
             local section_info = {}
             section_info = custom.formatTable(section_info)
 
@@ -540,6 +727,8 @@ function library:New(opts)
                         TextColor3 = theme.TextColor,
                         Font = fonted,
                         ClipsDescendants = true,
+                        TextXAlignment = Enum.TextXAlignment.Center,
+                        TextYAlignment = Enum.TextYAlignment.Center,
                         Parent = sectionContent
                     }
                 )
@@ -560,13 +749,13 @@ function library:New(opts)
                 )
                 button.MouseEnter:Connect(
                     function()
-                        custom.animate(button, {0.2}, {BackgroundColor3 = theme.ButtonMouseOver})
+                        custom.animate(button, {0.4}, {BackgroundColor3 = theme.ButtonMouseOver})
                     end
                 )
 
                 button.MouseLeave:Connect(
                     function()
-                        custom.animate(button, {0.2}, {BackgroundColor3 = theme.Button})
+                        custom.animate(button, {0.4}, {BackgroundColor3 = theme.Button})
                     end
                 )
 
@@ -2360,4 +2549,5 @@ function library:New(opts)
 
     return window_info
 end
+
 return library
