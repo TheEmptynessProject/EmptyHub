@@ -509,11 +509,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         Default = Enum.KeyCode.E,
                         Name = "Noclip",
 			Click = true,
-                        Callback = function(bool, keyed)
+                        Callback = function(bool, toggled, keyed)
                             if bool then
                                 connection_noclip_one = game:GetService("RunService").Stepped:connect(
                                     function()
-                                        if not bool then return end
+                                        if not toggled then return end
                                             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 												if v:IsA("BasePart") then
 											    	v.CanCollide = false
