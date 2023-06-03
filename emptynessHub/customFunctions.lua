@@ -12,6 +12,58 @@ do
         return table.concat(word)
     end
     
+    function customs.teamCheck(plr)
+        return plr.Team ~= game:GetService("Players").LocalPlayer.Team or
+            (game:GetService("Players").LocalPlayer.Team == nil or
+                #game:GetService("Players").LocalPlayer.Team:GetPlayers() == #game:GetService("Players"):GetChildren())
+    end
+    
+    function customs.isAlive(plr)
+        if plr then
+            return plr and plr.Character and plr.Character.Parent ~= nil and
+                plr.Character:FindFirstChild("HumanoidRootPart") and
+                plr.Character:FindFirstChild("Head") and
+                plr.Character:FindFirstChild("Humanoid")
+        end
+        return false
+    end
+    
+    function customs.targetCheck(plr)
+        return plr.Character.Humanoid.Health > 0 and not plr.Character:FindFirstChildOfClass("ForceField")
+    end
+    
+    function customs.isPlayerFriend(player)
+        local success, result =
+            pcall(
+            function()
+                return game:GetService("Players").LocalPlayer:IsFriendsWith(player.UserId)
+            end
+        )
+        if success then
+            return result
+        else
+            return false
+        end
+    end
+    
+    function customs.vischeck(char, part)
+        return not unpack(
+            game.workspace.CurrentCamera:GetPartsObscuringTarget(
+                {game.Players.LocalPlayer.Character[part].Position, char[part].Position},
+                {game.Players.LocalPlayer.Character, char}
+            )
+        )
+    end
+    
+    function customs.isPlayerTargetable(plr, friendCheck, visCheck)
+        return plr and plr ~= game.Players.LocalPlayer and (friendCheck and not customs.isPlayerFriend(plr)) and
+            customs.isAlive(plr) and
+            customs.targetCheck(plr) and
+            customs.teamCheck(plr) and
+            visCheck and
+            (customs.vischeck(plr.Character, "HumanoidRootPart") or customs.vischeck(plr.Character, "Head"))
+    end
+    
     function customs.getCenterPosition(sizeX, sizeY)
         return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
     end
@@ -41,7 +93,7 @@ do
 
         return obj
     end
-    
+
     function customs.animate(obj, info, properties, callback)
         local anim = game:GetService("TweenService"):Create(obj, TweenInfo.new(unpack(info)), properties)
         anim:Play()
@@ -52,19 +104,27 @@ do
     end
 
     function customs.createRipple(obj)
-        local ripple = customs.createObject("Frame", {
-            Size = UDim2.new(0, 0, 0, 0),
-            BorderSizePixel = 0,
-            ZIndex = obj.ZIndex + 1,
-            Parent = obj,
-            Position = UDim2.new(0.5, 0, 0.5, 0),
-            BackgroundTransparency = 0.4
-        })
+        local ripple =
+            customs.createObject(
+            "Frame",
+            {
+                Size = UDim2.new(0, 0, 0, 0),
+                BorderSizePixel = 0,
+                ZIndex = obj.ZIndex + 1,
+                Parent = obj,
+                Position = UDim2.new(0.5, 0, 0.5, 0),
+                BackgroundTransparency = 0.4
+            }
+        )
 
-        local corner = customs.createObject("UICorner", {
-            CornerRadius = UDim.new(0, 0),
-            Parent = ripple
-        })
+        local corner =
+            customs.createObject(
+            "UICorner",
+            {
+                CornerRadius = UDim.new(0, 0),
+                Parent = ripple
+            }
+        )
 
         local maxSize = math.max(obj.AbsoluteSize.X, obj.AbsoluteSize.Y) * 1.5
 
@@ -88,7 +148,6 @@ do
             end
         )
     end
-
 
     function customs.enableDrag(obj, speed)
         local start, objPosition, dragging
