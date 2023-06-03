@@ -488,8 +488,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         Default = Enum.KeyCode.Space,
                         Callback = function(bool, keyed)
                             if (bool) then
-                                connection_infJUMP =
-                                    game:GetService("UserInputService").InputBegan:Connect(
+                                connection_infJUMP = game:GetService("UserInputService").InputBegan:Connect(
                                     function(input)
                                         if (input.KeyCode == keyed) then
                                             game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(
@@ -511,21 +510,17 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         Name = "Noclip",
                         Callback = function(bool, keyed)
                             if bool then
-                                local toggled = false
-                                connection_noclip_one =
-                                    game:GetService("RunService").Stepped:connect(
+                                connection_noclip_one = game:GetService("RunService").Stepped:connect(
                                     function()
-                                        if bool and toggled then
+                                        if bool then
                                             game.Players.LocalPlayer.Character.Head.CanCollide = false
                                             game.Players.LocalPlayer.Character.Torso.CanCollide = false
                                         end
                                     end
                                 )
-                                connection_noclip_two =
-                                    game:GetService("UserInputService").InputBegan:Connect(
+                                connection_noclip_two = game:GetService("UserInputService").InputBegan:Connect(
                                     function(input)
                                         if (input.KeyCode == keyed) then
-                                            toggled = not toggled
                                             game.Players.LocalPlayer.Character.Head.CanCollide = true
                                             game.Players.LocalPlayer.Character.Torso.CanCollide = true
                                         end
