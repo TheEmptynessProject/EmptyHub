@@ -21,7 +21,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     getgenv().mainLib =
         library:New(
         {
-            Name = "Test",
+            Name = "Emptyness Hub",
             SizeX = 500,
             SizeY = 550,
             Console = true
