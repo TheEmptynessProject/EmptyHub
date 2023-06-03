@@ -1264,7 +1264,6 @@ function library:New(opts)
                                 content.Visible = open
                             end
                         )
-                        custom.animate(icon, {0.2}, {Rotation = rotation})
                     end
                 end
 
