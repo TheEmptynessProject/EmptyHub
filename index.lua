@@ -23,7 +23,8 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Test",
             SizeX = 500,
-            SizeY = 550
+            SizeY = 550,
+            Console = true
         }
     )
     getgenv().notifLib =
