@@ -1248,6 +1248,7 @@ function library:New(opts)
                             end
                         )
                     else
+                        content.Visible = true
                         local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
                         custom.animate(
                             content,
