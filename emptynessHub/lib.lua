@@ -2492,7 +2492,7 @@ function library:New(opts)
                             if input.KeyCode == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
-                                        Callback(temp, keyChosen)
+                                        Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
                                          Callback(toggled, keyChosen)
@@ -2504,7 +2504,7 @@ function library:New(opts)
                             if input.UserInputType == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
-                                        Callback(temp, keyChosen)
+                                        Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
                                          Callback(toggled, keyChosen)
