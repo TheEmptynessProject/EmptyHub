@@ -2503,6 +2503,7 @@ function library:New(opts)
                             if input.KeyCode == keyChosen then
                                 if changeAtClick then
                                         temp = not temp
+                                        print(toggled, temp, keyChosen)
                                         Callback(toggled, temp, keyChosen)
                                     else
                                     if toggled then
