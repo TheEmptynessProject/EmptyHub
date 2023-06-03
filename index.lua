@@ -512,23 +512,22 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             if bool then
                                 connection_noclip_one = game:GetService("RunService").Stepped:connect(
                                     function()
-                                        if bool then
-                                            game.Players.LocalPlayer.Character.Head.CanCollide = false
-                                            game.Players.LocalPlayer.Character.Torso.CanCollide = false
-                                        end
-                                    end
-                                )
-                                connection_noclip_two = game:GetService("UserInputService").InputBegan:Connect(
-                                    function(input)
-                                        if (input.KeyCode == keyed) then
-                                            game.Players.LocalPlayer.Character.Head.CanCollide = true
-                                            game.Players.LocalPlayer.Character.Torso.CanCollide = true
-                                        end
+                                        if not bool then return end
+                                            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+												if v:IsA("BasePart") then
+											    	v.CanCollide = false
+												end
+											end
                                     end
                                 )
                             else
                                 connection_noclip_one:Disconnect()
                                 connection_noclip_two:Disconnect()
+                                  for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+												if v:IsA("BasePart") then
+											    	v.CanCollide = true 
+												end
+											end
                             end
                         end
                     }
