@@ -1236,32 +1236,25 @@ function library:New(opts)
                     }
                 )
                 local function toggleDropdown()
+                    open = not open
                     if emptyCustoms.Enabled and open then
-                        local sizeX = UDim2.new(1, 0, 0, open and contentList.AbsoluteContentSize.Y or 0)
-                        open = false
-                        content.Visible = false
+                        local sizeX = UDim2.new(1, 0, 0, 0)
                         custom.animate(
                             content,
                             {#contentTable * 0.1},
                             {Size = sizeX},
                             function()
-                                content.Visible = open
+                                content.Visible = false
                             end
                         )
                     else
-                        open = not open
-                        local sizeX = UDim2.new(1, 0, 0, open and contentList.AbsoluteContentSize.Y or 0)
-
-                        if open then
-                            content.Visible = open
-                        end
-
+                        local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
                         custom.animate(
                             content,
                             {#contentTable * 0.1},
                             {Size = sizeX},
                             function()
-                                content.Visible = open
+                                content.Visible = true
                             end
                         )
                     end
