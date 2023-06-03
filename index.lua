@@ -482,25 +482,16 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    local connection_infJUMP
-    universalColumn2:CreateToggle_and_Keybind(
+       universalColumn2:CreateToggle_and_Keybind(
         {
-            Name = "Infinite Jump",
             Default = Enum.KeyCode.Space,
+            Name = "Infinite Jump",
+            Click = false,
             Callback = function(bool, keyed)
-                if (bool) then
-                    connection_infJUMP =
-                        game:GetService("UserInputService").InputBegan:Connect(
-                        function(input)
-                            if (input.KeyCode == keyed) then
+                if bool then
                                 game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(
                                     "Jumping"
                                 )
-                            end
-                        end
-                    )
-                else
-                    connection_infJUMP:Disconnect()
                 end
             end
         }
