@@ -1,3 +1,3 @@
-local returnArray = {{username:"test", msgId: 0, content: "Hey"}}
+local returnArray = {{username = "test", msgId = 0, content = "Hey"}}
 
 return returnArray
