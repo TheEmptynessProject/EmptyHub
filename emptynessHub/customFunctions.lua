@@ -25,7 +25,6 @@ do
             ["Authorization"] = "Bearer " .. Token,
             ["Content-Type"] = "application/json"
         }
-
         local oldTable = game:GetService("HttpService"):JSONDecode(crypt.base64.decode(thing.content))
         table.insert(oldTable, content)
         oldTable = HttpService:JSONEncode(oldTable)
@@ -47,9 +46,10 @@ do
         )
 
         if response.Success and response.StatusCode == 200 then
-            print("File updated successfully.")
+            return true
         else
-            print("Failed to update file: " .. response.StatusCode .. " - " .. response.Body)
+            warn("Failed to update file: " .. response.StatusCode .. " - " .. response.Body)
+            return false
         end
     end
 
