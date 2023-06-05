@@ -192,6 +192,7 @@ PlaceId:CreateToggle(
 )
 universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
 local dropdownItemArray = {}
+local item = nil
 local protecEnabled = false
 for _, item in pairs(game.ReplicatedStorage.BuildingParts:GetChildren()) do
 if (item:IsA("Model")) then
@@ -204,7 +205,7 @@ PlaceId:CreateDropdown(
             Content = dropdownPlayerArray,
             MultiChoice = false,
             Callback = function(selection)
-                    
+                    item = selection
             end
         }
     )
@@ -240,7 +241,7 @@ end
 
             local TNTargs = {
                     [1] = "SticksOfTNT",
-                    [2] = 180,
+                    [2] = nil,
                     [3] = Workspace[teamString],
                     [4] = CFrame.new(10, 7.6, -124) * CFrame.Angles(-math.pi, 0, -math.pi),
                     [5] = true,
@@ -261,11 +262,12 @@ if protecEnabled then
 
             temp(true)
                 end
-
+local remoteArgs
 			game.workspace.PVPRemote:FireServer(true)
-local seatArgs = {
-                    [1] = "Seat",
-                    [2] = 1065,
+			if item then
+		remoteArgs = {
+                    [1] = item,
+                    [2] = nil,
                     [3] = Workspace[teamString],
                     [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
                     [5] = false,
@@ -274,12 +276,25 @@ local seatArgs = {
                         CFrame.Angles(-math.pi, 0, -math.pi),
                     [8] = false
                 }
+				else 
+			remoteArgs = {
+                    [1] = "Seat",
+                    [2] = nil,
+                    [3] = Workspace[teamString],
+                    [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
+                    [5] = false,
+                    [6] = 1,
+                    [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
+                        CFrame.Angles(-math.pi, 0, -math.pi),
+                    [8] = false
+                }	
+				end
             for i = 1, 20 do
             local temp = seatArgs[4]
-            	seatArgs[4] = seatArgs[4]+Vector3.new(0,i/50,0)
-                invokeServerBatch(seatArgs)
+            	remoteArgs[4] = remoteArgs[4]+Vector3.new(0,i/50,0)
+                invokeServerBatch(remoteArgs)
                 task.wait()
-                seatArgs[4] = temp
+                remoteArgs[4] = temp
             end
             for i = 1, 1 do
             local temp = TNTargs[4]
