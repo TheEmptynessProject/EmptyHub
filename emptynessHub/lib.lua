@@ -458,7 +458,7 @@ function library:New(opts)
         local history
         spawn(
             function()
-                while task.wait(1) do
+                while true do
                     history = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"))
 
                     local formattedHistory = ""
@@ -466,6 +466,7 @@ function library:New(opts)
                         formattedHistory = formattedHistory .. message.username .. ": " .. message.content .. "\n"
                     end
                     historyBox.Text = formattedHistory
+                    task.wait(2)
                 end
             end
         )
