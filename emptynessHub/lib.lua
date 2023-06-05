@@ -83,10 +83,16 @@ inputService.InputBegan:Connect(
             if console then
                 console.Enabled = emptyCustoms.Enabled
             end
+            if chat then
+                chat.Enabled = emptyCustoms.Enabled
+            end
         elseif input.KeyCode == library.closeBind then
             emptyCustoms:Destroy()
             if console then
                 console:Destroy()
+            end
+            if chat then
+                chat:Destroy()
             end
         end
     end
