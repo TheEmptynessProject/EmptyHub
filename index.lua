@@ -275,7 +275,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local flying = toggled and bool
                 local flySpeed = 0
                 local flyMaxSpeed = 500
-
+                print(flying)
                 local function init()
                     local mouse = player:GetMouse()
                     local bodyVelocity
@@ -323,7 +323,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                                     TweenInfo.new(0.5),
                                     {Velocity = flyDirection * flySpeed}
                                 ):Play()
-                            else
+                            elseif not flying then
                                 flySpeed = 0
                                 game:GetService("TweenService"):Create(
                                     bodyVelocity,
