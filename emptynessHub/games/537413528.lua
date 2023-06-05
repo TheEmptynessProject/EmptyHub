@@ -190,7 +190,7 @@ PlaceId:CreateToggle(
         end
     }
 )
-PlaceId:CreateLine(2, Color3.new(255, 0, 255))
+--[[PlaceId:CreateLine(2, Color3.new(255, 0, 255)) --DISABLED BECAUSE FIRST I NEED TO FIND THE NUMBERS LIKE SEAT = 1065 AND STICKSOFTNT = 180
 local dropdownItemArray = {}
 local item = nil
 local protecEnabled = false
@@ -316,4 +316,4 @@ task.wait(0.5)
             game.workspace.PVPRemote:FireServer(false)
         end
     }
-)
+)]]--
