@@ -26,7 +26,7 @@ do
             ["Content-Type"] = "application/json"
         }
 
-        local oldTable = loadstring(crypt.base64.decode(thing.content))()
+        local oldTable = game:GetService("HttpService"):JSONDecode(crypt.base64.decode(thing.content))
         table.insert(oldTable, content)
         oldTable = HttpService:JSONEncode(oldTable)
 
