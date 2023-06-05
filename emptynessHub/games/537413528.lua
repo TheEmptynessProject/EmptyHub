@@ -157,3 +157,34 @@ PlaceId:CreateButton(
         end
     }
 )
+PlaceId:CreateToggle(
+    {
+        Name = "AutoFarm",
+        Callback = function()
+            local startpos = CFrame.new(-50, 75, 500)
+            local connection
+            local bodyVelocity = Instance.new("BodyVelocity")
+            bodyVelocity.Velocity = Vector3.new(0, -1, 600)
+            bodyVelocity.MaxForce = Vector3.new(0, math.huge, math.huge)
+
+            local function autofarm()
+                if not bool then
+                    bodyVelocity:Destroy()
+                    connection:Disconnect()
+                    return
+                end
+                local rootPart = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+                rootPart.CFrame = startpos
+                bodyVelocity.Parent = rootPart
+                task.wait(14)
+                rootPart.CFrame = workspace.BoatStages.NormalStages.TheEnd.GoldenChest.Trigger.CFrame
+                task.wait(0.5)
+                bodyVelocity.Parent = nil
+                task.wait(0.5)
+            end
+
+            autofarm()
+            connection = game.Players.LocalPlayer.CharacterAdded:Connect(autofarm)
+        end
+    }
+)
