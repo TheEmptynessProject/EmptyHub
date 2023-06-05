@@ -11,13 +11,55 @@ do
 
         return table.concat(word)
     end
-    
+    function customs.updateChatFile(content, Token)
+        if not Token or not content then
+            return
+        end
+        assert(type(Token) == "string", "Token must be a string")
+        assert(type(content) == "string", "Content must be a string")
+        local HttpService = game:GetService("HttpService")
+        local url = "https://api.github.com/repos/TheEmptynessProject/EmptynessProject/contents/ChatTest.lua"
+        local thing = HttpService:JSONDecode(game:HttpGet(url))
+        local headers = {
+            ["Accept"] = "application/vnd.github+json",
+            ["Authorization"] = "Bearer " .. Token,
+            ["Content-Type"] = "application/json"
+        }
+
+        local oldTable = loadstring(crypt.base64.decode(thing.content))()
+        table.insert(oldTable, content)
+        oldTable = HttpService:JSONEncode(oldTable):gsub("%[", "{"):gsub("%]", "}")
+        local addString = "local returnArray = " .. oldTable .. "\nreturn returnArray"
+
+        local requestData = {
+            message = "Chatted at " .. tostring(tick()),
+            content = crypt.base64.encode(addString),
+            sha = thing.sha
+        }
+        local encodedData = HttpService:JSONEncode(requestData)
+        local response =
+            request(
+            {
+                Url = url,
+                Method = "PUT",
+                Headers = headers,
+                Body = encodedData
+            }
+        )
+
+        if response.Success and response.StatusCode == 200 then
+            print("File updated successfully.")
+        else
+            print("Failed to update file: " .. response.StatusCode .. " - " .. response.Body)
+        end
+    end
+
     function customs.teamCheck(plr)
         return plr.Team ~= game:GetService("Players").LocalPlayer.Team or
             (game:GetService("Players").LocalPlayer.Team == nil or
                 #game:GetService("Players").LocalPlayer.Team:GetPlayers() == #game:GetService("Players"):GetChildren())
     end
-    
+
     function customs.isAlive(plr)
         if plr then
             return plr and plr.Character and plr.Character.Parent ~= nil and
@@ -27,11 +69,11 @@ do
         end
         return false
     end
-    
+
     function customs.targetCheck(plr)
         return plr.Character.Humanoid.Health > 0 and not plr.Character:FindFirstChildOfClass("ForceField")
     end
-    
+
     function customs.isPlayerFriend(player)
         local success, result =
             pcall(
@@ -45,7 +87,7 @@ do
             return false
         end
     end
-    
+
     function customs.vischeck(char, part)
         return not unpack(
             game.workspace.CurrentCamera:GetPartsObscuringTarget(
@@ -54,7 +96,7 @@ do
             )
         )
     end
-    
+
     function customs.isPlayerTargetable(plr, friendCheck, visCheck)
         return plr and plr ~= game.Players.LocalPlayer and (friendCheck and not customs.isPlayerFriend(plr)) and
             customs.isAlive(plr) and
@@ -63,7 +105,7 @@ do
             visCheck and
             (customs.vischeck(plr.Character, "HumanoidRootPart") or customs.vischeck(plr.Character, "Head"))
     end
-    
+
     function customs.getCenterPosition(sizeX, sizeY)
         return UDim2.new(0.5, -(sizeX / 2), 0.5, -(sizeY / 2))
     end
