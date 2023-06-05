@@ -1,7 +1,3 @@
-getgenv().git_TOKEN --To use the chat functionality, you need to set this to a valid github token
-
-----------------------------------------------------------------------------------------------------
-
 local custom =
     loadstring(
     game:HttpGet(
