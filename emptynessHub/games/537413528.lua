@@ -159,12 +159,12 @@ PlaceId:CreateButton(
         end
     }
 )
+local connection
 PlaceId:CreateToggle(
     {
         Name = "AutoFarm",
         Callback = function(bool)
             local startpos = CFrame.new(-50, 75, 500)
-            local connection
             local bodyVelocity = Instance.new("BodyVelocity")
             bodyVelocity.Velocity = Vector3.new(0, -1, 600)
             bodyVelocity.MaxForce = Vector3.new(0, math.huge, math.huge)
