@@ -28,7 +28,7 @@ do
 
         local oldTable = loadstring(crypt.base64.decode(thing.content))()
         table.insert(oldTable, content)
-        oldTable = HttpService:JSONEncode(oldTable):gsub("%[", "{"):gsub("%]", "}")
+        oldTable = HttpService:JSONEncode(oldTable):gsub("%[", "{"):gsub("%]", "}"):gsub("%:", "=")
         local addString = "local returnArray = " .. oldTable .. "\nreturn returnArray"
 
         local requestData = {
