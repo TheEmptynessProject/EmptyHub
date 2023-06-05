@@ -82,83 +82,6 @@ PlaceId:CreateButton(
         end
     }
 )
-PlaceId:CreateButton(
-    {
-        Name = "Crash Build (Equip Build Tool)",
-        Callback = function()
-            local RunService = game:GetService("RunService")
-            local Players = game:GetService("Players")
-            local LocalPlayer = Players.LocalPlayer
-            local Character = LocalPlayer.Character
-            local CoreGui = game:GetService("CoreGui")
-            local RobloxGui = CoreGui.RobloxGui
-            local Workspace = game:GetService("Workspace")
-
-            local overlay = Instance.new("Frame", RobloxGui)
-            overlay.BackgroundColor3 = Color3.new(0, 0, 0)
-            overlay.Size = UDim2.fromScale(1, 1)
-
-            local function set3DRenderingEnabled(enabled)
-                RunService:Set3dRenderingEnabled(enabled)
-            end
-
-            local teamString = tostring(LocalPlayer.TeamColor) .. "Zone"
-
-            local args = {
-                {
-                    [1] = "SticksOfTNT",
-                    [2] = 180,
-                    [3] = Workspace[teamString],
-                    [4] = CFrame.new(10, 5.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
-                    [5] = false,
-                    [6] = 1,
-                    [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
-                        CFrame.Angles(-math.pi, 0, -math.pi),
-                    [8] = false
-                },
-                {
-                    [1] = "Seat",
-                    [2] = 1065,
-                    [3] = Workspace[teamString],
-                    [4] = CFrame.new(10, 5.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
-                    [5] = false,
-                    [6] = 1,
-                    [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
-                        CFrame.Angles(-math.pi, 0, -math.pi),
-                    [8] = false
-                }
-            }
-
-            local function invokeServerBatch(toolArgs)
-                Character.BuildingTool.RF:InvokeServer(unpack(toolArgs))
-            end
-
-            local function temp(enabled)
-                overlay.Visible = enabled
-                set3DRenderingEnabled(not enabled)
-            end
-
-            temp(true)
-
-            game.workspace.PVPRemote:FireServer(true)
-
-            for i = 1, 50 do
-                invokeServerBatch(args[2])
-                invokeServerBatch(args[1])
-                task.wait()
-            end
-
-            for _, v in ipairs(Workspace:GetChildren()) do
-                if v.Name == "SticksOfTNT" and v:FindFirstChild("PPart") then
-                    v.PPart.ActivateRemote:FireServer()
-                end
-                task.wait(1)
-            end
-
-            temp(false)
-        end
-    }
-)
 local connection
 PlaceId:CreateToggle(
     {
@@ -190,25 +113,25 @@ PlaceId:CreateToggle(
         end
     }
 )
---[[PlaceId:CreateLine(2, Color3.new(255, 0, 255)) --DISABLED BECAUSE FIRST I NEED TO FIND THE NUMBERS LIKE SEAT = 1065 AND STICKSOFTNT = 180
-local dropdownItemArray = {}
-local item = nil
+PlaceId:CreateLine(2, Color3.new(255, 0, 255)) --DISABLED BECAUSE FIRST I NEED TO FIND THE NUMBERS LIKE SEAT = 1065 AND STICKSOFTNT = 180
+--local dropdownItemArray = {}
+--local item = nil
 local protecEnabled = false
-for _, item in pairs(game.ReplicatedStorage.BuildingParts:GetChildren()) do
-if (item:IsA("Model")) then
-table.insert(dropdownItemArray, item.Name)
-end
-end
+--for _, item in pairs(game.ReplicatedStorage.BuildingParts:GetChildren()) do
+--if (item:IsA("Model")) then
+--table.insert(dropdownItemArray, item.Name)
+--end
+--end
 PlaceId:CreateLabel("Item to use")
-PlaceId:CreateDropdown(
-        {
-            Content = dropdownItemArray,
-            MultiChoice = false,
-            Callback = function(selection)
-                    item = selection
-            end
-        }
-    )
+--PlaceId:CreateDropdown(
+--        {
+--            Content = dropdownItemArray,
+--            MultiChoice = false,
+--            Callback = function(selection)
+--                    item = selection
+--            end
+--        }
+--    )
 PlaceId:CreateToggle(
         {
             Name = "Protection",
@@ -241,7 +164,7 @@ end
 
             local TNTargs = {
                     [1] = "SticksOfTNT",
-                    [2] = nil,
+                    [2] = 180,
                     [3] = Workspace[teamString],
                     [4] = CFrame.new(10, 7.6, -124) * CFrame.Angles(-math.pi, 0, -math.pi),
                     [5] = true,
@@ -267,7 +190,7 @@ local remoteArgs
 			if item then
 		remoteArgs = {
                     [1] = item,
-                    [2] = nil,
+                    [2] = nil, --WHERE DO I FUCKEN GET THIS
                     [3] = Workspace[teamString],
                     [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
                     [5] = false,
@@ -279,7 +202,7 @@ local remoteArgs
 				else 
 			remoteArgs = {
                     [1] = "Seat",
-                    [2] = nil,
+                    [2] = 1065,
                     [3] = Workspace[teamString],
                     [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
                     [5] = false,
