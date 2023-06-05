@@ -28,8 +28,8 @@ do
 
         local oldTable = loadstring(crypt.base64.decode(thing.content))()
         table.insert(oldTable, content)
-        oldTable = HttpService:JSONEncode(oldTable):gsub("%[", "{"):gsub("%]", "}"):gsub("%:", "=")
-        local addString = "local returnArray = " .. oldTable .. "\nreturn returnArray"
+        oldTable = HttpService:JSONEncode(oldTable)
+        local addString = "local returnArray = " .. oldTable
 
         local requestData = {
             message = "Chatted at " .. tostring(tick()),
