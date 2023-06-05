@@ -1,4 +1,4 @@
-local git_TOKEN --To use the chat functionality, you need to set this to a valid github token
+getgenv().git_TOKEN --To use the chat functionality, you need to set this to a valid github token
 
 ----------------------------------------------------------------------------------------------------
 
