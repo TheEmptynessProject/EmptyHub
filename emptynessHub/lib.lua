@@ -1,3 +1,7 @@
+local git_TOKEN --To use the chat functionality, you need to set this to a valid github token
+
+----------------------------------------------------------------------------------------------------
+
 local custom =
     loadstring(
     game:HttpGet(
@@ -47,7 +51,10 @@ function _destroy()
         coreGui[custom.generateString(32, 1)]:Destroy()
     end
     if (coreGui:FindFirstChild(custom.generateString(32, 1.1))) then
-        coreGui[custom.generateString(32, 1)]:Destroy()
+        coreGui[custom.generateString(32, 1.1)]:Destroy()
+    end
+    if (coreGui:FindFirstChild(custom.generateString(32, 1.2))) then
+        coreGui[custom.generateString(32, 1.2)]:Destroy()
     end
     getgenv()[custom.generateString(32, 0)] = false
 end
@@ -97,6 +104,7 @@ function library:New(opts)
     local theme = options.theme or themes.Default
     local fonted = options.font or Enum.Font.Ubuntu
     local consoleEnabled = options.console
+    local chatEnabled = options.chat
 
     local holder =
         custom.createObject(
@@ -353,7 +361,179 @@ function library:New(opts)
             end
         )
     end
+    if chatEnabled and git_TOKEN then
+        local lastTick = nil
+        local canSendMessage = true
+        chat =
+            custom.createObject(
+            "ScreenGui",
+            {
+                Parent = game:GetService("CoreGui"),
+                Name = custom.generateString(32, 1.2)
+            }
+        )
+        local chatBG =
+            custom.createObject(
+            "Frame",
+            {
+                Size = UDim2.new(0, 400, 0, 250),
+                Position = UDim2.new(0, 100, 0.5, 0),
+                BackgroundColor3 = themes.Default.Section,
+                BackgroundTransparency = 0,
+                Parent = chat,
+                BorderMode = 0
+            }
+        )
+        local historyBox =
+            custom.createObject(
+            "TextBox",
+            {
+                Parent = chatBG,
+                BackgroundColor3 = themes.Default.Box,
+                BorderColor3 = themes.Default.TextColor,
+                BorderSizePixel = 2,
+                Selectable = false,
+                TextEditable = false,
+                Size = UDim2.new(1, 0, 1, -50),
+                ClearTextOnFocus = false,
+                Font = Enum.Font.Ubuntu,
+                MultiLine = true,
+                PlaceholderColor3 = themes.Default.DisabledText,
+                Text = "History",
+                TextColor3 = themes.Default.TextColor,
+                TextSize = 16,
+                TextWrapped = true,
+                ZIndex = 2,
+                BorderMode = 0
+            }
+        )
+        local chatBox =
+            custom.createObject(
+            "TextBox",
+            {
+                Parent = chatBG,
+                BackgroundColor3 = themes.Default.Box,
+                BorderColor3 = themes.Default.TextColor,
+                BorderSizePixel = 2,
+                Selectable = true,
+                TextEditable = true,
+                Size = UDim2.new(0, 250, 0, 50),
+                Position = UDim2.new(0, 0, 0, 200),
+                ClearTextOnFocus = false,
+                Font = Enum.Font.Ubuntu,
+                MultiLine = false,
+                PlaceholderColor3 = themes.Default.DisabledText,
+                Text = "Chat",
+                TextColor3 = themes.Default.TextColor,
+                TextSize = 16,
+                TextWrapped = true,
+                BorderMode = 0
+            }
+        )
+        local chatButton1 =
+            custom.createObject(
+            "TextButton",
+            {
+                Parent = chatBG,
+                Position = UDim2.new(0, 250, 0, 200),
+                BackgroundColor3 = themes.Default.Button,
+                Size = UDim2.new(0, 150, 0, 50),
+                Font = Enum.Font.Ubuntu,
+                Text = "Send",
+                TextColor3 = themes.Default.EnabledText,
+                TextSize = 16,
+                ClipsDescendants = true,
+                BorderMode = 0
+            }
+        )
+        spawn(
+            function()
+                while true do
+                    for i = 0, 1, 1 / 2000 do
+                        chatBG.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        chatBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        chatButton1.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        historyBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        task.wait()
+                    end
+                end
+            end
+        )
+        local history
+        spawn(
+            function()
+                while task.wait(1) do
+                    history =
+                        loadstring(
+                        game:HttpGet(
+                            "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
+                        )
+                    )()
 
+                    local formattedHistory = ""
+                    for i, message in ipairs(history) do
+                        formattedHistory = formattedHistory .. message.username .. ": " .. message.content .. "\n"
+                    end
+                    historyBox.Text = formattedHistory
+                end
+            end
+        )
+
+        chatButton1.MouseButton1Click:Connect(
+            function()
+                if canSendMessage and chatBox.Text and chatBox.Text ~= "" then
+                    custom.createRipple(chatButton1)
+                    if not lastTick then
+                        history =
+                            loadstring(
+                            game:HttpGet(
+                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
+                            )
+                        )()
+                        local newId = history[#history].msgId + 1
+                        lastTick = tick()
+                        local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
+                        
+                        custom.updateChatFile(toSend, git_TOKEN)
+                        
+                        canSendMessage = false
+                        task.delay(
+                            10,
+                            function()
+                                canSendMessage = true
+                            end
+                        )
+                    elseif lastTick and tick() - lastTick > 10 then
+                        history =
+                            loadstring(
+                            game:HttpGet(
+                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
+                            )
+                        )()
+                        local newId = history[#history].msgId + 1
+                        lastTick = tick()
+                        local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
+
+                        custom.updateChatFile(toSend, git_TOKEN)
+
+                        canSendMessage = false
+                        task.delay(
+                            10,
+                            function()
+                                canSendMessage = true
+                            end
+                        )
+                    end
+
+                    local formattedHistory = ""
+                    for i, message in ipairs(history) do
+                        formattedHistory = formattedHistory .. message.username .. ": " .. message.content .. "\n"
+                    end
+                    historyBox.Text = formattedHistory
+                end
+            end
+        )
+    end
     local window_info = {count = 0}
     window_info = custom.formatTable(window_info)
 
