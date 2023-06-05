@@ -459,12 +459,7 @@ function library:New(opts)
         spawn(
             function()
                 while task.wait(1) do
-                    history =
-                        loadstring(
-                        game:HttpGet(
-                            "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
-                        )
-                    )()
+                    history = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"))
 
                     local formattedHistory = ""
                     for i, message in ipairs(history) do
@@ -480,12 +475,7 @@ function library:New(opts)
                 if canSendMessage and chatBox.Text and chatBox.Text ~= "" then
                     custom.createRipple(chatButton1)
                     if not lastTick then
-                        history =
-                            loadstring(
-                            game:HttpGet(
-                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
-                            )
-                        )()
+                        history = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"))
                         local newId = history[#history].msgId + 1
                         lastTick = tick()
                         local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
@@ -500,12 +490,7 @@ function library:New(opts)
                             end
                         )
                     elseif lastTick and tick() - lastTick > 10 then
-                        history =
-                            loadstring(
-                            game:HttpGet(
-                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
-                            )
-                        )()
+                        history = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"))
                         local newId = history[#history].msgId + 1
                         lastTick = tick()
                         local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
