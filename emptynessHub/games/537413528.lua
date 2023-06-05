@@ -202,7 +202,7 @@ end
 PlaceId:CreateLabel("Item to use")
 PlaceId:CreateDropdown(
         {
-            Content = dropdownPlayerArray,
+            Content = dropdownItemArray,
             MultiChoice = false,
             Callback = function(selection)
                     item = selection
@@ -290,7 +290,7 @@ local remoteArgs
                 }	
 				end
             for i = 1, 20 do
-            local temp = seatArgs[4]
+            local temp = remoteArgs[4]
             	remoteArgs[4] = remoteArgs[4]+Vector3.new(0,i/50,0)
                 invokeServerBatch(remoteArgs)
                 task.wait()
