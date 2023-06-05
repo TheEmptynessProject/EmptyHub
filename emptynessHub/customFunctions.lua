@@ -29,11 +29,10 @@ do
         local oldTable = loadstring(crypt.base64.decode(thing.content))()
         table.insert(oldTable, content)
         oldTable = HttpService:JSONEncode(oldTable)
-        local addString = "local returnArray = " .. oldTable
 
         local requestData = {
             message = "Chatted at " .. tostring(tick()),
-            content = crypt.base64.encode(addString),
+            content = crypt.base64.encode(oldTable),
             sha = thing.sha
         }
         local encodedData = HttpService:JSONEncode(requestData)
