@@ -233,11 +233,12 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Noclip",
             Click = true,
             Callback = function(bool, toggled, keyed)
-                if not connection_noclip_one and bool then
+                local on = bool and toggled
+                if not connection_noclip_one and on then
                     connection_noclip_one =
                         game:GetService("RunService").Stepped:connect(
                         function()
-                            if not toggled or not bool then
+                            if not on then
                                 return
                             end
                             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
@@ -247,7 +248,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             end
                         end
                     )
-                elseif connection_noclip_one and (not bool or not toggled) then
+                elseif connection_noclip_one and not on then
                     for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                         if v:IsA("BasePart") then
                             v.CanCollide = true
@@ -256,6 +257,91 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     connection_noclip_one:Disconnect()
                     connection_noclip_one = nil
                 end
+            end
+        }
+    )
+    local connectionFly
+    universalColumn2:CreateToggle_and_Keybind(
+        {
+            Default = Enum.KeyCode.G,
+            Name = "Fly",
+            Click = true,
+            Callback = function(bool, toggled, keyed)
+                local player = game.Players.LocalPlayer
+                local character = player.Character or player.CharacterAdded:Wait()
+                local humanoid = character:WaitForChild("Humanoid")
+                local rootPart = character:WaitForChild("HumanoidRootPart")
+
+                local flying = toggled and bool
+                local flySpeed = 0
+                local flyMaxSpeed = 500
+
+                local function init()
+                    local mouse = player:GetMouse()
+                    local bodyVelocity
+
+                    local function updateFlySpeed()
+                        if flySpeed < flyMaxSpeed then
+                            flySpeed = flySpeed + 1
+                        end
+                    end
+
+                    local function getMovementDirection()
+                        local camera = game.Workspace.CurrentCamera
+                        local lookVector = camera.CFrame.LookVector
+                        local rightVector = camera.CFrame.RightVector
+                        local flyDirection = Vector3.new(0, 0, 0)
+
+                        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W) then
+                            flyDirection = flyDirection + lookVector
+                        end
+                        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S) then
+                            flyDirection = flyDirection - lookVector
+                        end
+                        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.A) then
+                            flyDirection = flyDirection - rightVector
+                        end
+                        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.D) then
+                            flyDirection = flyDirection + rightVector
+                        end
+
+                        return flyDirection
+                    end
+
+                    connectionFly =
+                        game:GetService("RunService").RenderStepped:Connect(
+                        function()
+                            local flyDirection = getMovementDirection()
+                            if flying and not bodyVelocity then
+                                bodyVelocity = Instance.new("BodyVelocity", rootPart)
+                                bodyVelocity.MaxForce = Vector3.new(2e10, 2e10, 2e10)
+                                updateFlySpeed()
+                            elseif flying and bodyVelocity then
+                                updateFlySpeed()
+                                game:GetService("TweenService"):Create(
+                                    bodyVelocity,
+                                    TweenInfo.new(0.5),
+                                    {Velocity = flyDirection * flySpeed}
+                                ):Play()
+                            else
+                                flySpeed = 0
+                                game:GetService("TweenService"):Create(
+                                    bodyVelocity,
+                                    TweenInfo.new(0.5),
+                                    {Velocity = Vector3.new(0, 0, 0)}
+                                ):Play()
+                                if bodyVelocity then
+                                    bodyVelocity:Destroy()
+                                end
+                                if connectionFly then
+                                    connectionFly:Disconnect()
+                                end
+                            end
+                        end
+                    )
+                end
+
+                init()
             end
         }
     )
