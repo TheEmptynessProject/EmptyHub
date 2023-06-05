@@ -190,7 +190,7 @@ PlaceId:CreateToggle(
         end
     }
 )
-universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
+PlaceId:CreateLine(2, Color3.new(255, 0, 255))
 local dropdownItemArray = {}
 local item = nil
 local protecEnabled = false
@@ -199,7 +199,7 @@ if (item:IsA("Model")) then
 table.insert(dropdownItemArray, item.Name)
 end
 end
-universalColumn1:CreateLabel("Item to use")
+PlaceId:CreateLabel("Item to use")
 PlaceId:CreateDropdown(
         {
             Content = dropdownPlayerArray,
