@@ -140,6 +140,8 @@ PlaceId:CreateButton(
 
             temp(true)
 
+            game.workspace.PVPRemote:FireServer(true)
+
             for i = 1, 50 do
                 invokeServerBatch(args[2])
                 invokeServerBatch(args[1])
