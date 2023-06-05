@@ -25,7 +25,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             SizeX = 500,
             SizeY = 550,
             Console = false,
-            Chat = true
+            Chat = false
         }
     )
     getgenv().notifLib =
