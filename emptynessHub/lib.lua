@@ -506,12 +506,6 @@ function library:New(opts)
                             end
                         )
                     end
-
-                    local formattedHistory = ""
-                    for i, message in ipairs(history) do
-                        formattedHistory = formattedHistory .. message.username .. ": " .. message.content .. "\n"
-                    end
-                    historyBox.Text = formattedHistory
                 end
             end
         )
