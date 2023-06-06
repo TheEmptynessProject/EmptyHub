@@ -1,3 +1,4 @@
+getgenv().FLAGS = {}
 local custom =
     loadstring(
     game:HttpGet(
