@@ -1497,7 +1497,7 @@ function library:New(opts)
                                     )
 
                                     callback(v)
-                                    toggleDropdown
+                                    toggleDropdown()
                                 else
                                     curValue = nil
                                     custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
