@@ -185,22 +185,8 @@ if protecEnabled then
 
             temp(true)
                 end
-local remoteArgs
 			game.workspace.PVPRemote:FireServer(true)
-			if item then
-		remoteArgs = {
-                    [1] = item,
-                    [2] = nil, --WHERE DO I FUCKEN GET THIS
-                    [3] = Workspace[teamString],
-                    [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
-                    [5] = false,
-                    [6] = 1,
-                    [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
-                        CFrame.Angles(-math.pi, 0, -math.pi),
-                    [8] = false
-                }
-				else 
-			remoteArgs = {
+		local	remoteArgs = {
                     [1] = "Seat",
                     [2] = 1065,
                     [3] = Workspace[teamString],
@@ -211,7 +197,6 @@ local remoteArgs
                         CFrame.Angles(-math.pi, 0, -math.pi),
                     [8] = false
                 }	
-				end
             for i = 1, 20 do
             local temp = remoteArgs[4]
             	remoteArgs[4] = remoteArgs[4]+Vector3.new(0,i/50,0)
