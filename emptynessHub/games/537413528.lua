@@ -163,8 +163,9 @@ PlaceId:CreateButton(
             local CoreGui = game:GetService("CoreGui")
             local RobloxGui = CoreGui.RobloxGui
             local Workspace = game:GetService("Workspace")
+            local overlay
             if protecEnabled then
-                local overlay = Instance.new("Frame", RobloxGui)
+                overlay = Instance.new("Frame", RobloxGui)
                 overlay.BackgroundColor3 = Color3.new(0, 0, 0)
                 overlay.Size = UDim2.fromScale(1, 1)
 
