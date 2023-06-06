@@ -178,8 +178,7 @@ PlaceId:CreateButton(
                 [4] = CFrame.new(10, 7.6, -124) * CFrame.Angles(-math.pi, 0, -math.pi),
                 [5] = true,
                 [6] = 1,
-                [7] = CFrame.new(-43.565689086914, -13.399991989136, -464.50686645508) *
-                    CFrame.Angles(-math.pi, 0, -math.pi),
+                [7] = nil,
                 [8] = false
             }
 
@@ -198,8 +197,7 @@ PlaceId:CreateButton(
                 [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
                 [5] = false,
                 [6] = 1,
-                [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
-                    CFrame.Angles(-math.pi, 0, -math.pi),
+                [7] = nil,
                 [8] = false
             }
             for i = 1, 20 do
