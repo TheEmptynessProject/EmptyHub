@@ -325,12 +325,12 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                                 ):Play()
                             elseif not flying then
                                 flySpeed = 0
+                                if bodyVelocity then
                                 game:GetService("TweenService"):Create(
                                     bodyVelocity,
                                     TweenInfo.new(0.5),
                                     {Velocity = Vector3.new(0, 0, 0)}
                                 ):Play()
-                                if bodyVelocity then
                                     bodyVelocity:Destroy()
                                 end
                                 if connectionFly then
