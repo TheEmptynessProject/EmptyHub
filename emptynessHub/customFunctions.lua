@@ -25,7 +25,7 @@ do
         end
     end
     function customs.getFlag(index,flag)
-        if getgenv().FLAGS and getgenv().FLAGS[index] and getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
+        if getgenv().FLAGS and getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
             return getgenv().FLAGS[index][flag]
         end
     end
