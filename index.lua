@@ -326,11 +326,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             elseif not flying then
                                 flySpeed = 0
                                 if bodyVelocity then
-                                game:GetService("TweenService"):Create(
-                                    bodyVelocity,
-                                    TweenInfo.new(0.5),
-                                    {Velocity = Vector3.new(0, 0, 0)}
-                                ):Play()
+                                    game:GetService("TweenService"):Create(
+                                        bodyVelocity,
+                                        TweenInfo.new(0.5),
+                                        {Velocity = Vector3.new(0, 0, 0)}
+                                    ):Play()
                                     bodyVelocity:Destroy()
                                 end
                                 if connectionFly then
@@ -354,7 +354,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    
+
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
