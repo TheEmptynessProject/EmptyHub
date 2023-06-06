@@ -133,13 +133,13 @@ local protecEnabled = false
 --        }
 --    )
 PlaceId:CreateToggle(
-        {
-            Name = "Protection",
-            Callback = function(bool)
-                protecEnabled = bool
-            end
-        }
-    )
+    {
+        Name = "Protection",
+        Callback = function(bool)
+            protecEnabled = bool
+        end
+    }
+)
 PlaceId:CreateButton(
     {
         Name = "Fire",
@@ -152,75 +152,75 @@ PlaceId:CreateButton(
             local RobloxGui = CoreGui.RobloxGui
             local Workspace = game:GetService("Workspace")
             if protecEnabled then
-            local overlay = Instance.new("Frame", RobloxGui)
-            overlay.BackgroundColor3 = Color3.new(0, 0, 0)
-            overlay.Size = UDim2.fromScale(1, 1)
+                local overlay = Instance.new("Frame", RobloxGui)
+                overlay.BackgroundColor3 = Color3.new(0, 0, 0)
+                overlay.Size = UDim2.fromScale(1, 1)
 
-            local function set3DRenderingEnabled(enabled)
-                RunService:Set3dRenderingEnabled(enabled)
+                local function set3DRenderingEnabled(enabled)
+                    RunService:Set3dRenderingEnabled(enabled)
+                end
             end
-end
             local teamString = tostring(LocalPlayer.TeamColor) .. "Zone"
 
             local TNTargs = {
-                    [1] = "SticksOfTNT",
-                    [2] = 180,
-                    [3] = Workspace[teamString],
-                    [4] = CFrame.new(10, 7.6, -124) * CFrame.Angles(-math.pi, 0, -math.pi),
-                    [5] = true,
-                    [6] = 1,
-                    [7] = CFrame.new(-43.565689086914, -13.399991989136, -464.50686645508) *
-                        CFrame.Angles(-math.pi, 0, -math.pi),
-                    [8] = false
-                }
+                [1] = "SticksOfTNT",
+                [2] = 180,
+                [3] = Workspace[teamString],
+                [4] = CFrame.new(10, 7.6, -124) * CFrame.Angles(-math.pi, 0, -math.pi),
+                [5] = true,
+                [6] = 1,
+                [7] = CFrame.new(-43.565689086914, -13.399991989136, -464.50686645508) *
+                    CFrame.Angles(-math.pi, 0, -math.pi),
+                [8] = false
+            }
 
             local function invokeServerBatch(toolArgs)
                 Character.BuildingTool.RF:InvokeServer(unpack(toolArgs))
             end
-if protecEnabled then
-            local function temp(enabled)
-                overlay.Visible = enabled
-                set3DRenderingEnabled(not enabled)
-            end
-
-            temp(true)
+            if protecEnabled then
+                local function temp(enabled)
+                    overlay.Visible = enabled
+                    set3DRenderingEnabled(not enabled)
                 end
-			game.workspace.PVPRemote:FireServer(true)
-		local	remoteArgs = {
-                    [1] = "Seat",
-                    [2] = 1065,
-                    [3] = Workspace[teamString],
-                    [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
-                    [5] = false,
-                    [6] = 1,
-                    [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
-                        CFrame.Angles(-math.pi, 0, -math.pi),
-                    [8] = false
-                }	
+
+                temp(true)
+            end
+            game.workspace.PVPRemote:FireServer(true)
+            local remoteArgs = {
+                [1] = "Seat",
+                [2] = 1262,
+                [3] = Workspace[teamString],
+                [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
+                [5] = false,
+                [6] = 1,
+                [7] = CFrame.new(-43.565689086914, -12.399991989136, -465.50686645508) *
+                    CFrame.Angles(-math.pi, 0, -math.pi),
+                [8] = false
+            }
             for i = 1, 20 do
-            local temp = remoteArgs[4]
-            	remoteArgs[4] = remoteArgs[4]+Vector3.new(0,i/50,0)
+                local temp = remoteArgs[4]
+                remoteArgs[4] = remoteArgs[4] + Vector3.new(0, i / 50, 0)
                 invokeServerBatch(remoteArgs)
                 task.wait()
                 remoteArgs[4] = temp
             end
             for i = 1, 1 do
-            local temp = TNTargs[4]
-            	TNTargs[4] = TNTargs[4]+Vector3.new(0,1,0)
+                local temp = TNTargs[4]
+                TNTargs[4] = TNTargs[4] + Vector3.new(0, 1, 0)
                 invokeServerBatch(TNTargs)
                 task.wait()
-            TNTargs[4] = temp
+                TNTargs[4] = temp
             end
-            
+
             for _, v in ipairs(Workspace:GetChildren()) do
                 if string.find(v.Name, "TNT") and v:FindFirstChild("PPart") then
                     v.PPart.ActivateRemote:FireServer()
                 end
             end
-task.wait(0.5)
+            task.wait(0.5)
             if protecEnabled then
-            temp(false)
-                end
+                temp(false)
+            end
             game.workspace.PVPRemote:FireServer(false)
         end
     }
@@ -234,34 +234,33 @@ function indexOf(array, value)
     return nil
 end
 local dropdownChestArray = {"Common", "Uncommon", "Rare", "Epic", "Legendary"}
-local dropdownCostArray = {5,15,45,135,405}
+local dropdownCostArray = {5, 15, 45, 135, 405}
 local selectedChest = "Common"
 local selectedCost = 5
 PlaceId:CreateDropdown(
-       {
-           Content = dropdownChestArray,
-           MultiChoice = false,
-		Default = "Common",
-           Callback = function(selection)
-		selectedChest = selection
-		selectedCost = dropdownCostArray[indexOf(dropdownChestArray, selectedChest)]
-           end
-       }
-    )
+    {
+        Content = dropdownChestArray,
+        MultiChoice = false,
+        Default = "Common",
+        Callback = function(selection)
+            selectedChest = selection
+            selectedCost = dropdownCostArray[indexOf(dropdownChestArray, selectedChest)]
+        end
+    }
+)
 local function maxBuyableQuantity(chestCost)
-	return math.round(game.Players.LocalPlayer.Data.Gold.Value / chestCost)
+    return math.round(game.Players.LocalPlayer.Data.Gold.Value / chestCost)
 end
 PlaceId:CreateButton(
-        {
-            Name = "Buy Max Chest",
-            Callback = function()
-local args = {
-    [1] = selectedChest .. " Chest",
-    [2] = maxBuyableQuantity(selectedCost)
-}
+    {
+        Name = "Buy Max Chest",
+        Callback = function()
+            local args = {
+                [1] = selectedChest .. " Chest",
+                [2] = maxBuyableQuantity(selectedCost)
+            }
 
-workspace.ItemBoughtFromShop:InvokeServer(unpack(args))
-
-            end
-        }
-    )
+            workspace.ItemBoughtFromShop:InvokeServer(unpack(args))
+        end
+    }
+)
