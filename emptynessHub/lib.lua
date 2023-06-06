@@ -1399,7 +1399,7 @@ function library:New(opts)
                 )
                 local function toggleDropdown()
                     open = not open
-                    if emptyCustoms.Enabled and open then
+                    if open then
                         local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
                         content.Visible = true
                         custom.animate(
@@ -1410,6 +1410,9 @@ function library:New(opts)
                                 content.Visible = true
                             end
                         )
+                        if not emptyCustoms.Enabled then
+                                open = false
+                            end
                     else
                         local sizeX = UDim2.new(1, 0, 0, 0)
                         custom.animate(
@@ -1494,6 +1497,7 @@ function library:New(opts)
                                     )
 
                                     callback(v)
+                                    toggleDropdown
                                 else
                                     curValue = nil
                                     custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
@@ -1562,117 +1566,6 @@ function library:New(opts)
 
                 local dropdown_info = {}
                 dropdown_info = custom.formatTable(dropdown_info)
-
-                function dropdown_info:Set(opt)
-                    if opt ~= nil then
-                        if not multiChoice then
-                            local optionExists = false
-
-                            for i, v in next, contentTable do
-                                if v == opt then
-                                    optionExists = true
-                                end
-                            end
-
-                            local option = optionInstances[opt]
-
-                            if optionExists then
-                                curValue = opt
-
-                                for i2, v2 in next, contentHolder:GetChildren() do
-                                    if v2:IsA("TextButton") then
-                                        v2.TextColor3 = theme.DisabledText
-                                    end
-                                end
-
-                                custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                custom.animate(
-                                    value,
-                                    {0.2},
-                                    {TextTransparency = 1},
-                                    function()
-                                        value.TextColor3 = theme.EnabledText
-                                        value.Text = opt
-                                        custom.animate(value, {0.2}, {TextTransparency = 0})
-                                    end
-                                )
-
-                                callback(opt)
-                            end
-                        else
-                            if typeof(opt) == "table" then
-                                chosen = opt
-
-                                for i, v in next, chosen do
-                                    custom.animate(optionInstances[v], {0.2}, {TextColor3 = theme.EnabledText})
-                                end
-                            else
-                                if not table.find(chosen, opt) then
-                                    table.insert(chosen, opt)
-
-                                    custom.animate(optionInstances[opt], {0.2}, {TextColor3 = theme.EnabledText})
-                                end
-                            end
-
-                            custom.animate(
-                                value,
-                                {0.2},
-                                {TextTransparency = 1},
-                                function()
-                                    value.TextColor3 = theme.EnabledText
-                                    value.Text = table.concat(chosen, ", ")
-                                    custom.animate(value, {0.2}, {TextTransparency = 0})
-                                end
-                            )
-
-                            callback(chosen)
-                        end
-                    else
-                        if not multiChoice then
-                            curValue = nil
-                            for i2, v2 in next, contentHolder:GetChildren() do
-                                if v2:IsA("TextButton") then
-                                    custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
-                                end
-                            end
-
-                            custom.animate(
-                                value,
-                                {0.2},
-                                {TextTransparency = 1},
-                                function()
-                                    value.TextColor3 = theme.DisabledText
-                                    value.Text = "NONE"
-                                    custom.animate(value, {0.2}, {TextTransparency = 0})
-                                end
-                            )
-
-                            callback(nil)
-                        else
-                            chosen = {}
-
-                            for i2, v2 in next, contentHolder:GetChildren() do
-                                if v2:IsA("TextButton") then
-                                    v2.TextColor3 = theme.DisabledText
-                                end
-                            end
-
-                            custom.animate(
-                                value,
-                                {0.2},
-                                {TextTransparency = 1},
-                                function()
-                                    value.TextColor3 = theme.DisabledText
-                                    value.Text = "NONE"
-                                    custom.animate(value, {0.2}, {TextTransparency = 0})
-                                end
-                            )
-
-                            callback(chosen)
-                        end
-                    end
-                end
 
                 function dropdown_info:Refresh(tbl)
                     contentTable = tbl
