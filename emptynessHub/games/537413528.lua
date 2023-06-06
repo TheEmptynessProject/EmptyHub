@@ -113,17 +113,18 @@ PlaceId:CreateToggle(
         end
     }
 )
-PlaceId:CreateLine(2, Color3.new(255, 0, 255)) --DISABLED BECAUSE FIRST I NEED TO FIND THE NUMBERS LIKE SEAT = 1065 AND STICKSOFTNT = 180
-local dropdownItemArray = {"Seat", "Lamp", "Cannon", "Torch"}
-local numberArray = {1262, 684, 277, 833}
+PlaceId:CreateLine(2, Color3.new(255, 0, 255))
+local dropdownItemArray = {}
+local numberArray = {}
 local item = "Seat"
 local numberino = 1262
 local protecEnabled = false
---for _, item in pairs(game.ReplicatedStorage.BuildingParts:GetChildren()) do
---if (item:IsA("Model")) then
---table.insert(dropdownItemArray, item.Name)
---end
---end
+for _, item in pairs(game.Players.LocalPlayer.Data:GetChildren()) do
+if (item:IsA("IntValue") and not string.find(item.Name,"Tool") and item.Value>0) then
+table.insert(dropdownItemArray, item.Name)
+table.insert(numberArray, item.Value)
+end
+end
 function indexOf(array, value)
     for i, v in ipairs(array) do
         if v == value then
