@@ -19,8 +19,12 @@ local default = getgenv().mainLib:NewTab("Game Tab 1")
                    local args = {...};
                    local method = getnamecallmethod();
 
-                   if (method == "FireServer" and self.Name == "AFK" and bool) then
+                   if (method == "FireServer" and self.Name == "AFK") then
+                        if bool then
                        args[1] = true;
+                            else 
+                            return nc(self, unpack(args));
+                            end
                    end;
 
                    return nc(self, unpack(args));
