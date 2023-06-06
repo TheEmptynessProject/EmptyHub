@@ -13,14 +13,14 @@ do
     end
     function customs.insertFlag(index,flag,value)
         if not getgenv().FLAGS then return end
-        if not getgevnv().FLAGS[index] or not getgevnv().FLAGS[index][flag] then
-            getgevnv().FLAGS[index][flag] = value
+        if not getgenv().FLAGS[index] or not getgenv().FLAGS[index][flag] then
+            getgenv().FLAGS[index][flag] = value
         end
     end
     function customs.getFlag(index,flag)
         if not getgenv().FLAGS then return end
-        if getgevnv().FLAGS[index] and getgevnv().FLAGS[index][flag] then
-            return getgevnv().FLAGS[index][flag]
+        if getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
+            return getgenv().FLAGS[index][flag]
         end
     end
     function customs.updateChatFile(content, Token)
