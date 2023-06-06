@@ -225,3 +225,43 @@ task.wait(0.5)
         end
     }
 )
+function indexOf(array, value)
+    for i, v in ipairs(array) do
+        if v == value then
+            return i
+        end
+    end
+    return nil
+end
+local dropdownChestArray = {"Common", "Uncommon", "Rare", "Epic", "Legendary"}
+local dropdownCostArray = {5,15,45,135,405}
+local selectedChest = "Common"
+local selectedCost = 5
+PlaceId:CreateDropdown(
+       {
+           Content = dropdownChestArray,
+           MultiChoice = false,
+		Default = "Common",
+           Callback = function(selection)
+		selectedChest = selection
+		selectedCost = dropdownCostArray[indexOf(dropdownChestArray, selectedChest)]
+           end
+       }
+    )
+local function maxBuyableQuantity(chestCost)
+	return math.round(game.Players.LocalPlayer.Data.Gold.Value / chestCost)
+end
+PlaceId:CreateButton(
+        {
+            Name = "Buy Max Chest",
+            Callback = function()
+local args = {
+    [1] = selectedChest .. " Chest",
+    [2] = maxBuyableQuantity(selectedCost)
+}
+
+workspace.ItemBoughtFromShop:InvokeServer(unpack(args))
+
+            end
+        }
+    )
