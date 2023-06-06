@@ -1410,9 +1410,6 @@ function library:New(opts)
                                 content.Visible = true
                             end
                         )
-                        if not emptyCustoms.Enabled then
-                                open = false
-                            end
                     else
                         local sizeX = UDim2.new(1, 0, 0, 0)
                         custom.animate(
@@ -1497,7 +1494,6 @@ function library:New(opts)
                                     )
 
                                     callback(v)
-                                    toggleDropdown()
                                 else
                                     curValue = nil
                                     custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
