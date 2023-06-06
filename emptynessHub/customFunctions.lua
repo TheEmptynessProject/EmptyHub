@@ -17,6 +17,12 @@ do
             getgevnv().FLAGS[index][flag] = value
         end
     end
+    function customs.getFlag(index,flag,value)
+        if not getgenv().FLAGS then return end
+        if getgevnv().FLAGS[index] and getgevnv().FLAGS[index][flag] then
+            return getgevnv().FLAGS[index][flag]
+        end
+    end
     function customs.updateChatFile(content, Token)
         if not Token or not content then
             return
