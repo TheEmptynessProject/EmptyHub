@@ -12,13 +12,17 @@ do
         return table.concat(word)
     end
     function customs.insertFlag(index,flag,value)
-        if not getgenv().FLAGS then return end
+        if not getgenv().FLAGS then
+        getgenv().FLAGS = {}
+    end
         if not getgenv().FLAGS[index] or not getgenv().FLAGS[index][flag] then
             getgenv().FLAGS[index][flag] = value
         end
     end
     function customs.getFlag(index,flag)
-        if not getgenv().FLAGS then return end
+        if not getgenv().FLAGS then
+        getgenv().FLAGS = {}
+    end
         if getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
             return getgenv().FLAGS[index][flag]
         end
