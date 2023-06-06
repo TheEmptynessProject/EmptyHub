@@ -161,7 +161,7 @@ PlaceId:CreateButton(
                 end
             end
             local teamString = tostring(LocalPlayer.TeamColor) .. "Zone"
-            print(teamString)
+
             local TNTargs = {
                 [1] = "SticksOfTNT",
                 [2] = 180,
@@ -186,7 +186,7 @@ PlaceId:CreateButton(
                 temp(true)
             end
             game.workspace.PVPRemote:FireServer(true)
-            local remoteArgs = {
+            local seatArgs = {
                 [1] = "Seat",
                 [2] = 1262,
                 [3] = Workspace[teamString],
@@ -198,11 +198,11 @@ PlaceId:CreateButton(
                 [8] = false
             }
             for i = 1, 20 do
-                local temp = remoteArgs[4]
-                remoteArgs[4] = remoteArgs[4] + Vector3.new(0, i / 50, 0)
-                invokeServerBatch(remoteArgs)
+                local temp = seatArgs[4]
+                seatArgs[4] = seatArgs[4] + Vector3.new(0, i / 50, 0)
+                invokeServerBatch(seatArgs)
                 task.wait()
-                remoteArgs[4] = temp
+                seatArgs[4] = temp
             end
             for i = 1, 1 do
                 local temp = TNTargs[4]
