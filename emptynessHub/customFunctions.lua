@@ -11,6 +11,12 @@ do
 
         return table.concat(word)
     end
+    function customs.insertFlag(flag,value)
+        if not getgenv().FLAGS then return end
+        if not getgevnv().FLAGS[flag] then
+            getgevnv().FLAGS[flag] = value
+        end
+    end
     function customs.updateChatFile(content, Token)
         if not Token or not content then
             return
