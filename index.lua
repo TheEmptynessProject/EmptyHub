@@ -345,27 +345,6 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn2:CreateLine(2, Color3.new(255, 255, 0))
-    universalColumn2:CreateToggle(
-        {
-            Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
-            Callback = function(bool)
-                custom.insertFlag(1, "SAFETY", bool)
-            end
-        }
-    )
-    universalColumn2:CreateSlider(
-        {
-            Name = "Safe Distance",
-            Min = 0,
-            Max = custom.getFlag(1, "RANGE"),
-            Default = game.Players.LocalPlayer.CameraMaxZoomDistance,
-            Decimals = 0.0001,
-            Callback = function(value)
-                game.Players.LocalPlayer.CameraMaxZoomDistance = value
-            end
-        }
-    )
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
