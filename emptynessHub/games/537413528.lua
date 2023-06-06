@@ -114,24 +114,36 @@ PlaceId:CreateToggle(
     }
 )
 PlaceId:CreateLine(2, Color3.new(255, 0, 255)) --DISABLED BECAUSE FIRST I NEED TO FIND THE NUMBERS LIKE SEAT = 1065 AND STICKSOFTNT = 180
---local dropdownItemArray = {}
---local item = nil
+local dropdownItemArray = {"Seat", "Lamp", "Cannon", "Torch"}
+local numberArray = {1262, 684, 277, 833}
+local item = "Seat"
+local numberino = 1262
 local protecEnabled = false
 --for _, item in pairs(game.ReplicatedStorage.BuildingParts:GetChildren()) do
 --if (item:IsA("Model")) then
 --table.insert(dropdownItemArray, item.Name)
 --end
 --end
---PlaceId:CreateLabel("Item to use")
---PlaceId:CreateDropdown(
---        {
---            Content = dropdownItemArray,
---            MultiChoice = false,
---            Callback = function(selection)
---                    item = selection
---            end
---        }
---    )
+function indexOf(array, value)
+    for i, v in ipairs(array) do
+        if v == value then
+            return i
+        end
+    end
+    return nil
+end
+
+PlaceId:CreateLabel("Item to use")
+PlaceId:CreateDropdown(
+       {
+            Content = dropdownItemArray,
+            MultiChoice = false,
+            Callback = function(selection)
+                    item = selection
+                    numberino = numberArray[indexOf(dropdownItemArray,selection)]
+            end
+        }
+    )
 PlaceId:CreateToggle(
     {
         Name = "Protection",
@@ -187,8 +199,8 @@ PlaceId:CreateButton(
             end
             game.workspace.PVPRemote:FireServer(true)
             local seatArgs = {
-                [1] = "Seat",
-                [2] = 1262,
+                [1] = item,
+                [2] = numberino,
                 [3] = Workspace[teamString],
                 [4] = CFrame.new(10, 6.6, -120) * CFrame.Angles(-math.pi, 0, -math.pi),
                 [5] = false,
@@ -225,14 +237,7 @@ PlaceId:CreateButton(
         end
     }
 )
-function indexOf(array, value)
-    for i, v in ipairs(array) do
-        if v == value then
-            return i
-        end
-    end
-    return nil
-end
+
 local dropdownChestArray = {"Common", "Uncommon", "Rare", "Epic", "Legendary"}
 local dropdownCostArray = {5, 15, 45, 135, 405}
 local selectedChest = "Common"
