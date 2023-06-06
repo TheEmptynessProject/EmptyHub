@@ -905,8 +905,8 @@ function library:New(opts)
 
                 button.MouseButton1Click:Connect(
                     function()
-                        callback()
                         custom.createRipple(button)
+                        callback()
                     end
                 )
                 button.MouseEnter:Connect(
