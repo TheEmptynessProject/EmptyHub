@@ -168,10 +168,6 @@ PlaceId:CreateButton(
                 overlay = Instance.new("Frame", RobloxGui)
                 overlay.BackgroundColor3 = Color3.new(0, 0, 0)
                 overlay.Size = UDim2.fromScale(1, 1)
-
-                local function set3DRenderingEnabled(enabled)
-                    RunService:Set3dRenderingEnabled(enabled)
-                end
             end
             local teamString = tostring(LocalPlayer.TeamColor) .. "Zone"
 
@@ -191,12 +187,8 @@ PlaceId:CreateButton(
                 Character.BuildingTool.RF:InvokeServer(unpack(toolArgs))
             end
             if protecEnabled then
-                local function temp(enabled)
-                    overlay.Visible = enabled
-                    set3DRenderingEnabled(not enabled)
-                end
-
-                temp(true)
+                    overlay.Visible = true
+                    RunService:Set3dRenderingEnabled(false)
             end
             game.workspace.PVPRemote:FireServer(true)
             local seatArgs = {
@@ -232,7 +224,8 @@ PlaceId:CreateButton(
             end
             task.wait(0.5)
             if protecEnabled then
-                temp(false)
+                overlay.Visible = false
+                    RunService:Set3dRenderingEnabled(true)
             end
             game.workspace.PVPRemote:FireServer(false)
         end
