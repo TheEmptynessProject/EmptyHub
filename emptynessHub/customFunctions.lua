@@ -20,7 +20,7 @@ do
             getgenv().FLAGS[index] = {}
         end
         
-        if not getgenv().FLAGS[index] or not getgenv().FLAGS[index][flag] then
+        if not getgenv().FLAGS[index][flag] then
             getgenv().FLAGS[index][flag] = value
         end
     end
