@@ -363,7 +363,7 @@ function library:New(opts)
             end
         )
     end
-    if chatEnabled and getgenv().git_TOKEN then
+    if chatEnabled then
         local lastTick = nil
         local canSendMessage = true
         chat =
