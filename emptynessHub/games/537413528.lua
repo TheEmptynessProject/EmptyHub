@@ -161,7 +161,7 @@ PlaceId:CreateButton(
                 end
             end
             local teamString = tostring(LocalPlayer.TeamColor) .. "Zone"
-
+            print(teamString)
             local TNTargs = {
                 [1] = "SticksOfTNT",
                 [2] = 180,
