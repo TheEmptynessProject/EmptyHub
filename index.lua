@@ -345,6 +345,16 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    universalColumn2:CreateLine(2, Color3.new(255, 0, 255))
+    universalColumn2:CreateToggle(
+        {
+            Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
+            Callback = function(bool)
+                custom.insertFlag(1, "SAFETY", bool)
+            end
+        }
+    )
+    
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
