@@ -11,16 +11,24 @@ do
 
         return table.concat(word)
     end
-    --[[function customs.insertFlag(index,flag,value)
+    function customs.insertFlag(index,flag,value)
+        if not getgenv().FLAGS then
+            getgenv().FLAGS = {}
+        end
+
+        if not getgenv().FLAGS[index] then
+            getgenv().FLAGS[index] = {}
+        end
+        
         if not getgenv().FLAGS[index] or not getgenv().FLAGS[index][flag] then
             getgenv().FLAGS[index][flag] = value
         end
     end
     function customs.getFlag(index,flag)
-        if getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
+        if getgenv().FLAGS and getgenv().FLAGS[index] and getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
             return getgenv().FLAGS[index][flag]
         end
-    end]]--
+    end
     function customs.updateChatFile(content, Token)
         if not Token or not content then
             return
