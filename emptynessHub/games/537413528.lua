@@ -253,6 +253,8 @@ PlaceId:CreateButton(
     {
         Name = "Buy Max Chest",
         Callback = function()
+            print(selectedChest .. " Chest")
+            print(maxBuyableQuantity(selectedCost))
             local args = {
                 [1] = selectedChest .. " Chest",
                 [2] = maxBuyableQuantity(selectedCost)
