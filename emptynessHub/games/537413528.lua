@@ -102,9 +102,9 @@ PlaceId:CreateToggle(
                 rootPart.CFrame = startpos
                 bodyVelocity.Parent = rootPart
                 task.wait(14)
-                rootPart.CFrame = workspace.BoatStages.NormalStages.TheEnd.GoldenChest.Trigger.CFrame
-                task.wait(0.5)
                 bodyVelocity.Parent = nil
+                task.wait(0.5)
+                rootPart.CFrame = workspace.BoatStages.NormalStages.TheEnd.GoldenChest.Trigger.CFrame
                 task.wait(0.5)
             end
 
