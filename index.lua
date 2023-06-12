@@ -178,7 +178,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "WalkSpeed",
             Min = 10,
             Max = 200,
-            Default = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed or 10,
+            Default = math.floor(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed) or 10,
             Decimals = 1,
             Callback = function(value)
                 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
@@ -190,7 +190,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "JumpPower",
             Min = 10,
             Max = 200,
-            Default = game.Players.LocalPlayer.Character.Humanoid.JumpPower or 10,
+            Default = math.floor(game.Players.LocalPlayer.Character.Humanoid.JumpPower) or 10,
             Decimals = 1,
             Callback = function(value)
                 game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
