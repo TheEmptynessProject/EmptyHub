@@ -24,7 +24,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Emptyness Hub",
             SizeX = 500,
             SizeY = 550,
-            Console = true,
+            Console = false,
             Chat = false
         }
     )
