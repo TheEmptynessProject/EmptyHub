@@ -1373,15 +1373,16 @@ function library:New(opts)
 
                 local content =
                     custom.createObject(
-                    "Frame",
+                    "ScrollingFrame",
                     {
                         ZIndex = 10,
                         Visible = false,
                         Size = UDim2.new(1, 0, 0, 0),
-                        ClipsDescendants = true,
+                        ClipsDescendants = false,
                         Position = UDim2.new(0, 0, 1, 6),
                         BackgroundColor3 = theme.DropdownContent,
-                        Parent = dropdown
+                        Parent = dropdown,
+                        ScrollBarThickness = 3
                     }
                 )
                 custom.enableDrag(content, library.dragSpeed)
