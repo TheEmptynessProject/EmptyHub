@@ -311,18 +311,17 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         game:GetService("RunService").RenderStepped:Connect(
                         function()
                             if not flying then return end
-                            local flyDirection = getMovementDirection()
                             if not bodyVelocity then
                                 bodyVelocity = Instance.new("BodyVelocity", rootPart)
                                 bodyVelocity.MaxForce = Vector3.new(2e10, 2e10, 2e10)
                                 updateFlySpeed()
                             else
-                                updateFlySpeed()
                                 game:GetService("TweenService"):Create(
                                     bodyVelocity,
                                     TweenInfo.new(0.5),
-                                    {Velocity = flyDirection * flySpeed}
+                                    {Velocity = getMovementDirection() * flySpeed}
                                 ):Play()
+                                updateFlySpeed()
                             end
                         end
                     )
