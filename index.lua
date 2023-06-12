@@ -350,7 +350,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
             Callback = function(bool)
-                custom.insertFlag(1, "Safety", bool)
+                custom.insertFlag(1, "Safety", bool, false)
             end
         }
     )
@@ -361,7 +361,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Max = 30,
             Default = 12,
             Callback = function(value)
-                custom.insertFlag(1, "SafetyRange", value)
+                custom.insertFlag(1, "SafetyRange", value, 12)
             end
         }
     )
@@ -369,7 +369,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Target Feet", --(Attacks feet instead of the back of the player)
             Callback = function(bool)
-                custom.insertFlag(1, "Feet", bool)
+                custom.insertFlag(1, "Feet", bool, false)
             end
         }
     )
@@ -377,7 +377,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Protection", --(lays you with your back on the floor, may be harder to hit)
             Callback = function(bool)
-                custom.insertFlag(1, "Protection", bool)
+                custom.insertFlag(1, "Protection", bool, false)
             end
         }
     )
@@ -385,7 +385,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Only Reach", --(No teleporting, only reach)
             Callback = function(bool)
-                custom.insertFlag(1, "reachonly", bool)
+                custom.insertFlag(1, "reachonly", bool, false)
             end
         }
     )
@@ -393,7 +393,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Void Protection++", --(if target or user goes lower than y coordinates, then local player is kicked)
             Callback = function(bool)
-                custom.insertFlag(1, "vpplus", bool)
+                custom.insertFlag(1, "vpplus", bool, false)
             end
         }
     )
@@ -402,7 +402,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Tool equipped check", --(Check if tool is equipped to teleport or attack)
             Callback = function(bool)
-                custom.insertFlag(1, "toolcheck", bool)
+                custom.insertFlag(1, "toolcheck", bool, false)
             end
         }
     )
