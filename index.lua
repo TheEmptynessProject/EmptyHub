@@ -360,7 +360,6 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Min = 10,
             Max = 30,
             Default = 12,
-            Decimals = 0,
             Callback = function(value)
                 custom.insertFlag(1, "SafetyRange", value)
             end
