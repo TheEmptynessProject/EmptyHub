@@ -348,11 +348,50 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
             Callback = function(bool)
-                custom.insertFlag(1, "SAFETY", bool)
+                custom.insertFlag(1, "Safety", bool)
             end
         }
     )
-
+    universalColumn2:CreateToggle(
+        {
+            Name = "Target Feet", --(Attacks feet instead of the back of the player)
+            Callback = function(bool)
+                custom.insertFlag(1, "Feet", bool)
+            end
+        }
+    )
+    universalColumn2:CreateToggle(
+        {
+            Name = "Protection", --(Attacks feet instead of the back of the player)
+            Callback = function(bool)
+                custom.insertFlag(1, "Protection", bool)
+            end
+        }
+    )
+    universalColumn2:CreateToggle(
+        {
+            Name = "Only Reach", --(Attacks feet instead of the back of the player)
+            Callback = function(bool)
+                custom.insertFlag(1, "reachonly", bool)
+            end
+        }
+    )
+    universalColumn2:CreateToggle(
+        {
+            Name = "Void Protection++", --(Attacks feet instead of the back of the player)
+            Callback = function(bool)
+                custom.insertFlag(1, "vpplus", bool)
+            end
+        }
+    )
+    universalColumn2:CreateToggle(
+        {
+            Name = "Tool equipped check", --(Attacks feet instead of the back of the player)
+            Callback = function(bool)
+                custom.insertFlag(1, "toolcheck", bool)
+            end
+        }
+    )
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
