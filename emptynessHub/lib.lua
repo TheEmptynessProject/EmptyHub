@@ -1379,9 +1379,6 @@ function library:New(opts)
                         Visible = false,
                         Size = UDim2.new(1, 0, 0, 0),
                         ClipsDescendants = false,
-                        Active = true,
-                ScrollBarThickness = 0,
-                CanvasSize = UDim2.new(0, 0, 0, 0),
                         Position = UDim2.new(0, 0, 1, 6),
                         BackgroundColor3 = theme.DropdownContent,
                         Parent = dropdown
