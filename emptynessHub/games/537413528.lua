@@ -262,3 +262,21 @@ PlaceId:CreateButton(
         end
     }
 )
+local dropdownTeamName = {}
+for i,v in pairs(game.workspace:GetChildren()) do
+if string.find(v.Name, "Team") and v:FindFirstChild("Baseplate") then
+table.insert(dropdownTeamName, v.Name)
+end
+end
+PlaceId:CreateLabel("Team Teleports")
+PlaceId:CreateDropdown(
+    {
+        Content = dropdownTeamName,
+        MultiChoice = false,
+        Callback = function(selection)
+            if game.workspace:FindFirstChild(selection) and game.workspace[selection]:FindFirstChild("Baseplate") then
+                game.Players.LocalPlayer.Character.HumamoidRootPart.CFrame = game.workspace[selection].Baseplate.CFrame
+            end
+        end
+    }
+)
