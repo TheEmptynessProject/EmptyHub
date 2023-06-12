@@ -345,12 +345,19 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    custom.insertFlag(1, "Safety", bool, false)
+    custom.insertFlag(1, "SafetyRange", value, 12)
+    custom.insertFlag(1, "Feet", bool, false)
+    custom.insertFlag(1, "Protection", bool, false)
+    custom.insertFlag(1, "reachonly", bool, false)
+    custom.insertFlag(1, "vpplus", bool, false)
+    custom.insertFlag(1, "toolcheck", bool, false)
     universalColumn2:CreateLine(2, Color3.new(255, 0, 255))
     universalColumn2:CreateToggle(
         {
             Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
             Callback = function(bool)
-                custom.insertFlag(1, "Safety", bool, false)
+                custom.insertFlag(1, "Safety", bool)
             end
         }
     )
@@ -361,7 +368,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Max = 30,
             Default = 12,
             Callback = function(value)
-                custom.insertFlag(1, "SafetyRange", value, 12)
+                custom.insertFlag(1, "SafetyRange", value)
             end
         }
     )
@@ -369,7 +376,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Target Feet", --(Attacks feet instead of the back of the player)
             Callback = function(bool)
-                custom.insertFlag(1, "Feet", bool, false)
+                custom.insertFlag(1, "Feet", bool)
             end
         }
     )
@@ -377,7 +384,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Protection", --(lays you with your back on the floor, may be harder to hit)
             Callback = function(bool)
-                custom.insertFlag(1, "Protection", bool, false)
+                custom.insertFlag(1, "Protection", bool)
             end
         }
     )
@@ -385,7 +392,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Only Reach", --(No teleporting, only reach)
             Callback = function(bool)
-                custom.insertFlag(1, "reachonly", bool, false)
+                custom.insertFlag(1, "reachonly", bool)
             end
         }
     )
@@ -393,7 +400,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Void Protection++", --(if target or user goes lower than y coordinates, then local player is kicked)
             Callback = function(bool)
-                custom.insertFlag(1, "vpplus", bool, false)
+                custom.insertFlag(1, "vpplus", bool)
             end
         }
     )
@@ -402,7 +409,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Tool equipped check", --(Check if tool is equipped to teleport or attack)
             Callback = function(bool)
-                custom.insertFlag(1, "toolcheck", bool, false)
+                custom.insertFlag(1, "toolcheck", bool)
             end
         }
     )
@@ -452,9 +459,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
 
                     if key == "c" then
                         range = range + 5
+                        notifLib:Notify("Increased Range", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     elseif key == "v" then
                         range = range - 5
+                        notifLib:Notify("Increased Range", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     elseif key == "g" then
                         player.Character.HumanoidRootPart.CFrame =
