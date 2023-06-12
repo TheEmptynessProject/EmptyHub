@@ -334,10 +334,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             {Velocity = Vector3.new(0, 0, 0)}
                         ):Play()
                         bodyVelocity:Destroy()
-                        print("Destroyed")
+                        bodyVelocity = nil
                     end
                     if connectionFly then
-                        print("Disconnected")
                         connectionFly:Disconnect()
                     end
                 end
