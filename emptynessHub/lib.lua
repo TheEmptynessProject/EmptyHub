@@ -1433,6 +1433,7 @@ function library:New(opts)
                             {Size = sizeX},
                             function()
                                 content.Visible = true
+                                contentHolder.CanvasSize = UDim2.new(0, 0, 0, contentList.AbsoluteContentSize.Y)
                             end
                         )
                     else
@@ -1443,6 +1444,7 @@ function library:New(opts)
                             {Size = sizeX},
                             function()
                                 content.Visible = false
+                                contentHolder.CanvasSize = UDim2.new(0, 0, 0, contentList.AbsoluteContentSize.Y)
                             end
                         )
                     end
