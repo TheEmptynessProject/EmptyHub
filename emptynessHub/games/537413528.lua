@@ -1,11 +1,11 @@
 local default = getgenv().mainLib:NewTab("Game Tab 1")
-local PlaceId =
-    default:NewSection(
-    {
-        Name = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
-        column = 1
-    }
-)
+    local PlaceId =
+        default:NewSection(
+        {
+            Name = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name or "Error",
+            column = 1
+        }
+    )
 PlaceId:CreateButton(
     {
         Name = "Disable Water Damage",
