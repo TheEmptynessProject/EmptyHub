@@ -1373,19 +1373,22 @@ function library:New(opts)
 
                 local content =
                     custom.createObject(
-                    "ScrollingFrame",
+                    "Frame",
                     {
                         ZIndex = 10,
                         Visible = false,
                         Size = UDim2.new(1, 0, 0, 0),
                         ClipsDescendants = false,
+                        Active = true,
+                ScrollBarThickness = 0,
+                CanvasSize = UDim2.new(0, 0, 0, 0),
                         Position = UDim2.new(0, 0, 1, 6),
                         BackgroundColor3 = theme.DropdownContent,
-                        Parent = dropdown,
-                        ScrollBarThickness = 3
+                        Parent = dropdown
                     }
                 )
-                custom.enableDrag(content, library.dragSpeed)
+                
+
                 custom.createObject(
                     "UICorner",
                     {
@@ -1396,15 +1399,18 @@ function library:New(opts)
 
                 local contentHolder =
                     custom.createObject(
-                    "Frame",
+                    "ScrollingFrame",
                     {
                         Size = UDim2.new(1, -6, 1, 0),
                         Position = UDim2.new(0, 6, 0, 0),
+                        Active = true,
+                ScrollBarThickness = 0,
+                CanvasSize = UDim2.new(0, 0, 0, 0),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         Parent = content
                     }
                 )
-                custom.enableDrag(contentHolder, library.dragSpeed)
+
                 local contentList =
                     custom.createObject(
                     "UIListLayout",
@@ -1413,6 +1419,13 @@ function library:New(opts)
                         Parent = contentHolder
                     }
                 )
+                
+                contentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(
+            function()
+                contentHolder.CanvasSize = UDim2.new(0, 0, 0, contentList.AbsoluteContentSize.Y)
+            end
+        )
+                
                 local function toggleDropdown()
                     open = not open
                     if open then
