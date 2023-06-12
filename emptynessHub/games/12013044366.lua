@@ -2,7 +2,7 @@ local default = getgenv().mainLib:NewTab("Game Tab 1")
     local PlaceId =
         default:NewSection(
         {
-            Name = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+            Name = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name or "Error",
             column = 1
         }
     )
