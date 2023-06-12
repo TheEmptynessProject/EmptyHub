@@ -238,7 +238,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     connection_noclip_one =
                         game:GetService("RunService").Stepped:connect(
                         function()
-                            if not on then
+                            if not on or connection_noclip_one then
                                 return
                             end
                             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
@@ -310,12 +310,13 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     connectionFly =
                         game:GetService("RunService").RenderStepped:Connect(
                         function()
+                            if not flying then return end
                             local flyDirection = getMovementDirection()
-                            if flying and not bodyVelocity then
+                            if not bodyVelocity then
                                 bodyVelocity = Instance.new("BodyVelocity", rootPart)
                                 bodyVelocity.MaxForce = Vector3.new(2e10, 2e10, 2e10)
                                 updateFlySpeed()
-                            elseif flying and bodyVelocity then
+                            else
                                 updateFlySpeed()
                                 game:GetService("TweenService"):Create(
                                     bodyVelocity,
@@ -334,8 +335,10 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             {Velocity = Vector3.new(0, 0, 0)}
                         ):Play()
                         bodyVelocity:Destroy()
+                        print("Destroyed")
                     end
                     if connectionFly then
+                        print("Disconnected")
                         connectionFly:Disconnect()
                     end
                 end
