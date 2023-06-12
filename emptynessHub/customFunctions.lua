@@ -11,7 +11,7 @@ do
 
         return table.concat(word)
     end
-    function customs.insertFlag(index, flag, value)
+    function customs.insertFlag(index, flag, value, default)
         if not getgenv().FLAGS then
             getgenv().FLAGS = {}
         end
@@ -21,7 +21,7 @@ do
         end
         flag = string.upper(flag)
         if not getgenv().FLAGS[index][flag] then
-            getgenv().FLAGS[index][flag] = value
+            getgenv().FLAGS[index][flag] = value or default
         end
     end
     function customs.getFlag(index, flag)
