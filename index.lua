@@ -310,7 +310,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     connectionFly =
                         game:GetService("RunService").RenderStepped:Connect(
                         function()
-                            if not flying then return end
+                            if not flying then
+                                return
+                            end
                             if not bodyVelocity then
                                 bodyVelocity = Instance.new("BodyVelocity", rootPart)
                                 bodyVelocity.MaxForce = Vector3.new(2e10, 2e10, 2e10)
@@ -352,6 +354,18 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    universalColumn2:CreateSlider(
+        {
+            Name = "Safety Range",
+            Min = 10,
+            Max = 30,
+            Default = 12,
+            Decimals = 0,
+            Callback = function(value)
+                custom.insertFlag(1, "SafetyRange", value)
+            end
+        }
+    )
     universalColumn2:CreateToggle(
         {
             Name = "Target Feet", --(Attacks feet instead of the back of the player)
@@ -362,7 +376,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
     universalColumn2:CreateToggle(
         {
-            Name = "Protection", --(Attacks feet instead of the back of the player)
+            Name = "Protection", --(lays you with your back on the floor, may be harder to hit)
             Callback = function(bool)
                 custom.insertFlag(1, "Protection", bool)
             end
@@ -370,7 +384,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
     universalColumn2:CreateToggle(
         {
-            Name = "Only Reach", --(Attacks feet instead of the back of the player)
+            Name = "Only Reach", --(No teleporting, only reach)
             Callback = function(bool)
                 custom.insertFlag(1, "reachonly", bool)
             end
@@ -378,17 +392,217 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
     universalColumn2:CreateToggle(
         {
-            Name = "Void Protection++", --(Attacks feet instead of the back of the player)
+            Name = "Void Protection++", --(if target or user goes lower than y coordinates, then local player is kicked)
             Callback = function(bool)
                 custom.insertFlag(1, "vpplus", bool)
             end
         }
     )
+
     universalColumn2:CreateToggle(
         {
-            Name = "Tool equipped check", --(Attacks feet instead of the back of the player)
+            Name = "Tool equipped check", --(Check if tool is equipped to teleport or attack)
             Callback = function(bool)
                 custom.insertFlag(1, "toolcheck", bool)
+            end
+        }
+    )
+    universalColumn2:CreateButton( --c to increase range, v to decrease, g to lay on floor
+        {
+            Name = "Activate",
+            Callback = function()
+                local range = 15
+                local player = game:GetService("Players").LocalPlayer
+                local mouse = player:GetMouse()
+                local part1 = Instance.new("Part")
+                part1.Position = Vector3.new(0, -safetyRange, 0)
+                part1.Size = Vector3.new(5000, 0.1, 5000)
+                part1.Anchored = true
+                part1.Parent = game.Workspace
+                part1.Transparency = 0.9
+                local function adorn(part, radius)
+                    local sphereAdornment = Instance.new("SphereHandleAdornment")
+                    sphereAdornment.Name = "Reach"
+                    sphereAdornment.Adornee = part
+                    sphereAdornment.Radius = radius
+                    sphereAdornment.Transparency = 0.9
+                    sphereAdornment.Color3 = Color3.new(0, 1, 0)
+                    sphereAdornment.AlwaysOnTop = true
+                    sphereAdornment.ZIndex = -1
+                    sphereAdornment.Parent = part
+                end
+                local function updateAdornment()
+                    local head = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    if head then
+                        local reachAdornment = head:FindFirstChild("Reach")
+                        if reachAdornment and reachAdornment:IsA("SphereHandleAdornment") then
+                            reachAdornment.Radius = range
+                        else
+                            adorn(head, range)
+                        end
+                    end
+                end
+                local debounce = false
+
+                local function handleKeyDown(key)
+                    if debounce then
+                        return
+                    end
+                    debounce = true
+
+                    if key == "c" then
+                        range = range + 5
+                        updateAdornment()
+                    elseif key == "v" then
+                        range = range - 5
+                        updateAdornment()
+                    elseif key == "g" then
+                        player.Character.HumanoidRootPart.CFrame =
+                            CFrame.new(player.Character.HumanoidRootPart.Position) * CFrame.Angles(math.rad(90), 0, 0)
+                    end
+
+                    task.delay(
+                        0.1,
+                        function()
+                            debounce = false
+                        end
+                    )
+                end
+                local lastTarget
+                local function teleportToBehindPlayer(targetPlayer)
+                    local targetRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+
+                    local targetHumanoid = targetPlayer.Character:FindFirstChild("Humanoid")
+                    local playerHumanoid = player.Character:FindFirstChild("Humanoid")
+                    local tool = player.Character:FindFirstChildOfClass("Tool")
+                    local safetyRange = custom.getFlag(1, "SafetyRange")
+                    if custom.getFlag(1, "toolcheck") and (not tool or not tool:FindFirstChild("Handle")) then
+                        return
+                    end
+                    if not custom.getFlag(1, "reachonly") then
+                        if targetHumanoid and playerHumanoid then
+                            if custom.getFlag(1, "Safety") then
+                                if custom.getFlag(1, "Feet") then
+                                    local targetFeetPosition =
+                                        CFrame.new(
+                                        targetRootPart.Position - Vector3.new(0, targetRootPart.Size.Y / 2, 0)
+                                    )
+                                    if targetFeetPosition.Y < -safetyRange and custom.getFlag(1, "vpplus") then
+                                        game.Players.LocalPlayer:Kick("Void Protection")
+                                    end
+                                    local offset =
+                                        Vector3.new(
+                                        0,
+                                        -targetRootPart.Size.Y - player.Character.HumanoidRootPart.Size.Y,
+                                        0
+                                    )
+                                    offset = offset * (safetyRange / 10)
+                                    player.Character.HumanoidRootPart.CFrame =
+                                        (targetFeetPosition + offset) * CFrame.Angles(math.rad(90), 0, 0)
+                                else
+                                    local targetLookVector = targetRootPart.CFrame.LookVector
+                                    if targetRootPart.CFrame.Y < -safetyRange and custom.getFlag(1, "vpplus") then
+                                        game.Players.LocalPlayer:Kick("Void Protection")
+                                    end
+                                    local offset = targetLookVector * -safetyRange
+                                    player.Character.HumanoidRootPart.CFrame = (targetRootPart.CFrame + offset)
+                                end
+
+                                if (safetyRange <= 6) then
+                                    safetyRange = 12
+                                end
+                                if (lastTarget and lastTarget ~= targetPlayer) then
+                                    safetyRange = 12
+                                end
+                                lastTarget = targetPlayer
+                                safetyRange = safetyRange - 2
+                            else
+                                if custom.getFlag(1, "Feet") then
+                                    local targetFeetPosition =
+                                        CFrame.new(
+                                        targetRootPart.Position - Vector3.new(0, targetRootPart.Size.Y / 2, 0)
+                                    )
+                                    if targetFeetPosition.Y < -safetyRange and custom.getFlag(1, "vpplus") then
+                                        game.Players.LocalPlayer:Kick("Void Protection")
+                                    end
+                                    local offset =
+                                        Vector3.new(
+                                        0,
+                                        -targetRootPart.Size.Y - player.Character.HumanoidRootPart.Size.Y,
+                                        0
+                                    )
+                                    player.Character.HumanoidRootPart.CFrame =
+                                        (targetFeetPosition + offset) * CFrame.Angles(math.rad(90), 0, 0)
+                                else
+                                    local targetLookVector = targetRootPart.CFrame.LookVector
+                                    if targetRootPart.CFrame.Y < -safetyRange and custom.getFlag(1, "vpplus") then
+                                        game.Players.LocalPlayer:Kick("Void Protection")
+                                    end
+                                    local offset = targetLookVector * -3
+                                    player.Character.HumanoidRootPart.CFrame = (targetRootPart.CFrame + offset)
+                                end
+                                lastTarget = targetPlayer
+                            end
+                        end
+                    end
+
+                    if tool then
+                        tool:Activate()
+                        for _, part in ipairs(targetPlayer.Character:GetDescendants()) do
+                            if part:IsA("BasePart") then
+                                firetouchinterest(tool.Handle, part, 0)
+                                firetouchinterest(tool.Handle, part, 1)
+                            end
+                        end
+                    end
+                end
+
+                local function checkPlayerReach()
+                    local playerCharacter = player.Character
+                    if not playerCharacter then
+                        return
+                    end
+
+                    local playerHumanoidRootPart = playerCharacter:FindFirstChild("HumanoidRootPart")
+                    if not playerHumanoidRootPart then
+                        return
+                    end
+
+                    local playerPosition = playerHumanoidRootPart.Position
+
+                    for _, v in ipairs(game.Players:GetPlayers()) do
+                        if v ~= player then
+                            local vCharacter = v.Character
+                            if vCharacter and vCharacter:FindFirstChild("HumanoidRootPart") then
+                                if
+                                    vCharacter.Humanoid.Health > 0 and
+                                        not player.Character:FindFirstChildOfClass("ForceField") and
+                                        not vCharacter:FindFirstChildOfClass("ForceField") and
+                                        player.Character.Humanoid.Health > 0
+                                 then
+                                    if v:DistanceFromCharacter(playerPosition) <= range then
+                                        teleportToBehindPlayer(v)
+                                    elseif
+                                        v:DistanceFromCharacter(playerPosition) <= range + 10 and
+                                            custom.getFlag(1, "Protection")
+                                     then
+                                        player.Character.HumanoidRootPart.CFrame =
+                                            CFrame.new(
+                                            player.Character.HumanoidRootPart.Position + Vector3.new(0, -5, 0)
+                                        ) * CFrame.Angles(math.rad(90), 0, 0)
+                                        task.wait(0.1)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+
+                mouse.KeyDown:Connect(handleKeyDown)
+                player.CharacterAdded:Connect(updateAdornment)
+                player.CharacterRemoving:Connect(updateAdornment)
+                game:GetService("RunService").RenderStepped:Connect(checkPlayerReach)
+                updateAdornment()
             end
         }
     )
