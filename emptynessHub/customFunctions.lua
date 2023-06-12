@@ -19,7 +19,7 @@ do
         if not getgenv().FLAGS[index] then
             getgenv().FLAGS[index] = {}
         end
-
+        flag = string.upper(flag)
         if not getgenv().FLAGS[index][flag] then
             getgenv().FLAGS[index][flag] = value
         end
