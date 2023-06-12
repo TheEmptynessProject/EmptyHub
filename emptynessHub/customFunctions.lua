@@ -209,43 +209,41 @@ do
     end
 
     function customs.enableDrag(obj, speed)
-        local start, objPosition, dragging
+    local start, objPosition, dragging
 
-        obj.InputBegan:Connect(
-            function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = true
-                    start = input.Position
-                    objPosition = obj.Position
-                end
-            end
+    local function updateTargetPosition(delta)
+        local targetPosition = UDim2.new(
+            objPosition.X.Scale,
+            objPosition.X.Offset + delta.X,
+            objPosition.Y.Scale,
+            objPosition.Y.Offset + delta.Y
         )
 
-        obj.InputEnded:Connect(
-            function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = false
-                end
-            end
-        )
-
-        game:GetService("UserInputService").InputChanged:Connect(
-            function(input)
-                if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
-                    local delta = input.Position - start
-                    local targetPosition =
-                        UDim2.new(
-                        objPosition.X.Scale,
-                        objPosition.X.Offset + delta.X,
-                        objPosition.Y.Scale,
-                        objPosition.Y.Offset + delta.Y
-                    )
-
-                    customs.animate(obj, {speed}, {Position = targetPosition})
-                end
-            end
-        )
+        customs.animate(obj, {speed}, {Position = targetPosition})
     end
+
+    obj.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            start = input.Position
+            objPosition = obj.Position
+        end
+    end)
+
+    obj.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+            local delta = input.Position - start
+            updateTargetPosition(delta)
+        end
+    end)
+end
+
 
     function customs.formatTable(tbl)
         if tbl then
