@@ -1384,7 +1384,7 @@ function library:New(opts)
                         Parent = dropdown
                     }
                 )
-                custom.enableDrag(content)
+                custom.enableDrag(content, library.dragSpeed)
                 custom.createObject(
                     "UICorner",
                     {
@@ -1403,7 +1403,7 @@ function library:New(opts)
                         Parent = content
                     }
                 )
-                
+                custom.enableDrag(contentHolder, library.dragSpeed)
                 local contentList =
                     custom.createObject(
                     "UIListLayout",
