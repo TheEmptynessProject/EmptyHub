@@ -1403,7 +1403,7 @@ function library:New(opts)
                         Parent = content
                     }
                 )
-
+                custom.enableDrag(contentHolder)
                 local contentList =
                     custom.createObject(
                     "UIListLayout",
@@ -1419,7 +1419,7 @@ function library:New(opts)
                         content.Visible = true
                         custom.animate(
                             content,
-                            {#contentTable * 0.1},
+                            {0.5},
                             {Size = sizeX},
                             function()
                                 content.Visible = true
@@ -1429,7 +1429,7 @@ function library:New(opts)
                         local sizeX = UDim2.new(1, 0, 0, 0)
                         custom.animate(
                             content,
-                            {#contentTable * 0.1},
+                            {0.5},
                             {Size = sizeX},
                             function()
                                 content.Visible = false
@@ -1838,7 +1838,7 @@ function library:New(opts)
 
                         if content.Visible then
                             local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                            custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
+                            custom.animate(content, {0.5}, {Size = sizeX})
                         end
                     end
 
@@ -1860,7 +1860,7 @@ function library:New(opts)
 
                             if content.Visible then
                                 local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y - 16)
-                                custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
+                                custom.animate(content, {0.5}, {Size = sizeX})
                             end
 
                             if not multiChoice then
@@ -1901,7 +1901,7 @@ function library:New(opts)
 
                     if content.Visible then
                         local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                        custom.animate(content, {#contentTable * 0.1}, {Size = sizeX})
+                        custom.animate(content, {0.5}, {Size = sizeX})
                     end
                 end
 
