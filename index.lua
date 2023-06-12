@@ -413,6 +413,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local range = 15
                 local player = game:GetService("Players").LocalPlayer
                 local mouse = player:GetMouse()
+                local safetyRange = custom.getFlag(1, "SafetyRange")
                 local part1 = Instance.new("Part")
                 part1.Position = Vector3.new(0, -safetyRange, 0)
                 part1.Size = Vector3.new(5000, 0.1, 5000)
@@ -474,7 +475,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     local targetHumanoid = targetPlayer.Character:FindFirstChild("Humanoid")
                     local playerHumanoid = player.Character:FindFirstChild("Humanoid")
                     local tool = player.Character:FindFirstChildOfClass("Tool")
-                    local safetyRange = custom.getFlag(1, "SafetyRange")
+                    
                     if custom.getFlag(1, "toolcheck") and (not tool or not tool:FindFirstChild("Handle")) then
                         return
                     end
