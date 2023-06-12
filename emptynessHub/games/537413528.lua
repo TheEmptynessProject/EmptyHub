@@ -275,7 +275,7 @@ PlaceId:CreateDropdown(
         MultiChoice = false,
         Callback = function(selection)
             if game.workspace:FindFirstChild(selection) and game.workspace[selection]:FindFirstChild("Baseplate") then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace[selection].Baseplate.CFrame
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace[selection].Baseplate.CFrame + Vector3.new(0,5,0)
             end
         end
     }
