@@ -15,3 +15,14 @@ PlaceId:CreateKeybind(
         end
     }
 )
+PlaceId:CreateButton(
+    {
+        Name = "Grab Coins",
+        Callback = function()
+            for i, v in ipairs(game.Workspace.Coins.Points:GetChildren()) do
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                                task.wait(0.1)
+                            end           
+        end
+    }
+)
