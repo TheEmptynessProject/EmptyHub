@@ -23,8 +23,10 @@ do
         if not getgenv().FLAGS[index][flag] then
             getgenv().FLAGS[index][flag] = default
         else
+            if value and type(value) == type(getgenv().FLAGS[index][flag]) then
             getgenv().FLAGS[index][flag] = value
-            end
+                end
+        end
     end
     function customs.getFlag(index, flag)
         flag = string.upper(flag)
