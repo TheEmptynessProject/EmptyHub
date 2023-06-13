@@ -6,9 +6,10 @@ local default = getgenv().mainLib:NewTab("Game Tab 1")
             column = 1
         }
     )
-PlaceId:CreateButton(
+PlaceId:CreateKeybind(
     {
         Name = "Finish TP",
+        Default = Enum.KeyCode.R,
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Finish.Finish.CFrame            
         end
