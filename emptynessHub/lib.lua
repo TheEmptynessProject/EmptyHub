@@ -2022,13 +2022,12 @@ function library:New(opts)
                         Parent = keybind
                     }
                 )
-
+                local binding
                 keybind.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
                         custom.animate(value, {0.2}, {TextColor3 = theme.DisabledText})
 
-                        local binding
                         binding =
                             inputService.InputBegan:Connect(
                             function(input)
@@ -2039,13 +2038,13 @@ function library:New(opts)
                                 if input.UserInputType == Enum.UserInputType.Keyboard then
                                     keyChosen = input.KeyCode
 
-                                    callback(input.KeyCode)
                                     binding:Disconnect()
+                                    binding = nil
                                 else
                                     keyChosen = input.UserInputType
 
-                                    callback(input.UserInputType)
                                     binding:Disconnect()
+                                    binding = nil
                                 end
                             end
                         )
