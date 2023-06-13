@@ -38,7 +38,7 @@ PlaceId:CreateKeybind(
                         v.ClassName == "Model" and v.Name ~= "" and v:FindFirstChild("HumanoidRootPart") and
                             v.Name ~= game.Players.LocalPlayer.Name
                      then
-                        if game.Players[v].Team ~= nil or game.Players[v].Team ~= game.Players.LocalPlayer.Team then
+                        if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             local args = {
                                 [1] = Vector3.new(0, 0, 0),
                                 [2] = Vector3.new(0, 0, 0),
@@ -56,7 +56,7 @@ PlaceId:CreateKeybind(
                         v.ClassName == "Model" and v.Name ~= "" and v:FindFirstChild("HumanoidRootPart") and
                             v.Name ~= game.Players.LocalPlayer.Name
                      then
-                        if game.Players[v].Team ~= nil or game.Players[v].Team ~= game.Players.LocalPlayer.Team then
+                        if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             game:GetService("ReplicatedStorage").Remotes.Stab:FireServer(v.HumanoidRootPart)
                         end
                     end
@@ -82,7 +82,7 @@ PlaceId:CreateKeybind(
                         v.ClassName == "Model" and v.Name ~= "" and v:FindFirstChild("HumanoidRootPart") and
                             v.Name ~= game.Players.LocalPlayer.Name
                      then
-                        if game.Players[v].Team ~= nil or game.Players[v].Team ~= game.Players.LocalPlayer.Team then
+                        if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             local args = {
                                 [1] = Vector3.new(0, 0, 0),
                                 [2] = Vector3.new(0, 0, 0),
@@ -101,7 +101,7 @@ PlaceId:CreateKeybind(
                         v.ClassName == "Model" and v.Name ~= "" and v:FindFirstChild("HumanoidRootPart") and
                             v.Name ~= game.Players.LocalPlayer.Name
                      then
-                        if game.Players[v].Team ~= nil or game.Players[v].Team ~= game.Players.LocalPlayer.Team then
+                        if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             game:GetService("ReplicatedStorage").Remotes.Stab:FireServer(v.HumanoidRootPart)
                             return
                         end
