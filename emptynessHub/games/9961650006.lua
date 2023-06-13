@@ -12,8 +12,6 @@ PlaceId:CreateKeybind(
         Default = Enum.KeyCode.R,
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Finish.Finish.CFrame
-            task.wait(0.5)
-            game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
         end
     }
 )
@@ -23,8 +21,7 @@ PlaceId:CreateToggle(
         Callback = function(bool)
             while bool do
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Finish.Finish.CFrame
-            task.wait(0.5)
-            game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+            task.wait(1)
                 end
         end
     }
