@@ -501,7 +501,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         return
                     end
                     if not custom.getFlag(1, "reachonly") then
-                        if targetHumanoid and playerHumanoid then
+                        if custom.isAlive(targetPlayer) and custom.isAlive(player) then
                             if custom.getFlag(1, "Safety") then
                                 if custom.getFlag(1, "Feet") then
                                     local targetFeetPosition =
@@ -596,10 +596,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             local vCharacter = v.Character
                             if vCharacter and vCharacter:FindFirstChild("HumanoidRootPart") then
                                 if
-                                    vCharacter.Humanoid.Health > 0 and
-                                        not player.Character:FindFirstChildOfClass("ForceField") and
-                                        not vCharacter:FindFirstChildOfClass("ForceField") and
-                                        player.Character.Humanoid.Health > 0
+                                    custom.isPlayerTargetable(v, false, false)
                                  then
                                     if v:DistanceFromCharacter(playerPosition) <= range then
                                         teleportToBehindPlayer(v)
