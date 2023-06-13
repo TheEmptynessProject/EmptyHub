@@ -12,7 +12,7 @@ PlaceId:CreateKeybind(
         Default = Enum.KeyCode.R,
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Finish.Finish.CFrame
-            task.wait(0.2)
+            task.wait(0.5)
             game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
         end
     }
