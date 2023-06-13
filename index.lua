@@ -202,7 +202,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Camera Zoom Distance",
             Min = 0,
             Max = 200000,
-            Default = game.Players.LocalPlayer.CameraMaxZoomDistance,
+            Default = math.floor(game.Players.LocalPlayer.CameraMaxZoomDistance) or 0,
             Decimals = 0.0001,
             Callback = function(value)
                 game.Players.LocalPlayer.CameraMaxZoomDistance = value
@@ -214,7 +214,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Camera Zoom Distance",
             Min = 0,
             Max = 200,
-            Default = game.workspace.Gravity,
+            Default = math.floor(game.workspace.Gravity) or 196,
             Decimals = 0.1,
             Callback = function(value)
                 game.workspace.Gravity = value
