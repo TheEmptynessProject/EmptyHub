@@ -209,6 +209,18 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    universalColumn2:CreateSlider(
+        {
+            Name = "Camera Zoom Distance",
+            Min = 0,
+            Max = 200,
+            Default = game.workspace.Gravity,
+            Decimals = 0.1,
+            Callback = function(value)
+                game.workspace.Gravity = value
+            end
+        }
+    )
     local temporaryThing = false
     universalColumn2:CreateToggle_and_Keybind(
         {
