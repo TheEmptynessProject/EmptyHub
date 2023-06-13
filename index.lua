@@ -142,7 +142,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Delete Invisible Parts",
             Callback = function()
                 for i,v in pairs(game.workspace:GetChildren()) do
-                                if v.CanCollide and (v.Transparency == 1 or string.find(string.lower(v.Name), "invis") or string.find(string.lower(v.Parent.Name), "invis")) then
+                                if v:IsA("Part") and v.CanCollide and (v.Transparency == 1 or string.find(string.lower(v.Name), "invis") or string.find(string.lower(v.Parent.Name), "invis")) then
                                   v:Destroy()
                                 end
                             end
