@@ -9,6 +9,7 @@ local default = getgenv().mainLib:NewTab("Game Tab 1")
     PlaceId:CreateKeybind(
         {
             Name = "KillAll",
+            Default = Enum.KeyCode.R,
             Callback = function()
                 for i,v in pairs(game.Players:GetChildren()) do
                     game:GetService("ReplicatedStorage").Remotes.Stab:FireServer(v.Character.HumanoidRootPart)
