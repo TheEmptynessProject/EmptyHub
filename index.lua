@@ -641,9 +641,8 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         game.PlaceId
     )
 
-    local success, gameScript = pcall(game.HttpGet, game, gameScriptUrl)
-
-    if success and gameScript and gamescript ~= "" then
-        loadstring(gameScript)()
-    end
+        pcall(function()
+                loadstring(game:HttpGet(gameScriptUrl))()
+            end)
+    task.wait(5)
 end
