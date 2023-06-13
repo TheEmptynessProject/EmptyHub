@@ -11,7 +11,9 @@ PlaceId:CreateKeybind(
         Name = "Finish TP",
         Default = Enum.KeyCode.R,
         Callback = function()
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Finish.Finish.CFrame            
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Finish.Finish.CFrame
+            task.wait(0.2)
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
         end
     }
 )
