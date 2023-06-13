@@ -39,12 +39,14 @@ PlaceId:CreateToggle(
 		thing.Transparency = 1
         end
 	while true do
-        thing.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0,3.3,0)
-        if not toggled then
+				if not toggled then
+					if thing then
           thing:Destroy()
           thing = nil
+						end
           break
           end
+        thing.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0,3.3,0)
         task.wait()
         end
         end
