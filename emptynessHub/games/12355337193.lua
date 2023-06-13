@@ -94,7 +94,7 @@ PlaceId:CreateKeybind(
 
                             game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
                             task.wait()
-                            return
+                            break
                         end
                     end
                 end
@@ -107,7 +107,7 @@ PlaceId:CreateKeybind(
                         if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             game:GetService("ReplicatedStorage").Remotes.Stab:FireServer(v.HumanoidRootPart)
                             task.wait()
-                            return
+                            break
                         end
                     end
                 end
