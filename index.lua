@@ -475,7 +475,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         updateAdornment()
                     elseif key == "v" then
                         range = range - 5
-                        notifLib:Notify("Increased Range", {Color = Color3.new(255, 255, 255)})
+                        notifLib:Notify("Decreased Range", {Color = Color3.new(255, 255, 255)})
                         updateAdornment()
                     elseif key == "g" then
                         player.Character.HumanoidRootPart.CFrame =
