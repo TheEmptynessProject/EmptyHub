@@ -25,7 +25,7 @@ end
 PlaceId:CreateKeybind(
     {
         Name = "KillAll",
-        Default = Enum.KeyCode.R,
+        Default = Enum.KeyCode.J,
         Callback = function()
             local pistol = getToolEquipped()
             repeat
@@ -71,7 +71,7 @@ PlaceId:CreateKeybind(
 PlaceId:CreateKeybind(
     {
         Name = "Kill one",
-        Default = Enum.KeyCode.G,
+        Default = Enum.KeyCode.R,
         Callback = function()
             local pistol = getToolEquipped()
             repeat
