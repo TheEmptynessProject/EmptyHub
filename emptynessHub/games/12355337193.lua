@@ -84,6 +84,7 @@ PlaceId:CreateKeybind(
                      then
                         if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             print(v.Name)
+                            print(v.Humanoid.Health)
                             local args = {
                                 [1] = Vector3.new(0, 0, 0),
                                 [2] = Vector3.new(0, 0, 0),
@@ -104,6 +105,7 @@ PlaceId:CreateKeybind(
                      then
                         if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team then
                             print(v.Name)
+                            print(v.Humanoid.Health)
                             game:GetService("ReplicatedStorage").Remotes.Stab:FireServer(v.HumanoidRootPart)
                             return
                         end
