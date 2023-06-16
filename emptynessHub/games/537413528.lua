@@ -63,8 +63,8 @@ PlaceId:CreateButton(
         Name = "Touch Balloon Blocks",
         Callback = function()
             for i, v in pairs(game.Workspace:GetDescendants()) do
-                if string.find(v.Parent.Name, "Balloon") and v:IsA("ClickDetector") then
-                    fireclickdetector(v, 0)
+                if string.find(v.Name, "Balloon") then
+                    fireclickdetector(v.PPart.ClickDetector, 0)
                 end
             end
         end
@@ -76,6 +76,18 @@ PlaceId:CreateButton(
         Callback = function()
             for i, v in pairs(game.Workspace:GetDescendants()) do
                 if string.find(v.Parent.Name, "Cannon") and v:IsA("ClickDetector") then
+                    fireclickdetector(v, 0)
+                end
+            end
+        end
+    }
+)
+PlaceId:CreateButton(
+    {
+        Name = "Touch Everything",
+        Callback = function()
+            for i, v in pairs(game.Workspace:GetDescendants()) do
+                if v:IsA("ClickDetector") then
                     fireclickdetector(v, 0)
                 end
             end
