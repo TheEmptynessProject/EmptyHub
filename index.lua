@@ -24,7 +24,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Name = "Emptyness Hub",
             SizeX = 500,
             SizeY = 550,
-            Console = false,
+            Console = true,
             Chat = false
         }
     )
@@ -93,7 +93,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateLabel("Teleport")
+    universalColumn1:CreateLabel({
+        Name = "Teleport to Player"
+    })
     local dropdownPlayerArray = {}
     for _, player in ipairs(game.Players:GetPlayers()) do
         table.insert(dropdownPlayerArray, player.DisplayName)
@@ -149,7 +151,10 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateLine(2, Color3.new(255, 0, 255))
+    universalColumn1:CreateLine({
+        Size = 2,
+        Color = Color3.new(255,0,255)
+    })
     universalColumn2:CreateToggle_and_Keybind(
         {
             Name = "Hex Spitter Kill All",
@@ -375,7 +380,10 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     custom.insertFlag(1, "reachonly", bool, false)
     custom.insertFlag(1, "vpplus", bool, false)
     custom.insertFlag(1, "toolcheck", bool, false)
-    universalColumn2:CreateLine(2, Color3.new(255, 0, 255))
+    universalColumn2:CreateLine({
+        Size = 2,
+        Color = Color3.new(255,0,255)
+    })
     universalColumn2:CreateToggle(
         {
             Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
