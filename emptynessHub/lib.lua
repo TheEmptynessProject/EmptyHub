@@ -829,7 +829,13 @@ function library:New(opts)
                 section.Visible = true
             end
 
-            function section_info:CreateLabel(text)
+            function section_info:CreateLabel(opts)
+                local options = custom.formatTable(opts)
+                local name = options.name or options.text
+                local tSize = options.size or 12
+                local font = options.font or fonted
+                local color = options.color or theme.TextColor
+                local tooltip = options.tooltip
                 local label =
                     custom.createObject(
                     "TextLabel",
@@ -838,11 +844,11 @@ function library:New(opts)
                         Size = UDim2.new(1, 0, 0, 10),
                         BackgroundTransparency = 1,
                         Position = UDim2.new(1, 5, 0, 0),
-                        FontSize = Enum.FontSize.Size12,
-                        TextSize = 12,
-                        Text = text,
-                        TextColor3 = theme.TextColor,
-                        Font = fonted,
+                        FontSize = Enum.FontSize["Size"..tSize],
+                        TextSize = tSize,
+                        Text = name,
+                        TextColor3 = color,
+                        Font = font,
                         TextXAlignment = Enum.TextXAlignment.Left,
                         Parent = sectionContent
                     }
@@ -861,8 +867,12 @@ function library:New(opts)
 
                 return label_info
             end
-            function section_info:CreateLine(px, color)
-                local separator =
+            function section_info:CreateLine(opts)
+                local options = custom.formatTable(opts)
+                local px = options.size or 2
+                local color = options.color or theme.TextColor
+                local tooltip = options.tooltip
+                local theLine =
                     custom.createObject(
                     "Frame",
                     {
@@ -873,18 +883,18 @@ function library:New(opts)
                     }
                 )
 
-                local separator_info = {}
-                separator_info = custom.formatTable(separator_info)
+                local line_info = {}
+                line_info = custom.formatTable(line_info)
 
-                function separator_info:Hide()
-                    separator.Visible = false
+                function line_info:Hide()
+                    theLine.Visible = false
                 end
 
-                function separator_info:Show()
-                    separator.Visible = true
+                function line_info:Show()
+                    theLine.Visible = true
                 end
 
-                return separator_info
+                return line_info
             end
             function section_info:CreateButton(opts)
                 local options = custom.formatTable(opts)
