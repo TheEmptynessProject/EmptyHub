@@ -227,7 +227,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
     universalColumn2:CreateSlider(
         {
-            Name = "Camera Zoom Distance",
+            Name = "Gravity",
             Min = 0,
             Max = 200,
             Default = math.floor(game.workspace.Gravity) or 196,
