@@ -286,9 +286,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                                     end
                         end
                     end
-                end
+               
                     connection_noclip_one:Disconnect()
-                end
+                     end
             end
         }
     )
