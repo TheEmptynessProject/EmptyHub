@@ -43,7 +43,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     notifLib:BuildUI()
 
     local uniTab = mainLib:NewTab("Universal")
-    local randomThingsTab = mainLib:NewTab("Random Things")
+    local randomThingsTab = mainLib:NewTab("Random")
     local universalColumn1 =
         uniTab:NewSection(
         {
