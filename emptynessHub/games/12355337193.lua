@@ -115,7 +115,7 @@ PlaceId:CreateKeybind(
 local delay = 0
 PlaceId:CreateSlider(
         {
-            Name = "WalkSpeed",
+            Name = "Lag Simulator",
             Min = 0,
             Max = 5,
             Default = 0,
