@@ -880,7 +880,8 @@ function library:New(opts)
                         ZIndex = 6,
                         Size = UDim2.new(1, 0, 0, px),
                         BackgroundColor3 = color,
-                        Parent = sectionContent
+                        Parent = sectionContent,
+                        BorderSizePixel = 0
                     }
                 )
 
