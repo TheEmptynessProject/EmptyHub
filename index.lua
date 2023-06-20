@@ -262,7 +262,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Click = true,
             Callback = function(bool, toggled, keyed)
                 local on = bool and toggled
-                if not connection_noclip_one and on then
+                if on then
                     connection_noclip_one =
                         game:GetService("RunService").Stepped:connect(
                         function()
@@ -270,20 +270,24 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                                 return
                             end
                             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                                if v:IsA("Part") then
+                                if v:IsA("BasePart") then
+                                    if v.CanCollide then
                                     v.CanCollide = false
+                                    end
                                 end
                             end
                         end
                     )
-                elseif connection_noclip_one and not on then
+                else
                     for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                        if v:IsA("Part") then
-                            v.CanCollide = true
+                        if v:IsA("BasePart") then
+                           if not v.CanCollide then
+                                    v.CanCollide = true
+                                    end
                         end
                     end
+                end
                     connection_noclip_one:Disconnect()
-                    connection_noclip_one = nil
                 end
             end
         }
