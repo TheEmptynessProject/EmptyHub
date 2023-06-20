@@ -78,6 +78,7 @@ library = custom.formatTable(library)
 
 inputService.InputBegan:Connect(
     function(input)
+        if inputService:GetFocusedTextBox() then return end
         if input.KeyCode == library.toggleBind then
             emptyCustoms.Enabled = not emptyCustoms.Enabled
             if console then
