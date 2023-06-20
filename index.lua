@@ -718,6 +718,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Color = Color3.new(0, 0, 0)
         }
     )
+    local function overdose()
+        notifLib:Notify("You overdosed!", {Color = Color3.new(255, 0, 0)})
+        task.wait()
+        game.Players.LocalPlayer:BreakJoints()
+    end
     randomColumn2:CreateButton(
         {
             Name = "Take LSD",
@@ -761,7 +766,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         for _, co in ipairs(coroutines) do
                             coroutine.close(co)
                         end
-
+                        if math.random() <= 0.03 then
+                                overdose()
+                            end
                         for i, v in ipairs(affected) do
                             local TweenInfo = TweenInfo.new(25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
 
