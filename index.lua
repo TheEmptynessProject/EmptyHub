@@ -670,14 +670,13 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    local bodyVelocity = Instance.new("BodyVelocity")
     randomColumn1:CreateToggle(
         {
             Name = "Block X POS",
             Callback = function(bool)
-                local bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.Name = "BlockX"
-                bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
-                bodyVelocity.MaxForce = Vector3.new(math.huge, 0, 0)
+           --     bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
+                bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
@@ -686,10 +685,8 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block Y POS",
             Callback = function(bool)
-                local bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.Name = "BlockY"
-                bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
-                bodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
+              --  bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
+               bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
@@ -698,10 +695,8 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block Z POS",
             Callback = function(bool)
-                local bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.Name = "BlockZ"
-                bodyVelocity.Velocity = Vector3.new(math.huge, math.huge, 0)
-                bodyVelocity.MaxForce = Vector3.new(0, 0, math.huge)
+   --             bodyVelocity.Velocity = bodyVelocity.Velocity + Vector3.new(math.huge, math.huge, 0)
+                bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
