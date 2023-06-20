@@ -43,6 +43,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     notifLib:BuildUI()
 
     local uniTab = mainLib:NewTab("Universal")
+    local randomThingsTab = mainLib:NewTab("Random Things")
     local universalColumn1 =
         uniTab:NewSection(
         {
@@ -52,6 +53,18 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
     local universalColumn2 =
         uniTab:NewSection(
+        {
+            Name = "",
+            column = 2
+        }
+    )
+    local randomColumn1 = randomThingsTab:NewSection(
+        {
+            Name = "",
+            column = 1
+        }
+    )
+    local randomColumn2 = randomThingsTab:NewSection(
         {
             Name = "",
             column = 2
@@ -644,6 +657,42 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 player.CharacterRemoving:Connect(updateAdornment)
                 game:GetService("RunService").RenderStepped:Connect(checkPlayerReach)
                 updateAdornment()
+            end
+        }
+    )
+randomColumn1:CreateToggle(
+        {
+            Name = "Block X POS",
+            Callback = function(bool)
+                local bodyVelocity = Instance.new("BodyVelocity")
+                bodyVelocity.Name = "BlockX" 
+bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
+bodyVelocity.MaxForce = Vector3.new(math.huge, 0, 0)
+bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+            end
+        }
+    )
+    randomColumn1:CreateToggle(
+        {
+            Name = "Block Y POS",
+            Callback = function(bool)
+                local bodyVelocity = Instance.new("BodyVelocity")
+                bodyVelocity.Name = "BlockY" 
+bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
+bodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
+bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+            end
+        }
+    )
+    randomColumn1:CreateToggle(
+        {
+            Name = "Block Z POS",
+            Callback = function(bool)
+                local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.Name = "BlockZ"            
+bodyVelocity.Velocity = Vector3.new(math.huge, math.huge, 0)
+bodyVelocity.MaxForce = Vector3.new(0, 0, math.huge)
+bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
     )
