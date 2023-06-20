@@ -807,5 +807,4 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             loadstring(game:HttpGet(gameScriptUrl))()
         end
     )
-    task.wait(5)
 end
