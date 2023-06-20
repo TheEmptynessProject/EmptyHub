@@ -734,7 +734,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local coroutines = {}
 
                 for i, v in pairs(game.Workspace:GetDescendants()) do
-                    if v:IsA("Part") and v.Material and v.Material == Enum.Material.Plastic and v.Material == Enum.Material.Wood and v.Material == Enum.Material.Neon and v.Material == Enum.Material.SmoothPlastic then
+                    if v:IsA("Part") and v.Material and (v.Material == Enum.Material.Plastic or v.Material == Enum.Material.Wood or v.Material == Enum.Material.Neon or v.Material == Enum.Material.SmoothPlastic) then
                         table.insert(affected, v)
                         table.insert(materials, v.Material)
                         table.insert(colors, v.Color)
