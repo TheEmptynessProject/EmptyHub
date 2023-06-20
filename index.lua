@@ -675,7 +675,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block X POS",
             Callback = function(bool)
-           --     bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
+                --     bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
                 bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
@@ -685,8 +685,8 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block Y POS",
             Callback = function(bool)
-              --  bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
-               bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
+                --  bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
+                bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
@@ -695,7 +695,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block Z POS",
             Callback = function(bool)
-   --             bodyVelocity.Velocity = bodyVelocity.Velocity + Vector3.new(math.huge, math.huge, 0)
+                --             bodyVelocity.Velocity = bodyVelocity.Velocity + Vector3.new(math.huge, math.huge, 0)
                 bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
@@ -732,9 +732,10 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 local materials = {}
                 local colors = {}
                 local coroutines = {}
+                local centerPosition = game.Workspace.CurrentCamera.CFrame.Position -- Set the center position as the camera's position
 
                 for i, v in pairs(game.Workspace:GetDescendants()) do
-                    if v:IsA("Part") and v.Material and (v.Material == Enum.Material.Plastic or v.Material == Enum.Material.Wood or v.Material == Enum.Material.Neon or v.Material == Enum.Material.SmoothPlastic) then
+                    if v:IsA("Part") and v.Material and (v.Position - centerPosition).Magnitude <= 350 then -- Check if the part is within the desired radius
                         table.insert(affected, v)
                         table.insert(materials, v.Material)
                         table.insert(colors, v.Color)
@@ -765,6 +766,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     function()
                         for _, co in ipairs(coroutines) do
                             coroutine.close(co)
+                            task.wait()
                         end
                         if math.random() <= 0.03 then
                                 overdose()
