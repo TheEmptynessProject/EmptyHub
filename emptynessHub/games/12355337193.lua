@@ -82,7 +82,7 @@ PlaceId:CreateKeybind(
                         v.ClassName == "Model" and v.Name ~= "" and v:FindFirstChild("HumanoidRootPart") and
                             v.Name ~= game.Players.LocalPlayer.Name
                      then
-                        if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team and v.Humanoid.Health > 0 then
+                        if game.Players[v.Name].Team ~= nil and game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team and v.Humanoid.Health > 0 then
                             print(v.Name)
                             local args = {
                                 [1] = Vector3.new(0, 0, 0),
@@ -102,7 +102,7 @@ PlaceId:CreateKeybind(
                         v.ClassName == "Model" and v.Name ~= "" and v:FindFirstChild("HumanoidRootPart") and
                             v.Name ~= game.Players.LocalPlayer.Name
                      then
-                        if game.Players[v.Name].Team ~= nil or game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team and v.Humanoid.Health > 0 then
+                        if game.Players[v.Name].Team ~= nil and game.Players[v.Name].Team ~= game.Players.LocalPlayer.Team and v.Humanoid.Health > 0 then
                             print(v.Name)
                             
                             game:GetService("ReplicatedStorage").Remotes.Stab:FireServer(v.HumanoidRootPart)
