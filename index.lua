@@ -788,6 +788,14 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
+    randomColumn2:CreateButton( --Motion Blur and speed?
+        {
+            Name = "Take LSD",
+            Callback = function()
+
+            end
+        }
+    )
     local gameScriptUrl =
         string.format(
         "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
