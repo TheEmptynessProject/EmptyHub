@@ -113,7 +113,7 @@ PlaceId:CreateKeybind(
     }
 )
 local delay = 0
-universalColumn2:CreateSlider(
+PlaceId:CreateSlider(
         {
             Name = "WalkSpeed",
             Min = 0,
