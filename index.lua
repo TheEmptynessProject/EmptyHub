@@ -58,13 +58,15 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             column = 2
         }
     )
-    local randomColumn1 = randomThingsTab:NewSection(
+    local randomColumn1 =
+        randomThingsTab:NewSection(
         {
             Name = "",
             column = 1
         }
     )
-    local randomColumn2 = randomThingsTab:NewSection(
+    local randomColumn2 =
+        randomThingsTab:NewSection(
         {
             Name = "",
             column = 2
@@ -106,9 +108,11 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateLabel({
-        Name = "Teleport to Player"
-    })
+    universalColumn1:CreateLabel(
+        {
+            Name = "Teleport to Player"
+        }
+    )
     local dropdownPlayerArray = {}
     for _, player in ipairs(game.Players:GetPlayers()) do
         table.insert(dropdownPlayerArray, player.DisplayName)
@@ -156,18 +160,24 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Delete Invisible Parts",
             Callback = function()
-                for i,v in pairs(game.workspace:GetChildren()) do
-                                if v:IsA("Part") and v.CanCollide and (v.Transparency == 1 or string.find(string.lower(v.Name), "invis") or string.find(string.lower(v.Parent.Name), "invis")) then
-                                  v.CanCollide = false
-                                end
-                            end
+                for i, v in pairs(game.workspace:GetChildren()) do
+                    if
+                        v:IsA("Part") and v.CanCollide and
+                            (v.Transparency == 1 or string.find(string.lower(v.Name), "invis") or
+                                string.find(string.lower(v.Parent.Name), "invis"))
+                     then
+                        v.CanCollide = false
+                    end
+                end
             end
         }
     )
-    universalColumn1:CreateLine({
-        Size = 2,
-        Color = Color3.new(255,0,255)
-    })
+    universalColumn1:CreateLine(
+        {
+            Size = 2,
+            Color = Color3.new(255, 0, 255)
+        }
+    )
     universalColumn2:CreateToggle_and_Keybind(
         {
             Name = "Hex Spitter Kill All",
@@ -285,7 +295,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                                 if v:IsA("BasePart") then
                                     if v.CanCollide then
-                                    v.CanCollide = false
+                                        v.CanCollide = false
                                     end
                                 end
                             end
@@ -294,14 +304,14 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                 else
                     for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                         if v:IsA("BasePart") then
-                           if not v.CanCollide then
-                                    v.CanCollide = true
-                                    end
+                            if not v.CanCollide then
+                                v.CanCollide = true
+                            end
                         end
                     end
-               
+
                     connection_noclip_one:Disconnect()
-                     end
+                end
             end
         }
     )
@@ -397,10 +407,12 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     custom.insertFlag(1, "reachonly", bool, false)
     custom.insertFlag(1, "vpplus", bool, false)
     custom.insertFlag(1, "toolcheck", bool, false)
-    universalColumn2:CreateLine({
-        Size = 2,
-        Color = Color3.new(255,0,255)
-    })
+    universalColumn2:CreateLine(
+        {
+            Size = 2,
+            Color = Color3.new(255, 0, 255)
+        }
+    )
     universalColumn2:CreateToggle(
         {
             Name = "Safety", --(Rotates your character paralell to the ground with sword pointing at the sky when someone is getting near)
@@ -532,7 +544,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                     local targetHumanoid = targetPlayer.Character:FindFirstChild("Humanoid")
                     local playerHumanoid = player.Character:FindFirstChild("Humanoid")
                     local tool = player.Character:FindFirstChildOfClass("Tool")
-                    
+
                     if custom.getFlag(1, "toolcheck") and (not tool or not tool:FindFirstChild("Handle")) then
                         return
                     end
@@ -631,9 +643,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
                         if v ~= player then
                             local vCharacter = v.Character
                             if vCharacter and vCharacter:FindFirstChild("HumanoidRootPart") then
-                                if
-                                    custom.isPlayerTargetable(v, false, false)
-                                 then
+                                if custom.isPlayerTargetable(v, false, false) then
                                     if v:DistanceFromCharacter(playerPosition) <= range then
                                         teleportToBehindPlayer(v)
                                     elseif
@@ -660,15 +670,15 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-randomColumn1:CreateToggle(
+    randomColumn1:CreateToggle(
         {
             Name = "Block X POS",
             Callback = function(bool)
                 local bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.Name = "BlockX" 
-bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
-bodyVelocity.MaxForce = Vector3.new(math.huge, 0, 0)
-bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                bodyVelocity.Name = "BlockX"
+                bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
+                bodyVelocity.MaxForce = Vector3.new(math.huge, 0, 0)
+                bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
     )
@@ -677,10 +687,10 @@ bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             Name = "Block Y POS",
             Callback = function(bool)
                 local bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.Name = "BlockY" 
-bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
-bodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
-bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                bodyVelocity.Name = "BlockY"
+                bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
+                bodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
+                bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
     )
@@ -689,10 +699,88 @@ bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             Name = "Block Z POS",
             Callback = function(bool)
                 local bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.Name = "BlockZ"            
-bodyVelocity.Velocity = Vector3.new(math.huge, math.huge, 0)
-bodyVelocity.MaxForce = Vector3.new(0, 0, math.huge)
-bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                bodyVelocity.Name = "BlockZ"
+                bodyVelocity.Velocity = Vector3.new(math.huge, math.huge, 0)
+                bodyVelocity.MaxForce = Vector3.new(0, 0, math.huge)
+                bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+            end
+        }
+    )
+    randomColumn2:CreateLine(
+        {
+            Size = 2,
+            Color = Color3.new(0, 0, 0)
+        }
+    )
+    randomColumn2:CreateLabel(
+        {
+            Name = "DRUGS"
+        }
+    )
+    randomColumn2:CreateLine(
+        {
+            Size = 2,
+            Color = Color3.new(0, 0, 0)
+        }
+    )
+    randomColumn2:CreateButton(
+        {
+            Name = "Take LSD",
+            Callback = function()
+                local TweenService = game:GetService("TweenService")
+                local affected = {}
+                local materials = {}
+                local colors = {}
+                local coroutines = {}
+
+                for i, v in pairs(game.Workspace:GetDescendants()) do
+                    if v:IsA("Part") and v.Material then
+                        table.insert(affected, v)
+                        table.insert(materials, v.Material)
+                        table.insert(colors, v.Color)
+                        v.Material = Enum.Material.Neon
+
+                        local co =
+                            coroutine.create(
+                            function()
+                                while true do
+                                    for i = 0, 1, 1 / 50 do
+                                        v.Color = Color3.fromHSV(i, 1, 1)
+                                        task.wait()
+                                    end
+                                end
+                            end
+                        )
+
+                        table.insert(coroutines, co)
+                    end
+                end
+
+                for _, co in ipairs(coroutines) do
+                    coroutine.resume(co)
+                end
+
+                task.delay(
+                    5,
+                    function()
+                        for _, co in ipairs(coroutines) do
+                            coroutine.close(co)
+                        end
+
+                        for i, v in ipairs(affected) do
+                            local TweenInfo = TweenInfo.new(25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+
+                            local colorTween = TweenService:Create(v, TweenInfo, {Color = colors[i]})
+                            colorTween:Play()
+                            colorTween.Completed:Connect(
+                                function()
+                                    task.wait(0.5)
+                                    v.Material = materials[i]
+                                end
+                            )
+                        end
+                    end
+                )
             end
         }
     )
@@ -702,8 +790,10 @@ bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
         game.PlaceId
     )
 
-        pcall(function()
-                loadstring(game:HttpGet(gameScriptUrl))()
-            end)
+    pcall(
+        function()
+            loadstring(game:HttpGet(gameScriptUrl))()
+        end
+    )
     task.wait(5)
 end
