@@ -262,7 +262,6 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             Click = true,
             Callback = function(bool, toggled, keyed)
                 local on = bool and toggled
-				print(on)
                 if not connection_noclip_one and on then
                     connection_noclip_one =
                         game:GetService("RunService").Stepped:connect(
