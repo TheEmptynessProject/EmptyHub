@@ -73,7 +73,7 @@ PlaceId:CreateToggle(
             while bool do
                 task.wait()
                 for i = 1, 5 do
-                    root.CFrame = CFrame.new(start) * CFrame.Angles(0, math.rad(-90), 0)
+                    root.CFrame = CFrame.new(start, finish))
                     task.wait()
                 end
 
@@ -95,7 +95,7 @@ PlaceId:CreateToggle(
                 local startTime = tick()
 
                 repeat
-                    root.CFrame = CFrame.new(temp.Position)
+                    root.CFrame = CFrame.new(temp.Position, finish)
                     task.wait(0.1)
                     keypress(0x46)
                     task.wait(0.3)
