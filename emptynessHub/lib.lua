@@ -98,6 +98,16 @@ inputService.InputBegan:Connect(
         end
     end
 )
+game:GetService("RunService").RenderStepped:Connect(function()
+    if emptyCustoms.Enabled then
+        if userInputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
+            userInputService.MouseBehavior = Enum.MouseBehavior.Default
+        else
+            userInputService.MouseBehavior = previousMouseBehavior
+        end
+    end
+end)
+
 function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
