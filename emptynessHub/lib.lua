@@ -107,16 +107,14 @@ inputService.InputBegan:Connect(
         end
     end
 )
-local previousMouseBehavior = inputService.MouseBehavior
+local previous = inputService.MouseBehavior
 runService.RenderStepped:Connect(function()
     if emptyCustoms.Enabled then
         if inputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
             inputService.MouseBehavior = Enum.MouseBehavior.Default
-        else
-            inputService.MouseBehavior = previousMouseBehavior
         end
         else
-            inputService.MouseBehavior = previousMouseBehavior
+            inputService.MouseBehavior = previous
     end
 end)
 
