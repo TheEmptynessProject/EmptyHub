@@ -18,7 +18,7 @@ local function getVehicle()
     end
     return nil
 end
-PlaceId:CreateToggle(
+--[[PlaceId:CreateToggle(
     {
         Name = "Always Drift",
         Callback = function(bool)
@@ -43,7 +43,7 @@ PlaceId:CreateToggle(
                 setreadonly(mt, true);
         end
     }
-)
+)]]--idk why doesnt work
 PlaceId:CreateButton(
     {
         Name = "Get Interactables",
