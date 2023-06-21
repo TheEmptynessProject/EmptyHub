@@ -159,16 +159,16 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     universalColumn1:CreateButton(
         {
             Name = "Delete Invisible Parts",
-            Callback = function()
-                for i, v in pairs(game.workspace:GetChildren()) do
-                    if
-                        v:IsA("Part") and v.CanCollide and
-                            (v.Transparency == 1 or string.find(string.lower(v.Name), "invis") or
-                                string.find(string.lower(v.Parent.Name), "invis"))
-                     then
-                        v.CanCollide = false
-                    end
-                end
+            Callback = function(bool)
+                for i,v in pairs(workspace:GetDescendants()) do
+            		if v:IsA("BasePart") and v.Transparency == 1 and v.CanCollide then
+                        if bool then
+                			v.CanCollide = false
+                        else
+                            v.CanCollide = true
+                        end
+            		end
+            	end
             end
         }
     )
