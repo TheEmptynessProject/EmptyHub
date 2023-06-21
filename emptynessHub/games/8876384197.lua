@@ -22,8 +22,6 @@ local default = getgenv().mainLib:NewTab("Game Tab 1")
                    if (method == "FireServer" and self.Name == "AFK") then
                         if bool then
                        args[1] = true;
-                            else 
-                            return nc(self, unpack(args));
                             end
                    end;
 
