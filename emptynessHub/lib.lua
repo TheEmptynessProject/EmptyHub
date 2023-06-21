@@ -75,12 +75,20 @@ emptyCustoms =
     }
 )
 library = custom.formatTable(library)
-
+local BlurEffect = custom.createObject(
+    "BlurEffect",
+    {Size = 10}
+)
 inputService.InputBegan:Connect(
     function(input)
         if inputService:GetFocusedTextBox() then return end
         if input.KeyCode == library.toggleBind then
             emptyCustoms.Enabled = not emptyCustoms.Enabled
+            if emptyCustoms.Enabled then
+                BlurEffect.Parent = game:GetService("Lighting")
+            else
+                BlurEffect.Parent = nil
+            end
             if console then
                 console.Enabled = emptyCustoms.Enabled
             end
