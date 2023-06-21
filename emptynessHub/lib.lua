@@ -115,6 +115,8 @@ runService.RenderStepped:Connect(function()
         else
             inputService.MouseBehavior = previousMouseBehavior
         end
+        else
+            inputService.MouseBehavior = previousMouseBehavior
     end
 end)
 
