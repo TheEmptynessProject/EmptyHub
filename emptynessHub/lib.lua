@@ -86,7 +86,7 @@ inputService.InputBegan:Connect(
         if input.KeyCode == library.toggleBind then
             emptyCustoms.Enabled = not emptyCustoms.Enabled
             if emptyCustoms.Enabled then
-                custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 25})
+                custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 50})
             else
                 custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 0})
             end
@@ -107,7 +107,7 @@ inputService.InputBegan:Connect(
         end
     end
 )
-local previous = inputService.MouseBehavior
+--[[local previous = inputService.MouseBehavior
 runService.RenderStepped:Connect(function()
     if emptyCustoms.Enabled then
         if inputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
@@ -116,7 +116,7 @@ runService.RenderStepped:Connect(function()
         else
             inputService.MouseBehavior = previous
     end
-end)
+end)]]--
 
 function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
