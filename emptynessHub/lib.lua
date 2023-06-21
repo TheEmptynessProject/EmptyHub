@@ -78,7 +78,7 @@ library = custom.formatTable(library)
 local BlurEffect = custom.createObject(
     "BlurEffect",
     {Size = 0,
-    Parent = game:GetService("Lightning")}
+    Parent = game:GetService("Lighting")}
 )
 inputService.InputBegan:Connect(
     function(input)
