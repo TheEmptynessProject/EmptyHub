@@ -671,13 +671,24 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         }
     )
     local bodyVelocity = Instance.new("BodyVelocity")
+    local allToggled = 0
     randomColumn1:CreateToggle(
         {
             Name = "Block X POS",
             Callback = function(bool)
-                --     bodyVelocity.Velocity = Vector3.new(0, math.huge, math.huge)
-                bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
+                if bool then
+                    allToggled += 1
+                    bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(math.huge, 0, 0)
+                else
+                    allToggled -= 1
+                    bodyVelocity.MaxForce = bodyVelocity.MaxForce - Vector3.new(math.huge, 0, 0)
+                end
+                 if allToggled == 0 then
+                    bodyVelocity.Parent = nil
+                    return
+                end
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                
             end
         }
     )
@@ -685,8 +696,17 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block Y POS",
             Callback = function(bool)
-                --  bodyVelocity.Velocity = Vector3.new(math.huge, 0, math.huge)
-                bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
+                if bool then
+                    allToggled += 1
+                    bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, math.huge, 0)
+                else
+                    allToggled -= 1
+                    bodyVelocity.MaxForce = bodyVelocity.MaxForce - Vector3.new(0, math.huge, 0)
+                end
+                 if allToggled == 0 then
+                    bodyVelocity.Parent = nil
+                    return
+                end
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
@@ -695,8 +715,17 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Block Z POS",
             Callback = function(bool)
-                --             bodyVelocity.Velocity = bodyVelocity.Velocity + Vector3.new(math.huge, math.huge, 0)
-                bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
+                if bool then
+                    allToggled += 1
+                    bodyVelocity.MaxForce = bodyVelocity.MaxForce + Vector3.new(0, 0, math.huge)
+                else
+                    allToggled -= 1
+                    bodyVelocity.MaxForce = bodyVelocity.MaxForce - Vector3.new(0, 0, math.huge)
+                end
+                 if allToggled == 0 then
+                    bodyVelocity.Parent = nil
+                    return
+                end
                 bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
             end
         }
