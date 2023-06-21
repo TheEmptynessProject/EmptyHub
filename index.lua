@@ -156,9 +156,9 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             end
         }
     )
-    universalColumn1:CreateButton(
+    universalColumn1:CreateToggle(
         {
-            Name = "Delete Invisible Parts",
+            Name = "Disable Invisible Parts",
             Callback = function(bool)
                 for i,v in pairs(workspace:GetDescendants()) do
             		if v:IsA("BasePart") and v.Transparency == 1 and v.CanCollide then
