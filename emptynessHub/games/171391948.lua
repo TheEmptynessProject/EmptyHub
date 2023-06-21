@@ -103,7 +103,7 @@ PlaceId:CreateToggle(
 
                 task.wait(0.2)
 
-                while player:DistanceFromCharacter(finish) >= 30 do
+                while player:DistanceFromCharacter(finish) >= 100 do
                     keypress(0x57)
                     task.wait()
                     if tick() - startTime >= 30 then
