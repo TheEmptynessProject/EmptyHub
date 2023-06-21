@@ -839,7 +839,7 @@ randomColumn1:CreateToggle(
     )
     randomColumn2:CreateButton( --Motion Blur and speed?
         {
-            Name = "Take LSD",
+            Name = "Take Cocaine",
             Callback = function()
 
             end
