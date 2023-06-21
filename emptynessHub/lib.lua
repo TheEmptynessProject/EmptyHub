@@ -104,6 +104,9 @@ inputService.InputBegan:Connect(
             if chat then
                 chat:Destroy()
             end
+            if BlurEffect then
+                BlurEffect:Destroy()
+            end
         end
     end
 )
