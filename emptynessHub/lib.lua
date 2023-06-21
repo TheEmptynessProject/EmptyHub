@@ -77,7 +77,8 @@ emptyCustoms =
 library = custom.formatTable(library)
 local BlurEffect = custom.createObject(
     "BlurEffect",
-    {Size = 10}
+    {Size = 0,
+    Parent = game:GetService("Lightning")}
 )
 inputService.InputBegan:Connect(
     function(input)
@@ -85,9 +86,9 @@ inputService.InputBegan:Connect(
         if input.KeyCode == library.toggleBind then
             emptyCustoms.Enabled = not emptyCustoms.Enabled
             if emptyCustoms.Enabled then
-                BlurEffect.Parent = game:GetService("Lighting")
+                custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 25})
             else
-                BlurEffect.Parent = nil
+                custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 0})
             end
             if console then
                 console.Enabled = emptyCustoms.Enabled
