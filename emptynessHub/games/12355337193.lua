@@ -6,9 +6,6 @@ local PlaceId =
         column = 1
     }
 )
-local notifLib = etgenv().notifLib
-
-notifLib:BuildUI()
 
 local function getToolEquipped()
     for i, v in pairs(game.workspace:GetChildren()) do
@@ -220,6 +217,7 @@ PlaceId:CreateToggle(
                             )
 
                             setreadonly(mt, true)
+                            game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
                         else
                             notifLib:Notify("You should equip pistol", {Color = Color3.new(255, 0, 0)})
                         end
