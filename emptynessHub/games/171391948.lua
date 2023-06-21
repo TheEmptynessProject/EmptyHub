@@ -18,19 +18,29 @@ local function getVehicle()
     end
     return nil
 end
-PlaceId:CreateButton(
+PlaceId:CreateToggle(
     {
-        Name = "Get Interactables",
+        Name = "Always Drift",
         Callback = function()
-            for i, v in pairs(game.workspace.Interactibles.AchievementObjects.PickupObjects:GetChildren()) do
-                if v:FindFirstChild("Item") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Item.CFrame
-                    for i = 1, 10 do
-                        keypress(0x46)
-                        task.wait(0.1)
-                    end
-                end
-            end
+            local mt = debug.getmetatable(game);
+                local nc = mt.__namecall;
+
+                setreadonly(mt, false);
+
+                mt.__namecall = newcclosure(function(self, ...)
+                   local args = {...};
+                   local method = getnamecallmethod();
+
+                   if method == "FireServer" and self.Name == "Bool" then
+                        if bool then
+                       args[2] = true;
+                            end
+                   end;
+
+                   return nc(self, unpack(args));
+                end);
+
+                setreadonly(mt, true);
         end
     }
 )
