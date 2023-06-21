@@ -73,7 +73,7 @@ PlaceId:CreateToggle(
             while bool do
                 task.wait()
                 for i = 1, 5 do
-                    root.CFrame = CFrame.new(start, finish))
+                    root.CFrame = CFrame.new(start, finish)
                     task.wait()
                 end
 
