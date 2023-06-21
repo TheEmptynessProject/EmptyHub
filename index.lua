@@ -672,6 +672,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
     )
 local bodyVelocity = Instance.new("BodyVelocity")
 bodyVelocity.Velocity = Vector3.new(math.huge, math.huge, math.huge)
+    bodyVelocity.MaxForce = Vector3.new(0, 0, 0)
 local allToggled = 0
 
 randomColumn1:CreateToggle(
