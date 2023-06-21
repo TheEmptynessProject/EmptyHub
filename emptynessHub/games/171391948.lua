@@ -21,7 +21,7 @@ end
 PlaceId:CreateToggle(
     {
         Name = "Always Drift",
-        Callback = function()
+        Callback = function(bool)
             local mt = debug.getmetatable(game);
                 local nc = mt.__namecall;
 
