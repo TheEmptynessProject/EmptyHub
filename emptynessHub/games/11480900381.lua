@@ -12,6 +12,7 @@ PlaceId:CreateToggle(
         Callback = function(bool)
             local ball = nil
             while bool do
+                task.wait()
                 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.LockCenter
                 if game.workspace.Marker:FindFirstChild("Ball") then
                     ball = game.workspace.Marker:FindFirstChild("Ball").Hitbox
