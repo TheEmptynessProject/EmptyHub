@@ -23,9 +23,9 @@ PlaceId:CreateToggle(
                         me:DistanceFromCharacter(ball.Position) <= 10 and
                             tostring(game.ReplicatedStorage.Status.Target.Value) == tostring(me.Name)
                      then
+                        mouse1press()
                         workspace.CurrentCamera.CFrame =
                             CFrame.new(me.Character.HumanoidRootPart.Position, ball.Position or Vector3.new(0, 0, 0))
-                        mouse1press()
                     end
                 end
             end
