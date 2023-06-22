@@ -121,8 +121,8 @@ runService.RenderStepped:Connect(function()
         else
             inputService.MouseBehavior = previous
     end
-end)]] function library:New(
-    opts)
+end)]]
+function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
     local name = options.name
@@ -141,12 +141,9 @@ end)]] function library:New(
             BackgroundTransparency = 1,
             Position = custom.getCenterPosition(sizeX, sizeY),
             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-            Parent = emptyCustoms,
-            Transparency = 1
+            Parent = emptyCustoms
         }
     )
-
-    custom.animate(holder, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
 
     local title =
         custom.createObject(
@@ -193,6 +190,7 @@ end)]] function library:New(
         }
     )
     custom.animate(main, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
+    
     custom.createObject(
         "UICorner",
         {
@@ -209,10 +207,13 @@ end)]] function library:New(
             Size = UDim2.new(1, -16, 1, -34),
             Position = UDim2.new(0, 8, 0, 26),
             BackgroundColor3 = theme.TabBackground,
-            Parent = main
+            Parent = main,
+            Transparency = 1
         }
     )
 
+custom.animate(tabs, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
+    
     custom.createObject(
         "UICorner",
         {
@@ -240,9 +241,12 @@ end)]] function library:New(
             Size = UDim2.new(1, -12, 1, -29),
             Position = UDim2.new(0, 6, 0, 24),
             BackgroundColor3 = theme.Tab,
-            Parent = tabs
+            Parent = tabs,
+            Transparency = 1
         }
     )
+
+    custom.animate(tabFrames, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
 
     custom.createObject(
         "UICorner",
