@@ -43,15 +43,16 @@ local themes = {
 }
 
 function _destroy()
-    if (coreGui:FindFirstChild(custom.generateString(32, 1))) then
-        coreGui[custom.generateString(32, 1)]:Destroy()
-    end
-    if (coreGui:FindFirstChild(custom.generateString(32, 1.1))) then
-        coreGui[custom.generateString(32, 1.1)]:Destroy()
-    end
-    if (coreGui:FindFirstChild(custom.generateString(32, 1.2))) then
-        coreGui[custom.generateString(32, 1.2)]:Destroy()
-    end
+            emptyCustoms:Destroy()
+            if console then
+                console:Destroy()
+            end
+            if chat then
+                chat:Destroy()
+            end
+            if BlurEffect then
+                BlurEffect:Destroy()
+            end
     getgenv()[custom.generateString(32, 0)] = false
 end
 
@@ -97,16 +98,7 @@ inputService.InputBegan:Connect(
                 chat.Enabled = emptyCustoms.Enabled
             end
         elseif input.KeyCode == library.closeBind then
-            emptyCustoms:Destroy()
-            if console then
-                console:Destroy()
-            end
-            if chat then
-                chat:Destroy()
-            end
-            if BlurEffect then
-                BlurEffect:Destroy()
-            end
+            _destroy()
         end
     end
 )
