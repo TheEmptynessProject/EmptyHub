@@ -20,15 +20,12 @@ PlaceId:CreateToggle(
                 if ball then
                     local me = game.Players.LocalPlayer
                     if
-                        me:DistanceFromCharacter(ball.Position) <= 20 and
+                        me:DistanceFromCharacter(ball.Position) <= 10 and
                             tostring(game.ReplicatedStorage.Status.Target.Value) == tostring(me.Name)
                      then
                         workspace.CurrentCamera.CFrame =
                             CFrame.new(me.Character.HumanoidRootPart.Position, ball.Position or Vector3.new(0, 0, 0))
                         mouse1press()
-                    elseif me:DistanceFromCharacter(ball.Position) > 20 then
-                        me.Character.HumanoidRootPart.CFrame =
-                            CFrame.new(me.Character.HumanoidRootPart.Position, ball.Position or Vector3.new(0, 0, 0))
                     end
                 end
             end
