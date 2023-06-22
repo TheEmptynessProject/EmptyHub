@@ -171,7 +171,9 @@ function library:New(opts)
     )
 
     custom.enableDrag(holder, library.dragSpeed)
-
+    
+    custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 50})
+    
     local main =
         custom.createObject(
         "Frame",
@@ -261,7 +263,7 @@ function library:New(opts)
             Parent = tabToggles
         }
     )
-
+    
     if consoleEnabled then
         console =
             custom.createObject(
