@@ -121,7 +121,6 @@ PlaceId:CreateToggle(
                     end
                 end
                 keypress(0x46)
-                print("Finish")
                 task.wait(1.2)
                 keypress(0x57)
                 task.wait(0.8)
