@@ -26,6 +26,9 @@ PlaceId:CreateToggle(
                         workspace.CurrentCamera.CFrame =
                             CFrame.new(me.Character.HumanoidRootPart.Position, ball.Position or Vector3.new(0, 0, 0))
                         mouse1press()
+                    elseif me:DistanceFromCharacter(ball.Position) > 20 then
+                        me.Character.HumanoidRootPart.CFrame =
+                            CFrame.new(me.Character.HumanoidRootPart.Position, ball.Position or Vector3.new(0, 0, 0))
                     end
                 end
             end
