@@ -79,15 +79,20 @@ emptyCustoms =
     }
 )
 library = custom.formatTable(library)
-local BlurEffect = custom.createObject(
+local BlurEffect =
+    custom.createObject(
     "BlurEffect",
-    {Size = 0,
-    Parent = light,
-    Name = custom.generateString(32, 1.3)}
+    {
+        Size = 0,
+        Parent = light,
+        Name = custom.generateString(32, 1.3)
+    }
 )
 inputService.InputBegan:Connect(
     function(input)
-        if inputService:GetFocusedTextBox() then return end
+        if inputService:GetFocusedTextBox() then
+            return
+        end
         if input.KeyCode == library.toggleBind then
             emptyCustoms.Enabled = not emptyCustoms.Enabled
             if emptyCustoms.Enabled then
@@ -106,6 +111,7 @@ inputService.InputBegan:Connect(
         end
     end
 )
+ --
 --[[local previous = inputService.MouseBehavior
 runService.RenderStepped:Connect(function()
     if emptyCustoms.Enabled then
@@ -115,9 +121,8 @@ runService.RenderStepped:Connect(function()
         else
             inputService.MouseBehavior = previous
     end
-end)]]--
-
-function library:New(opts)
+end)]] function library:New(
+    opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
     local name = options.name
@@ -136,9 +141,12 @@ function library:New(opts)
             BackgroundTransparency = 1,
             Position = custom.getCenterPosition(sizeX, sizeY),
             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-            Parent = emptyCustoms
+            Parent = emptyCustoms,
+            Transparency = 1
         }
     )
+
+    custom.animate(holder, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
 
     local title =
         custom.createObject(
@@ -171,19 +179,20 @@ function library:New(opts)
     )
 
     custom.enableDrag(holder, library.dragSpeed)
-    
+
     custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 50})
-    
+
     local main =
         custom.createObject(
         "Frame",
         {
             Size = UDim2.new(1, 0, 0, sizeY),
             BackgroundColor3 = theme.MainFrame,
-            Parent = holder
+            Parent = holder,
+            Transparency = 1
         }
     )
-
+    custom.animate(main, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
     custom.createObject(
         "UICorner",
         {
@@ -263,7 +272,7 @@ function library:New(opts)
             Parent = tabToggles
         }
     )
-    
+
     if consoleEnabled then
         console =
             custom.createObject(
@@ -866,7 +875,7 @@ function library:New(opts)
                         Size = UDim2.new(1, 0, 0, 10),
                         BackgroundTransparency = 1,
                         Position = UDim2.new(1, 5, 0, 0),
-                        FontSize = Enum.FontSize["Size"..tSize],
+                        FontSize = Enum.FontSize["Size" .. tSize],
                         TextSize = tSize,
                         Text = name,
                         TextColor3 = color,
@@ -1417,7 +1426,7 @@ function library:New(opts)
                         Parent = dropdown
                     }
                 )
-                
+
                 custom.createObject(
                     "UICorner",
                     {
@@ -1433,8 +1442,8 @@ function library:New(opts)
                         Size = UDim2.new(1, -6, 1, 0),
                         Position = UDim2.new(0, 6, 0, 0),
                         Active = true,
-                ScrollBarThickness = 0,
-                CanvasSize = UDim2.new(0, 0, 0, 0),
+                        ScrollBarThickness = 0,
+                        CanvasSize = UDim2.new(0, 0, 0, 0),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         Parent = content
                     }
@@ -1448,13 +1457,13 @@ function library:New(opts)
                         Parent = contentHolder
                     }
                 )
-                
+
                 contentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(
-            function()
-                contentHolder.CanvasSize = UDim2.new(0, 0, 0, contentList.AbsoluteContentSize.Y)
-            end
-        )
-                
+                    function()
+                        contentHolder.CanvasSize = UDim2.new(0, 0, 0, contentList.AbsoluteContentSize.Y)
+                    end
+                )
+
                 local function toggleDropdown()
                     open = not open
                     if open then
