@@ -10,16 +10,14 @@ PlaceId:CreateButton(
     {
         Name = "Get Flag",
         Callback = function()
-            if not getgenv().lastGetFlagExecutionTime then
-                getgenv().lastGetFlagExecutionTime = 0
-            end
+            local lastGetFlagExecutionTime = 0
 
             local currentTime = tick()
-            local timeDifference = currentTime - getgenv().lastGetFlagExecutionTime
+            local timeDifference = currentTime - lastGetFlagExecutionTime
             local remainingSeconds = math.floor(30 - timeDifference)
 
             if timeDifference >= 30 then
-                getgenv().lastGetFlagExecutionTime = currentTime
+                lastGetFlagExecutionTime = currentTime
 
                 for i, v in pairs(game.Workspace:GetDescendants()) do
                     if string.find(v.Name, "Flags") then
@@ -38,7 +36,7 @@ PlaceId:CreateButton(
                     end
                 end
             else
-                print("Please wait for " .. remainingSeconds .. " seconds before executing the script again.")
+                notifLib:Notify(("Please wait for " .. remainingSeconds .. " seconds before executing the script again."), {Color = Color3.new(255, 255, 255)})
                 task.wait(1)
             end
         end
