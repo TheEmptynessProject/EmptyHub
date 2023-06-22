@@ -9,6 +9,7 @@ local inputService = game:GetService("UserInputService")
 local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
+local light = game:GetService("Lighting")
 
 local library = {toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSpeed = 0.3}
 
@@ -43,16 +44,18 @@ local themes = {
 }
 
 function _destroy()
-            emptyCustoms:Destroy()
-            if console then
-                console:Destroy()
-            end
-            if chat then
-                chat:Destroy()
-            end
-            if BlurEffect then
-                BlurEffect:Destroy()
-            end
+    if (coreGui:FindFirstChild(custom.generateString(32, 1))) then
+        coreGui[custom.generateString(32, 1)]:Destroy()
+    end
+    if (coreGui:FindFirstChild(custom.generateString(32, 1.1))) then
+        coreGui[custom.generateString(32, 1.1)]:Destroy()
+    end
+    if (coreGui:FindFirstChild(custom.generateString(32, 1.2))) then
+        coreGui[custom.generateString(32, 1.2)]:Destroy()
+    end
+    if (light:FindFirstChild(custom.generateString(32, 1.3))) then
+        light[custom.generateString(32, 1.3)]:Destroy()
+    end
     getgenv()[custom.generateString(32, 0)] = false
 end
 
@@ -79,7 +82,8 @@ library = custom.formatTable(library)
 local BlurEffect = custom.createObject(
     "BlurEffect",
     {Size = 0,
-    Parent = game:GetService("Lighting")}
+    Parent = light,
+    Name = custom.generateString(32, 1.3)}
 )
 inputService.InputBegan:Connect(
     function(input)
