@@ -185,11 +185,9 @@ function library:New(opts)
         {
             Size = UDim2.new(1, 0, 0, sizeY),
             BackgroundColor3 = theme.MainFrame,
-            Parent = holder,
-            Transparency = 1
+            Parent = holder
         }
     )
-    custom.animate(main, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
     
     custom.createObject(
         "UICorner",
@@ -207,12 +205,9 @@ function library:New(opts)
             Size = UDim2.new(1, -16, 1, -34),
             Position = UDim2.new(0, 8, 0, 26),
             BackgroundColor3 = theme.TabBackground,
-            Parent = main,
-            Transparency = 1
+            Parent = main
         }
     )
-
-custom.animate(tabs, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
     
     custom.createObject(
         "UICorner",
@@ -241,12 +236,9 @@ custom.animate(tabs, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {T
             Size = UDim2.new(1, -12, 1, -29),
             Position = UDim2.new(0, 6, 0, 24),
             BackgroundColor3 = theme.Tab,
-            Parent = tabs,
-            Transparency = 1
+            Parent = tabs
         }
     )
-
-    custom.animate(tabFrames, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Transparency = 0})
 
     custom.createObject(
         "UICorner",
