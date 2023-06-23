@@ -217,7 +217,6 @@ PlaceId:CreateToggle(
                             )
 
                             setreadonly(mt, true)
-                            game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
                         else
                             notifLib:Notify("You should equip pistol", {Color = Color3.new(255, 0, 0)})
                         end
