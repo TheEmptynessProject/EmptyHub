@@ -185,38 +185,13 @@ PlaceId:CreateToggle(
                         local nearestToMouse = test(onMouseButton1Click(mouse))
                         local pistol = getToolEquipped()
                         if pistol then
-                            local mt = debug.getmetatable(game)
-                            local nc = mt.__namecall
-
-                            setreadonly(mt, false)
-
-                            mt.__namecall =
-                                newcclosure(
-                                function(self, ...)
-                                    local args = {...}
-                                    local method = getnamecallmethod()
-
-                                    if (method == "FireServer" and self.Name == "Shoot") then
-                                        if bool then
-                                            args = {
-                                                [1] = Vector3.new(0, 0, 0),
-                                                [2] = Vector3.new(0, 0, 0),
-                                                [3] = nearestToMouse.Character.HumanoidRootPart.Part,
-                                                [4] = Vector3.new(0, 0, 0)
-                                            }
-                                            if delay > 0 then
-                                                task.wait(delay)
-                                            end
-                                        else
-                                            return nc(self, unpack(args))
-                                        end
-                                    end
-
-                                    return nc(self, unpack(args))
-                                end
-                            )
-
-                            setreadonly(mt, true)
+                            local args = {
+                                [1] = Vector3.new(0, 0, 0),
+                                [2] = Vector3.new(0, 0, 0),
+                                [3] = nearestToMouse.Character.HumanoidRootPart.Part,
+                                [4] = Vector3.new(0, 0, 0)
+                            }
+                            game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
                         else
                             notifLib:Notify("You should equip pistol", {Color = Color3.new(255, 0, 0)})
                         end
