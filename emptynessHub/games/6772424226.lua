@@ -191,3 +191,96 @@ PlaceId:CreateToggle(
         end
     }
 )
+local dropdownPlayerArray = {}
+for _, player in ipairs(game.Players:GetPlayers()) do
+    table.insert(dropdownPlayerArray, player.DisplayName)
+end
+game.Players.PlayerAdded:Connect(
+    function(player)
+        table.insert(dropdownPlayerArray, player.DisplayName)
+    end
+)
+
+game.Players.PlayerRemoving:Connect(
+    function(player)
+        for i, playerName in ipairs(dropdownPlayerArray) do
+            if playerName == player.DisplayName then
+                table.remove(dropdownPlayerArray, i)
+                break
+            end
+        end
+    end
+)
+PlaceId:CreateLabel(
+    {
+        Name = "Kill Player"
+    }
+)
+PlaceId:CreateDropdown(
+    {
+        Content = dropdownPlayerArray,
+        MultiChoice = false,
+        Callback = function(selectedPlayer)
+            local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+            if not tool then
+                return
+            end
+            local targetPlayer = nil
+            for _, player in ipairs(game.Players:GetPlayers()) do
+                if player.DisplayName == selectedPlayer then
+                    targetPlayer = player
+                    break
+                end
+            end
+
+            if targetPlayer then
+                if
+                    targetPlayer.Character and targetPlayer.Character:FindFirstChild("Humanoid") and
+                        targetPlayer ~= game.Players.LocalPlayer and
+                        targetPlayer.Team ~= game.Players.LocalPlayer.Team
+                 then
+                    repeat
+                        mouse1press()
+                        local targetLookVector = targetPlayer.Character.HumanoidRootPart.CFrame.LookVector
+                        local offset = targetLookVector * -3
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            (targetPlayer.Character.HumanoidRootPart.CFrame + offset)
+                        task.wait()
+                    until targetPlayer.Character.Humanoid.Health <= 0
+                end
+            else
+                notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
+            end
+        end
+    }
+)
+PlaceId:CreateToggle(
+    {
+        Name = "Kill all",
+        Callback = function(bool)
+            while bool do
+                task.wait()
+                local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                if not tool then
+                    return
+                end
+                for i, v in pairs(game.Players:GetPlayers()) do
+                    if
+                        v.Character and v.Character:FindFirstChild("Humanoid") and v ~= game.Players.LocalPlayer and
+                            v.Team ~= game.Players.LocalPlayer.Team and
+                            not v.Character:FindFirstChildOfClass("ForceField")
+                     then
+                        repeat
+                            mouse1press()
+                            local targetLookVector = v.Character.HumanoidRootPart.CFrame.LookVector
+                            local offset = targetLookVector * -3
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                (v.Character.HumanoidRootPart.CFrame + offset)
+                            task.wait()
+                        until v.Character.Humanoid.Health <= 0
+                    end
+                end
+            end
+        end
+    }
+)
