@@ -47,7 +47,7 @@ PlaceId:CreateKeybind(
                             local args = {
                                 [1] = Vector3.new(0, 0, 0),
                                 [2] = Vector3.new(0, 0, 0),
-                                [3] = v.HumanoidRootPart,
+                                [3] = v.HumanoidRootPart.Part,
                                 [4] = Vector3.new(0, 0, 0)
                             }
 
@@ -99,7 +99,7 @@ PlaceId:CreateKeybind(
                             local args = {
                                 [1] = Vector3.new(0, 0, 0),
                                 [2] = Vector3.new(0, 0, 0),
-                                [3] = v.HumanoidRootPart,
+                                [3] = v.HumanoidRootPart.Part,
                                 [4] = Vector3.new(0, 0, 0)
                             }
 
@@ -201,7 +201,7 @@ PlaceId:CreateToggle(
                                             args = {
                                                 [1] = Vector3.new(0, 0, 0),
                                                 [2] = Vector3.new(0, 0, 0),
-                                                [3] = nearestToMouse.Character.HumanoidRootPart,
+                                                [3] = nearestToMouse.Character.HumanoidRootPart.Part,
                                                 [4] = Vector3.new(0, 0, 0)
                                             }
                                             if delay > 0 then
