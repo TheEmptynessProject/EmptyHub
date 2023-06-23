@@ -191,6 +191,9 @@ PlaceId:CreateToggle(
                                 [3] = nearestToMouse.Character.HumanoidRootPart.Part,
                                 [4] = Vector3.new(0, 0, 0)
                             }
+                            if delay > 0 then
+                                task.wait(delay)
+                            end
                             game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
                         else
                             notifLib:Notify("You should equip pistol", {Color = Color3.new(255, 0, 0)})
