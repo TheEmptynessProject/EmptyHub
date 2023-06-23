@@ -34,7 +34,7 @@ for i, v in pairs(game.Players.LocalPlayer.PlayerGui.InteractableUIs:GetChildren
     end
 end
 
-local function getNumericPrice(price, money)
+local function getNumericPrice(price)
     local suffixes = {
         ["K"] = 10 ^ 3,
         ["M"] = 10 ^ 6,
@@ -52,7 +52,7 @@ local function getNumericPrice(price, money)
     end
 end
 
-local function getMostExpensiveEgg()
+local function getMostExpensiveEgg(money)
     local maxPrice = 0
     local maxEgg
 
@@ -79,7 +79,7 @@ PlaceId:CreateToggle(
                     money = game.Players.LocalPlayer.PlayerGui.Main.Right.Energy.Amount.Text
                     collect()
                     game:GetService("ReplicatedStorage").Remote.Quest.Server.Claim:InvokeServer(i)
-                    local most = getMostExpensiveEgg()
+                    local most = getMostExpensiveEgg(money)
                     egg(most)
                     game:GetService("ReplicatedStorage").Remote.Pet.Server.CraftAll:FireServer()
                     game:GetService("ReplicatedStorage").Remote.Pet.Server.EquipBest:FireServer()
