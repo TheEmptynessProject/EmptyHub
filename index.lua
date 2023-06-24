@@ -23,9 +23,7 @@ if not (getgenv()[custom.generateString(32, 0)]) then
         {
             Name = "Emptyness Hub",
             SizeX = 500,
-            SizeY = 550,
-            Console = true,
-            Chat = false
+            SizeY = 550
         }
     )
     getgenv().notifLib =
