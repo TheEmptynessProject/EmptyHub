@@ -1,67 +1,18 @@
 local custom = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"))()
 
-local function fadeObject(object, onTweenCompleted)
-    local tweenInfo = custom.animate(object, {0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut}, {
-        TextTransparency = 1,
-        TextStrokeTransparency = 1
-    }, onTweenCompleted)
-end
-
 local notifications = {}
-
-function notifications.new(settings)
-    local notificationSettings = {
-        ui = {
-            frame = nil,
-            layout = nil
-        },
-        lifetime = 3,
-        textColor = Color3.new(255,255,255),
-        textSize = 14,
-        textStrokeTransparency = 0,
-        textStrokeColor = Color3.new(0, 0, 0),
-        textFont = Enum.Font.Ubuntu
-    }
-
-    for setting, value in next, settings do
-        notificationSettings[setting] = value
-    end
-
-    setmetatable(notificationSettings, {__index = notifications})
-    return notificationSettings
-end
-
-function notifications:SetLifetime(lifetime)
-    self.lifetime = lifetime
-end
-
-function notifications:SetTextColor(color)
-    self.textColor = color
-end
-
-function notifications:SetTextSize(size)
-    self.textSize = size
-end
-
-function notifications:SetTextStrokeTransparency(transparency)
-    self.textStrokeTransparency = transparency
-end
-
-function notifications:SetTextStrokeColor(color)
-    self.textStrokeColor = color
-end
-
-function notifications:SetTextFont(font)
-    self.textFont = typeof(font) == "string" and Enum.Font[font] or font
-end
 
 function notifications:BuildUI()
     if notifications.screenGui then
-        notifications.screenGui:Destroy()
+        return
     end
 
-    notifications.screenGui = custom.createObject("ScreenGui", {ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = game:GetService("CoreGui")})
-    self.ui.frame = custom.createObject("Frame", {
+    notifications.screenGui = custom.createObject("ScreenGui", {
+        ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+        Parent = game:GetService("CoreGui")
+    })
+
+    local frame = custom.createObject("Frame", {
         Parent = notifications.screenGui,
         BackgroundColor3 = Color3.new(1, 1, 1),
         BackgroundTransparency = 1,
@@ -69,32 +20,47 @@ function notifications:BuildUI()
         Size = UDim2.new(0, 236, 0, 215)
     })
 
-    custom.enableDrag(self.ui.frame, 0.1)
+    custom.enableDrag(frame, 0.1)
 
-    self.ui.layout = custom.createObject("UIListLayout", {
-        Parent = self.ui.frame,
-        Padding = UDim.new(0, 1 + self.textSize),
-        SortOrder = Enum.SortOrder.LayoutOrder
-    })
+    notifications.ui = {
+        frame = frame,
+        layout = custom.createObject("UIListLayout", {
+            Parent = frame,
+            Padding = UDim.new(0, 16),
+            SortOrder = Enum.SortOrder.LayoutOrder
+        })
+    }
 end
 
-function notifications:Notify(text, options)
-    options = custom.formatTable(options)
+function notifications:Notify(opt)
+    if not notifications.ui or not notifications.ui.frame then
+        notifications:BuildUI()
+    end
+
+    local options = custom.formatTable(opt)
+
+    local lifetime = options.time or options.lifetime or 5
+    local font = typeof(options.font) == "string" and Enum.Font[options.font] or options.font
+    local size = options.size or options.textsize or 15
+    local color = options.color or Color3.new(255, 255, 255)
+    local stroke = options.stroke or Color3.new(255, 255, 255)
+
+    notifications.ui.layout.Padding = UDim.new(0, 1 + size)
+
     local notification = custom.createObject("TextLabel", {
-        Parent = self.ui.frame,
-        BackgroundColor3 = Color3.new(1, 1, 1),
+        Parent = notifications.ui.frame,
         BackgroundTransparency = 1,
         Size = UDim2.new(0, 222, 0, 14),
-        Text = text or nil,
-        Font = options.font or self.textFont,
-        TextColor3 = options.color or self.textColor,
-        TextSize = options.size or self.textSize,
-        TextStrokeColor3 = options.strkcolor or self.textStrokeColor,
-        TextStrokeTransparency = options.strkopacity or textStrokeTransparency
+        Text = options.text or "",
+        Font = font or Enum.Font.Ubuntu,
+        TextColor3 = color,
+        TextSize = size,
+        TextStrokeColor3 = stroke,
+        TextStrokeTransparency = 0,
+        Active = true
     })
-    notification.Active = true
 
-    task.delay(self.lifetime, function()
+    task.delay(lifetime, function()
         fadeObject(notification, function()
             notification:Destroy()
         end)
