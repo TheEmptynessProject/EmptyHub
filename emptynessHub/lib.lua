@@ -10,20 +10,16 @@ local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
 local light = game:GetService("Lighting")
-local logs = game:GetService("LogService")
-local players = game:GetService("Players")
-local http = game:GetService("HttpService")
-local textService = game:GetService("TextService")
 
 local library = {toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSpeed = 0.3}
 
 local themes = {
     Default = {
-        TextColor = Color3.fromRGB(220, 220, 220),
+        TextColor = Color3.fromRGB(255, 255, 255),
         MainFrame = Color3.fromRGB(0, 0, 0),
         TabBackground = Color3.fromRGB(25, 25, 25),
         Tab = Color3.fromRGB(0, 0, 0),
-        EnabledText = Color3.fromRGB(220, 220, 220),
+        EnabledText = Color3.fromRGB(255, 255, 255),
         DisabledText = Color3.fromRGB(180, 180, 180),
         TabToggleEnabled = Color3.fromRGB(0, 0, 0),
         TabToggleDisabled = Color3.fromRGB(10, 10, 10),
@@ -78,7 +74,7 @@ emptyCustoms =
     custom.createObject(
     "ScreenGui",
     {
-        Parent = coreGui,
+        Parent = game:GetService("CoreGui"),
         Name = custom.generateString(32, 1)
     }
 )
@@ -115,22 +111,17 @@ inputService.InputBegan:Connect(
         end
     end
 )
-local previous = inputService.MouseBehavior
-runService.RenderStepped:Connect(
-    function()
-        if emptyCustoms.Enabled then
-            if
-                inputService.MouseBehavior == Enum.MouseBehavior.LockCenter or
-                    inputService.MouseBehavior == Enum.MouseBehavior.LockCurrentPosition
-             then
-                previous = inputService.MouseBehavior
-                inputService.MouseBehavior = Enum.MouseBehavior.Default
-            end
+ --
+--[[local previous = inputService.MouseBehavior
+runService.RenderStepped:Connect(function()
+    if emptyCustoms.Enabled then
+        if inputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
+            inputService.MouseBehavior = Enum.MouseBehavior.Default
+        end
         else
             inputService.MouseBehavior = previous
-        end
     end
-)
+end)]]
 function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
@@ -139,8 +130,8 @@ function library:New(opts)
     local sizeY = options.sizeY or 480
     local theme = options.theme or themes.Default
     local fonted = options.font or Enum.Font.Ubuntu
-    local consoleEnabled = options.console or false
-    local chatEnabled = options.chat or false
+    local consoleEnabled = options.console
+    local chatEnabled = options.chat
 
     local holder =
         custom.createObject(
@@ -197,7 +188,7 @@ function library:New(opts)
             Parent = holder
         }
     )
-
+    
     custom.createObject(
         "UICorner",
         {
@@ -217,7 +208,7 @@ function library:New(opts)
             Parent = main
         }
     )
-
+    
     custom.createObject(
         "UICorner",
         {
@@ -283,11 +274,10 @@ function library:New(opts)
             custom.createObject(
             "ScreenGui",
             {
-                Parent = coreGui,
+                Parent = game:GetService("CoreGui"),
                 Name = custom.generateString(32, 1.1)
             }
         )
-
         local consoleBG =
             custom.createObject(
             "Frame",
@@ -325,7 +315,6 @@ function library:New(opts)
                 BorderMode = 0
             }
         )
-
         local consoleButton1 =
             custom.createObject(
             "TextButton",
@@ -359,28 +348,26 @@ function library:New(opts)
                 BorderMode = 0
             }
         )
-
         spawn(
             function()
                 while true do
-                    local hue = tick() % 1
-                    consoleBG.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    consoleBox.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    consoleButton1.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    consoleButton2.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    task.wait()
+                    for i = 0, 1, 1 / 2000 do
+                        consoleBG.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        consoleBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        consoleButton1.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        consoleButton2.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        task.wait()
+                    end
                 end
             end
         )
-
         local logTable = {}
-
-        logs.MessageOut:Connect(
+        game:GetService("LogService").MessageOut:Connect(
             function(msg)
                 repeat
                     task.wait(0.1)
                 until msg
-                table.insert(logTable, msg)
+                logTable[#logTable + 1] = msg
                 consoleBox.Text = table.concat(logTable, "\n")
                 if #logTable == 10 then
                     table.remove(logTable, 1)
@@ -403,17 +390,17 @@ function library:New(opts)
             end
         )
     end
-
     if chatEnabled then
+        local lastTick = nil
+        local canSendMessage = true
         chat =
             custom.createObject(
             "ScreenGui",
             {
-                Parent = coreGui,
+                Parent = game:GetService("CoreGui"),
                 Name = custom.generateString(32, 1.2)
             }
         )
-
         local chatBG =
             custom.createObject(
             "Frame",
@@ -426,7 +413,6 @@ function library:New(opts)
                 BorderMode = 0
             }
         )
-
         local historyBox =
             custom.createObject(
             "TextBox",
@@ -450,7 +436,6 @@ function library:New(opts)
                 BorderMode = 0
             }
         )
-
         local chatBox =
             custom.createObject(
             "TextBox",
@@ -474,7 +459,6 @@ function library:New(opts)
                 BorderMode = 0
             }
         )
-
         local chatButton1 =
             custom.createObject(
             "TextButton",
@@ -491,28 +475,25 @@ function library:New(opts)
                 BorderMode = 0
             }
         )
-
         spawn(
             function()
                 while true do
-                    local hue = tick() % 1
-                    chatBG.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    chatBox.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    chatButton1.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    historyBox.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-                    task.wait()
+                    for i = 0, 1, 1 / 2000 do
+                        chatBG.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        chatBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        chatButton1.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        historyBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
+                        task.wait()
+                    end
                 end
             end
         )
-
-        local lastTick = nil
-        local canSendMessage = true
-
+        local history
         spawn(
             function()
                 while true do
                     history =
-                        http:JSONDecode(
+                        game:GetService("HttpService"):JSONDecode(
                         game:HttpGet(
                             "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
                         )
@@ -532,16 +513,36 @@ function library:New(opts)
             function()
                 if canSendMessage and chatBox.Text and chatBox.Text ~= "" then
                     custom.createRipple(chatButton1)
-                    if not lastTick or tick() - lastTick > 10 then
+                    if not lastTick then
                         history =
-                            http:JSONDecode(
+                            game:GetService("HttpService"):JSONDecode(
                             game:HttpGet(
                                 "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
                             )
                         )
                         local newId = history[#history].msgId + 1
                         lastTick = tick()
-                        local toSend = {username = players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
+                        local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
+
+                        custom.updateChatFile(toSend, git_TOKEN)
+
+                        canSendMessage = false
+                        task.delay(
+                            10,
+                            function()
+                                canSendMessage = true
+                            end
+                        )
+                    elseif lastTick and tick() - lastTick > 10 then
+                        history =
+                            game:GetService("HttpService"):JSONDecode(
+                            game:HttpGet(
+                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
+                            )
+                        )
+                        local newId = history[#history].msgId + 1
+                        lastTick = tick()
+                        local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
 
                         custom.updateChatFile(toSend, git_TOKEN)
 
@@ -557,7 +558,6 @@ function library:New(opts)
             end
         )
     end
-
     local window_info = {count = 0}
     window_info = custom.formatTable(window_info)
 
@@ -788,7 +788,10 @@ function library:New(opts)
                         Parent = section
                     }
                 )
-                if (textService:GetTextSize(name, 12, fonted, Vector2.new(math.huge, math.huge)).X > 80) then
+                if
+                    (game:GetService("TextService"):GetTextSize(name, 12, fonted, Vector2.new(math.huge, math.huge)).X >
+                        80)
+                 then
                     custom.createObject(
                         "TextLabel",
                         {
@@ -859,8 +862,7 @@ function library:New(opts)
                 local tSize = options.size or 12
                 local font = options.font or fonted
                 local color = options.color or theme.TextColor
-                local tooltip = options.tooltip or nil
-
+                local tooltip = options.tooltip
                 local label =
                     custom.createObject(
                     "TextLabel",
@@ -896,8 +898,7 @@ function library:New(opts)
                 local options = custom.formatTable(opts)
                 local px = options.size or 2
                 local color = options.color or theme.TextColor
-                local tooltip = options.tooltip or nil
-
+                local tooltip = options.tooltip
                 local theLine =
                     custom.createObject(
                     "Frame",
@@ -926,8 +927,7 @@ function library:New(opts)
             function section_info:CreateButton(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
-                local callback = options.callback or function()
-                    end
+                local callback = options.callback
 
                 local button =
                     custom.createObject(
@@ -1078,7 +1078,7 @@ function library:New(opts)
                     callback(toggled)
                 end
 
-                toggle.MouseButton1Click:Connect(toggleToggle)
+                toggle.MouseButton1Click:connect(toggleToggle)
 
                 toggle.MouseEnter:Connect(
                     function()
@@ -1111,8 +1111,6 @@ function library:New(opts)
                 function toggle_info:Toggle(bool)
                     if toggled ~= bool then
                         toggleToggle()
-                    else
-                        callback(toggled)
                     end
                 end
 
@@ -1131,9 +1129,8 @@ function library:New(opts)
                 local options = custom.formatTable(opts)
                 local placeholder = options.name
                 local default = options.default or ""
-                local callback = options.callback or function()
-                    end
-                local clearOnFocus = options.clear or false
+                local callback = options.callback or nil
+                local onFocus = options.clear
 
                 local mouseOver = false
                 local focused = false
@@ -1153,7 +1150,7 @@ function library:New(opts)
                         Font = fonted,
                         PlaceholderText = placeholder,
                         Parent = sectionContent,
-                        ClearTextOnFocus = clearOnFocus
+                        ClearTextOnFocus = onFocus
                     }
                 )
                 custom.createObject(
@@ -1281,7 +1278,7 @@ function library:New(opts)
                 local holding, hovering = false, false
                 slider.InputBegan:Connect(
                     function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 and emptyCustoms.Enabled then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             holding = true
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFillSliding})
                             slide(input)
@@ -1291,7 +1288,7 @@ function library:New(opts)
 
                 slider.InputEnded:Connect(
                     function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 or not emptyCustoms.Enabled then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             custom.animate(fill, {0.2}, {BackgroundColor3 = theme.SliderFill})
                             holding = false
                             if not hovering then
@@ -1319,7 +1316,7 @@ function library:New(opts)
 
                 inputService.InputChanged:Connect(
                     function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseMovement and holding and emptyCustoms.Enabled then
+                        if input.UserInputType == Enum.UserInputType.MouseMovement and holding then
                             slide(input)
                         end
                     end
@@ -1359,6 +1356,16 @@ function library:New(opts)
                 local open = false
                 local optionInstances = {}
 
+                local defaultInContent = false
+
+                for i, v in next, contentTable do
+                    if v == default then
+                        defaultInContent = true
+                    end
+                end
+
+                default = defaultInContent and default or nil
+
                 local dropdown =
                     custom.createObject(
                     "TextButton",
@@ -1374,6 +1381,7 @@ function library:New(opts)
                         Parent = sectionContent
                     }
                 )
+
                 custom.createObject(
                     "UICorner",
                     {
@@ -1414,6 +1422,7 @@ function library:New(opts)
                         Parent = dropdown
                     }
                 )
+
                 custom.createObject(
                     "UICorner",
                     {
@@ -1492,34 +1501,25 @@ function library:New(opts)
                         custom.animate(dropdown, {0.2}, {BackgroundColor3 = theme.Dropdown})
                     end
                 )
-                local function createOption(text)
+
+                for i, v in next, contentTable do
                     local option =
                         custom.createObject(
                         "TextButton",
                         {
-                            ZIndex = 6,
+                            ZIndex = 11,
                             Size = UDim2.new(1, 0, 0, 16),
-                            BackgroundColor3 = theme.DropdownOption,
+                            BackgroundTransparency = 1,
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                             FontSize = Enum.FontSize.Size12,
                             TextSize = 12,
-                            TextColor3 = theme.TextColor,
-                            Text = text,
+                            TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
+                            Text = v,
                             Font = fonted,
+                            TextXAlignment = Enum.TextXAlignment.Left,
                             Parent = contentHolder
                         }
                     )
-                    custom.createObject(
-                        "UICorner",
-                        {
-                            CornerRadius = UDim.new(0, 2),
-                            Parent = option
-                        }
-                    )
-
-                    return option
-                end
-                for i, v in next, contentTable do
-                    local option = createOption(v)
 
                     optionInstances[v] = option
 
@@ -1533,75 +1533,247 @@ function library:New(opts)
                         end
                     end
 
-                    option.MouseButton1Click:Connect(
+                    option.MouseButton1Click:connect(
                         function()
                             if not multiChoice then
-                                local newValue = curValue ~= v and v or nil
-                                curValue = newValue
+                                if curValue ~= v then
+                                    curValue = v
 
-                                for i2, v2 in ipairs(contentHolder:GetChildren()) do
-                                    if v2:IsA("TextButton") then
-                                        custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                    for i2, v2 in next, contentHolder:GetChildren() do
+                                        if v2:IsA("TextButton") then
+                                            custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                        end
                                     end
+
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 = theme.EnabledText
+                                            value.Text = v
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(v)
+                                else
+                                    curValue = nil
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 = theme.DisabledText
+                                            value.Text = "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(nil)
                                 end
-
-                                custom.animate(
-                                    option,
-                                    {0.2},
-                                    {TextColor3 = newValue and theme.EnabledText or theme.DisabledText}
-                                )
-
-                                custom.animate(
-                                    value,
-                                    {0.2},
-                                    {TextTransparency = 1},
-                                    function()
-                                        value.TextColor3 = newValue and theme.EnabledText or theme.DisabledText
-                                        value.Text = newValue or "NONE"
-                                        custom.animate(value, {0.2}, {TextTransparency = 0})
-                                    end
-                                )
-
-                                callback(newValue)
                             else
-                                local valueIndex = table.find(chosen, v)
-                                local newValue = nil
+                                if table.find(chosen, v) then
+                                    for i, v2 in next, chosen do
+                                        if v2 == v then
+                                            table.remove(chosen, i)
+                                        end
+                                    end
 
-                                if valueIndex then
-                                    table.remove(chosen, valueIndex)
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 =
+                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
+                                            value.Text =
+                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(chosen)
                                 else
                                     table.insert(chosen, v)
-                                    newValue = chosen
+
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 =
+                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
+                                            value.Text =
+                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(chosen)
                                 end
+                            end
+                        end
+                    )
+                end
 
-                                custom.animate(
-                                    option,
-                                    {0.2},
-                                    {TextColor3 = newValue and theme.EnabledText or theme.DisabledText}
-                                )
+                local dropdown_info = {}
+                dropdown_info = custom.formatTable(dropdown_info)
 
-                                custom.animate(
-                                    value,
-                                    {0.2},
-                                    {TextTransparency = 1},
-                                    function()
-                                        value.TextColor3 =
-                                            table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
-                                        value.Text = table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                        custom.animate(value, {0.2}, {TextTransparency = 0})
-                                    end
-                                )
+                function dropdown_info:Refresh(tbl)
+                    contentTable = tbl
+
+                    for i, v in next, optionInstances do
+                        v:Destroy()
+                    end
+
+                    custom.animate(
+                        value,
+                        {0.2},
+                        {TextTransparency = 1},
+                        function()
+                            value.TextColor3 = theme.DisabledText
+                            value.Text = "NONE"
+                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                        end
+                    )
+
+                    for i, v in next, contentTable do
+                        local option =
+                            custom.createObject(
+                            "TextButton",
+                            {
+                                ZIndex = 11,
+                                Size = UDim2.new(1, 0, 0, 16),
+                                BackgroundTransparency = 1,
+                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                FontSize = Enum.FontSize.Size12,
+                                TextSize = 12,
+                                TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
+                                Text = v,
+                                Font = fonted,
+                                TextXAlignment = Enum.TextXAlignment.Left,
+                                Parent = contentHolder
+                            }
+                        )
+
+                        optionInstances[v] = option
+
+                        if v == default then
+                            if not multiChoice then
+                                callback(v)
+                            else
+                                table.insert(chosen, v)
 
                                 callback(chosen)
                             end
                         end
-                    )
 
-                    local dropdown_info = {}
-                    dropdown_info = custom.formatTable(dropdown_info)
+                        option.MouseButton1Click:connect(
+                            function()
+                                if not multiChoice then
+                                    if curValue ~= v then
+                                        curValue = v
+
+                                        for i2, v2 in next, contentHolder:GetChildren() do
+                                            if v2:IsA("TextButton") then
+                                                custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                            end
+                                        end
+
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 = theme.EnabledText
+                                                value.Text = v
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(v)
+                                    else
+                                        curValue = nil
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 = theme.DisabledText
+                                                value.Text = "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(nil)
+                                    end
+                                else
+                                    if table.find(chosen, v) then
+                                        for i, v2 in next, chosen do
+                                            if v2 == v then
+                                                table.remove(chosen, i)
+                                            end
+                                        end
+
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 =
+                                                    table.concat(chosen) ~= "" and theme.EnabledText or
+                                                    theme.DisabledText
+                                                value.Text =
+                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(chosen)
+                                    else
+                                        table.insert(chosen, v)
+
+                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 =
+                                                    table.concat(chosen) ~= "" and theme.EnabledText or
+                                                    theme.DisabledText
+                                                value.Text =
+                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(chosen)
+                                    end
+                                end
+                            end
+                        )
+                    end
 
                     function dropdown_info:Add(opt)
                         table.insert(contentTable, opt)
+                        --dropdown_info:Refresh(contentTable)
                         local option =
                             custom.createObject(
                             "TextButton",
@@ -1622,13 +1794,13 @@ function library:New(opts)
 
                         optionInstances[opt] = option
 
-                        option.MouseButton1Click:Connect(
+                        option.MouseButton1Click:connect(
                             function()
                                 if not multiChoice then
                                     if curValue ~= opt then
                                         curValue = opt
 
-                                        for i, v in ipairs(contentHolder:GetChildren()) do
+                                        for i, v in next, contentHolder:GetChildren() do
                                             if v:IsA("TextButton") then
                                                 custom.animate(v, {0.2}, {TextColor3 = theme.DisabledText})
                                             end
@@ -1662,30 +1834,54 @@ function library:New(opts)
                                                 custom.animate(value, {0.2}, {TextTransparency = 0})
                                             end
                                         )
+
+                                        callback(nil)
                                     end
                                 else
-                                    local chosenIndex = table.find(chosen, opt)
+                                    if table.find(chosen, opt) then
+                                        for i, v in next, chosen do
+                                            if v == opt then
+                                                table.remove(chosen, i)
+                                            end
+                                        end
 
-                                    if chosenIndex then
-                                        table.remove(chosen, chosenIndex)
                                         custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 =
+                                                    table.concat(chosen) ~= "" and theme.EnabledText or
+                                                    theme.DisabledText
+                                                value.Text =
+                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(chosen)
                                     else
                                         table.insert(chosen, opt)
                                         custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                        custom.animate(
+                                            value,
+                                            {0.2},
+                                            {TextTransparency = 1},
+                                            function()
+                                                value.TextColor3 =
+                                                    table.concat(chosen) ~= "" and theme.EnabledText or
+                                                    theme.DisabledText
+                                                value.Text =
+                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                                custom.animate(value, {0.2}, {TextTransparency = 0})
+                                            end
+                                        )
+
+                                        callback(chosen)
                                     end
-
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 = #chosen > 0 and theme.EnabledText or theme.DisabledText
-                                            value.Text = #chosen > 0 and table.concat(chosen, ", ") or "NONE"
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-
-                                    callback(chosen)
                                 end
                             end
                         )
@@ -1697,20 +1893,20 @@ function library:New(opts)
                     end
 
                     function dropdown_info:Remove(opt)
-                        local optIndex = table.find(contentTable, opt)
-
-                        if optIndex then
+                        if table.find(contentTable, opt) then
                             custom.animate(
                                 optionInstances[opt],
                                 {0.2},
                                 {TextTransparency = 1},
                                 function()
+                                    table.remove(contentTable, table.find(contentTable, opt))
                                     optionInstances[opt]:Destroy()
+                                    table.remove(optionInstances, table.find(optionInstances, opt))
                                 end
                             )
 
-                            table.remove(contentTable, optIndex)
-                            table.remove(optionInstances, opt)
+                            table.remove(contentTable, table.find(contentTable, opt))
+                            --dropdown_info:Refresh(contentTable)
 
                             if content.Visible then
                                 local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y - 16)
@@ -1730,12 +1926,12 @@ function library:New(opts)
                                             custom.animate(value, {0.2}, {TextTransparency = 0})
                                         end
                                     )
+                                    table.remove(contentTable, table.find(contentTable, curValue))
+                                --dropdown_info:Refresh(contentTable)
                                 end
                             else
-                                local chosenIndex = table.find(chosen, opt)
-
-                                if chosenIndex then
-                                    table.remove(chosen, chosenIndex)
+                                if table.find(chosen, opt) then
+                                    table.remove(chosen, table.find(chosen, opt))
                                     custom.animate(
                                         value,
                                         {0.2},
@@ -1769,54 +1965,7 @@ function library:New(opts)
 
                 return dropdown_info
             end
-            local keys = {
-                [Enum.KeyCode.LeftShift] = "L-SHIFT",
-                [Enum.KeyCode.RightShift] = "R-SHIFT",
-                [Enum.KeyCode.LeftControl] = "L-CTRL",
-                [Enum.KeyCode.RightControl] = "R-CTRL",
-                [Enum.KeyCode.LeftAlt] = "L-ALT",
-                [Enum.KeyCode.RightAlt] = "R-ALT",
-                [Enum.KeyCode.CapsLock] = "CAPSLOCK",
-                [Enum.KeyCode.One] = "1",
-                [Enum.KeyCode.Two] = "2",
-                [Enum.KeyCode.Three] = "3",
-                [Enum.KeyCode.Four] = "4",
-                [Enum.KeyCode.Five] = "5",
-                [Enum.KeyCode.Six] = "6",
-                [Enum.KeyCode.Seven] = "7",
-                [Enum.KeyCode.Eight] = "8",
-                [Enum.KeyCode.Nine] = "9",
-                [Enum.KeyCode.Zero] = "0",
-                [Enum.KeyCode.KeypadOne] = "NUM-1",
-                [Enum.KeyCode.KeypadTwo] = "NUM-2",
-                [Enum.KeyCode.KeypadThree] = "NUM-3",
-                [Enum.KeyCode.KeypadFour] = "NUM-4",
-                [Enum.KeyCode.KeypadFive] = "NUM-5",
-                [Enum.KeyCode.KeypadSix] = "NUM-6",
-                [Enum.KeyCode.KeypadSeven] = "NUM-7",
-                [Enum.KeyCode.KeypadEight] = "NUM-8",
-                [Enum.KeyCode.KeypadNine] = "NUM-9",
-                [Enum.KeyCode.KeypadZero] = "NUM-0",
-                [Enum.KeyCode.Minus] = "-",
-                [Enum.KeyCode.Equals] = "=",
-                [Enum.KeyCode.Tilde] = "~",
-                [Enum.KeyCode.LeftBracket] = "[",
-                [Enum.KeyCode.RightBracket] = "]",
-                [Enum.KeyCode.RightParenthesis] = ")",
-                [Enum.KeyCode.LeftParenthesis] = "(",
-                [Enum.KeyCode.Semicolon] = ";",
-                [Enum.KeyCode.Quote] = "'",
-                [Enum.KeyCode.BackSlash] = "\\",
-                [Enum.KeyCode.Comma] = ";",
-                [Enum.KeyCode.Period] = ".",
-                [Enum.KeyCode.Slash] = "/",
-                [Enum.KeyCode.Asterisk] = "*",
-                [Enum.KeyCode.Plus] = "+",
-                [Enum.KeyCode.Backquote] = "`",
-                [Enum.UserInputType.MouseButton1] = "MOUSE-1",
-                [Enum.UserInputType.MouseButton2] = "MOUSE-2",
-                [Enum.UserInputType.MouseButton3] = "MOUSE-3"
-            }
+
             function section_info:CreateKeybind(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
@@ -1825,6 +1974,56 @@ function library:New(opts)
                     end
 
                 local keyChosen = default
+
+                local keys = {
+                    [Enum.KeyCode.LeftShift] = "L-SHIFT",
+                    [Enum.KeyCode.RightShift] = "R-SHIFT",
+                    [Enum.KeyCode.LeftControl] = "L-CTRL",
+                    [Enum.KeyCode.RightControl] = "R-CTRL",
+                    [Enum.KeyCode.LeftAlt] = "L-ALT",
+                    [Enum.KeyCode.RightAlt] = "R-ALT",
+                    [Enum.KeyCode.CapsLock] = "CAPSLOCK",
+                    [Enum.KeyCode.One] = "1",
+                    [Enum.KeyCode.Two] = "2",
+                    [Enum.KeyCode.Three] = "3",
+                    [Enum.KeyCode.Four] = "4",
+                    [Enum.KeyCode.Five] = "5",
+                    [Enum.KeyCode.Six] = "6",
+                    [Enum.KeyCode.Seven] = "7",
+                    [Enum.KeyCode.Eight] = "8",
+                    [Enum.KeyCode.Nine] = "9",
+                    [Enum.KeyCode.Zero] = "0",
+                    [Enum.KeyCode.KeypadOne] = "NUM-1",
+                    [Enum.KeyCode.KeypadTwo] = "NUM-2",
+                    [Enum.KeyCode.KeypadThree] = "NUM-3",
+                    [Enum.KeyCode.KeypadFour] = "NUM-4",
+                    [Enum.KeyCode.KeypadFive] = "NUM-5",
+                    [Enum.KeyCode.KeypadSix] = "NUM-6",
+                    [Enum.KeyCode.KeypadSeven] = "NUM-7",
+                    [Enum.KeyCode.KeypadEight] = "NUM-8",
+                    [Enum.KeyCode.KeypadNine] = "NUM-9",
+                    [Enum.KeyCode.KeypadZero] = "NUM-0",
+                    [Enum.KeyCode.Minus] = "-",
+                    [Enum.KeyCode.Equals] = "=",
+                    [Enum.KeyCode.Tilde] = "~",
+                    [Enum.KeyCode.LeftBracket] = "[",
+                    [Enum.KeyCode.RightBracket] = "]",
+                    [Enum.KeyCode.RightParenthesis] = ")",
+                    [Enum.KeyCode.LeftParenthesis] = "(",
+                    [Enum.KeyCode.Semicolon] = ";",
+                    [Enum.KeyCode.Quote] = "'",
+                    [Enum.KeyCode.BackSlash] = "\\",
+                    [Enum.KeyCode.Comma] = ";",
+                    [Enum.KeyCode.Period] = ".",
+                    [Enum.KeyCode.Slash] = "/",
+                    [Enum.KeyCode.Asterisk] = "*",
+                    [Enum.KeyCode.Plus] = "+",
+                    [Enum.KeyCode.Period] = ".",
+                    [Enum.KeyCode.Backquote] = "`",
+                    [Enum.UserInputType.MouseButton1] = "MOUSE-1",
+                    [Enum.UserInputType.MouseButton2] = "MOUSE-2",
+                    [Enum.UserInputType.MouseButton3] = "MOUSE-3"
+                }
 
                 local keybind =
                     custom.createObject(
@@ -1843,7 +2042,6 @@ function library:New(opts)
                         Parent = sectionContent
                     }
                 )
-
                 local value =
                     custom.createObject(
                     "TextLabel",
@@ -1862,20 +2060,7 @@ function library:New(opts)
                         Parent = keybind
                     }
                 )
-
                 local binding
-
-                local function updateKeyChosen(newKey)
-                    local key = keys[newKey]
-                    value.Text = key or tostring(newKey):gsub("Enum.KeyCode.", "")
-                    value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
-                    value.Position = UDim2.new(1, -value.TextBounds.X, 0, 0)
-                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
-
-                    keyChosen = newKey
-                    callback(newKey)
-                end
-
                 keybind.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
@@ -1885,29 +2070,50 @@ function library:New(opts)
                             inputService.InputBegan:Connect(
                             function(input)
                                 local key = keys[input.KeyCode] or keys[input.UserInputType]
-                                updateKeyChosen(
-                                    input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode or
-                                        input.UserInputType
-                                )
-                                binding:Disconnect()
+                                value.Text = (keys[key] or tostring(input.KeyCode):gsub("Enum.KeyCode.", ""))
+                                custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                if input.UserInputType == Enum.UserInputType.Keyboard then
+                                    keyChosen = input.KeyCode
+
+                                    binding:Disconnect()
+                                    binding = nil
+                                else
+                                    keyChosen = input.UserInputType
+
+                                    binding:Disconnect()
+                                    binding = nil
+                                end
                             end
                         )
                     end
                 )
 
-                inputService.InputEnded:Connect(
+                inputService.InputBegan:Connect(
                     function(input)
-                        if binding and input.UserInputType == keyChosen then
-                            updateKeyChosen(keyChosen)
-                            binding:Disconnect()
+                        if input.UserInputType == Enum.UserInputType.Keyboard then
+                            if input.KeyCode == keyChosen then
+                                callback(keyChosen)
+                            end
+                        else
+                            if input.UserInputType == keyChosen then
+                                callback(keyChosen)
+                            end
                         end
                     end
                 )
 
                 local keybind_info = {}
+                keybind_info = custom.formatTable(keybind_info)
 
                 function keybind_info:Set(newKey)
-                    updateKeyChosen(newKey)
+                    local key = keys[newKey]
+                    value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
+                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+
+                    keyChosen = newKey
+
+                    callback(newKey)
                 end
 
                 function keybind_info:Hide()
@@ -1921,17 +2127,68 @@ function library:New(opts)
                 return keybind_info
             end
 
-            function section_info:CreateToggle_and_Keybind(opts)
+            function section_info:CreateToggle_or_Keybind(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
                 local default = options.default
-                local Callback = options.Callback or function()
+                local keybindCallback = options.keybindCallback or function()
                     end
-                local changeAtClick = options.Click or false
+                local toggleCallback = options.toggleCallback or function()
+                    end
+
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
-                local bool = false
+
+                local keys = {
+                    [Enum.KeyCode.LeftShift] = "L-SHIFT",
+                    [Enum.KeyCode.RightShift] = "R-SHIFT",
+                    [Enum.KeyCode.LeftControl] = "L-CTRL",
+                    [Enum.KeyCode.RightControl] = "R-CTRL",
+                    [Enum.KeyCode.LeftAlt] = "L-ALT",
+                    [Enum.KeyCode.RightAlt] = "R-ALT",
+                    [Enum.KeyCode.CapsLock] = "CAPSLOCK",
+                    [Enum.KeyCode.One] = "1",
+                    [Enum.KeyCode.Two] = "2",
+                    [Enum.KeyCode.Three] = "3",
+                    [Enum.KeyCode.Four] = "4",
+                    [Enum.KeyCode.Five] = "5",
+                    [Enum.KeyCode.Six] = "6",
+                    [Enum.KeyCode.Seven] = "7",
+                    [Enum.KeyCode.Eight] = "8",
+                    [Enum.KeyCode.Nine] = "9",
+                    [Enum.KeyCode.Zero] = "0",
+                    [Enum.KeyCode.KeypadOne] = "NUM-1",
+                    [Enum.KeyCode.KeypadTwo] = "NUM-2",
+                    [Enum.KeyCode.KeypadThree] = "NUM-3",
+                    [Enum.KeyCode.KeypadFour] = "NUM-4",
+                    [Enum.KeyCode.KeypadFive] = "NUM-5",
+                    [Enum.KeyCode.KeypadSix] = "NUM-6",
+                    [Enum.KeyCode.KeypadSeven] = "NUM-7",
+                    [Enum.KeyCode.KeypadEight] = "NUM-8",
+                    [Enum.KeyCode.KeypadNine] = "NUM-9",
+                    [Enum.KeyCode.KeypadZero] = "NUM-0",
+                    [Enum.KeyCode.Minus] = "-",
+                    [Enum.KeyCode.Equals] = "=",
+                    [Enum.KeyCode.Tilde] = "~",
+                    [Enum.KeyCode.LeftBracket] = "[",
+                    [Enum.KeyCode.RightBracket] = "]",
+                    [Enum.KeyCode.RightParenthesis] = ")",
+                    [Enum.KeyCode.LeftParenthesis] = "(",
+                    [Enum.KeyCode.Semicolon] = ";",
+                    [Enum.KeyCode.Quote] = "'",
+                    [Enum.KeyCode.BackSlash] = "\\",
+                    [Enum.KeyCode.Comma] = ";",
+                    [Enum.KeyCode.Period] = ".",
+                    [Enum.KeyCode.Slash] = "/",
+                    [Enum.KeyCode.Asterisk] = "*",
+                    [Enum.KeyCode.Plus] = "+",
+                    [Enum.KeyCode.Period] = ".",
+                    [Enum.KeyCode.Backquote] = "`",
+                    [Enum.UserInputType.MouseButton1] = "MOUSE-1",
+                    [Enum.UserInputType.MouseButton2] = "MOUSE-2",
+                    [Enum.UserInputType.MouseButton3] = "MOUSE-3"
+                }
 
                 local toggleKeybind =
                     custom.createObject(
@@ -1980,7 +2237,6 @@ function library:New(opts)
                         Parent = icon
                     }
                 )
-
                 local value =
                     custom.createObject(
                     "TextButton",
@@ -2001,87 +2257,407 @@ function library:New(opts)
                 )
 
                 value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
-                value.Position = UDim2.new(1, -value.TextBounds.X, 0, 0)
-
-                local binding
+                value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
 
                 local function toggleToggle()
                     toggled = not toggled
+
                     custom.animate(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
 
-                    local backgroundColor = toggled and theme.ToggleEnabled or theme.ToggleDisabled
-                    if mouseOver then
-                        backgroundColor = toggled and theme.ToggleEnabledMouseOver or theme.ToggleDisabledMouseOver
-                    end
-                    custom.animate(icon, {0.2}, {BackgroundColor3 = backgroundColor})
-
-                    if changeAtClick then
-                        bool = not bool
-                        Callback(toggled, bool, keyChosen)
+                    if not mouseOver then
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
+                        )
                     else
-                        Callback(toggled, keyChosen)
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {
+                                BackgroundColor3 = toggled and theme.ToggleEnabledMouseOver or
+                                    theme.ToggleDisabledMouseOver
+                            }
+                        )
                     end
+
+                    toggleCallback(toggled)
                 end
 
-                local function updateKeyChosen(input)
-                    local key = keys[input.KeyCode] or keys[input.UserInputType]
-                    value.Text = key or tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
-                    value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
-                    value.Position = UDim2.new(1, -value.TextBounds.X, 0, 0)
-                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+                toggleKeybind.MouseButton1Click:connect(toggleToggle)
 
-                    if input.UserInputType == Enum.UserInputType.Keyboard then
-                        keyChosen = input.KeyCode
-                        bool = not bool
-                        Callback(toggled, bool, keyChosen)
-                    else
-                        keyChosen = input.UserInputType
-                        if changeAtClick then
-                            bool = not bool
-                            Callback(toggled, bool, keyChosen)
-                        else
-                            Callback(toggled, keyChosen)
-                        end
+                toggleKeybind.MouseEnter:Connect(
+                    function()
+                        mouseOver = true
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {
+                                BackgroundColor3 = toggled and theme.ToggleEnabledMouseOver or
+                                    theme.ToggleDisabledMouseOver
+                            }
+                        )
                     end
-                end
+                )
 
-                local function handleInput(input)
-                    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == keyChosen then
-                        bool = not bool
-                        Callback(toggled, bool, keyChosen)
-                    elseif input.UserInputType == keyChosen then
-                        bool = not bool
-                        Callback(toggled, bool, keyChosen)
+                toggleKeybind.MouseLeave:Connect(
+                    function()
+                        mouseOver = false
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
+                        )
                     end
-                end
+                )
 
-                local function handleMouseEnter()
-                    mouseOver = true
-                    local backgroundColor = toggled and theme.ToggleEnabledMouseOver or theme.ToggleDisabledMouseOver
-                    custom.animate(icon, {0.2}, {BackgroundColor3 = backgroundColor})
-                end
-
-                local function handleMouseLeave()
-                    mouseOver = false
-                    local backgroundColor = toggled and theme.ToggleEnabled or theme.ToggleDisabled
-                    custom.animate(icon, {0.2}, {BackgroundColor3 = backgroundColor})
-                end
-
-                toggleKeybind.MouseButton1Click:Connect(toggleToggle)
-                toggleKeybind.MouseEnter:Connect(handleMouseEnter)
-                toggleKeybind.MouseLeave:Connect(handleMouseLeave)
                 value.MouseButton1Click:Connect(
                     function()
                         value.Text = "..."
                         custom.animate(value, {0.2}, {TextColor3 = theme.DisabledText})
 
-                        binding = inputService.InputBegan:Connect(updateKeyChosen)
+                        local binding
+                        binding =
+                            inputService.InputBegan:Connect(
+                            function(input)
+                                local key = keys[input.KeyCode] or keys[input.UserInputType]
+                                value.Text = key or (tostring(input.KeyCode):gsub("Enum.KeyCode.", ""))
+                                value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
+                                value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
+                                custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                if input.UserInputType == Enum.UserInputType.Keyboard then
+                                    keyChosen = input.KeyCode
+
+                                    keybindCallback(input.KeyCode)
+                                    binding:Disconnect()
+                                else
+                                    keyChosen = input.UserInputType
+
+                                    keybindCallback(input.UserInputType)
+                                    binding:Disconnect()
+                                end
+                            end
+                        )
                     end
                 )
 
-                inputService.InputBegan:Connect(handleInput)
+                inputService.InputBegan:Connect(
+                    function(input)
+                        if input.UserInputType == Enum.UserInputType.Keyboard then
+                            if input.KeyCode == keyChosen then
+                                toggleToggle()
+                                keybindCallback(keyChosen)
+                            end
+                        else
+                            if input.UserInputType == keyChosen then
+                                toggleToggle()
+                                keybindCallback(keyChosen)
+                            end
+                        end
+                    end
+                )
+
+                local tork_info = {}
+                tork_info = custom.formatTable(tork_info)
+
+                function tork_info:Toggle(bool)
+                    if toggled ~= bool then
+                        toggleToggle()
+                    end
+                end
+
+                function tork_info:Set(newKey)
+                    local key = keys[newKey]
+                    value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
+                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+
+                    keyChosen = newKey
+
+                    keybindCallback(newKey)
+                end
+
+                function tork_info:Hide()
+                    toggleKeybind.Visible = false
+                end
+
+                function tork_info:Show()
+                    toggleKeybind.Visible = true
+                end
+
+                return tork_info
+            end
+
+            function section_info:CreateToggle_and_Keybind(opts)
+                local options = custom.formatTable(opts)
+                local name = options.name
+                local default = options.default
+                local Callback = options.Callback or function()
+                    end
+                local changeAtClick = options.Click or false
+                local keyChosen = default
+                local mouseOver = false
+                local toggled = false
+
+                local keys = {
+                    [Enum.KeyCode.LeftShift] = "L-SHIFT",
+                    [Enum.KeyCode.RightShift] = "R-SHIFT",
+                    [Enum.KeyCode.LeftControl] = "L-CTRL",
+                    [Enum.KeyCode.RightControl] = "R-CTRL",
+                    [Enum.KeyCode.LeftAlt] = "L-ALT",
+                    [Enum.KeyCode.RightAlt] = "R-ALT",
+                    [Enum.KeyCode.CapsLock] = "CAPSLOCK",
+                    [Enum.KeyCode.One] = "1",
+                    [Enum.KeyCode.Two] = "2",
+                    [Enum.KeyCode.Three] = "3",
+                    [Enum.KeyCode.Four] = "4",
+                    [Enum.KeyCode.Five] = "5",
+                    [Enum.KeyCode.Six] = "6",
+                    [Enum.KeyCode.Seven] = "7",
+                    [Enum.KeyCode.Eight] = "8",
+                    [Enum.KeyCode.Nine] = "9",
+                    [Enum.KeyCode.Zero] = "0",
+                    [Enum.KeyCode.KeypadOne] = "NUM-1",
+                    [Enum.KeyCode.KeypadTwo] = "NUM-2",
+                    [Enum.KeyCode.KeypadThree] = "NUM-3",
+                    [Enum.KeyCode.KeypadFour] = "NUM-4",
+                    [Enum.KeyCode.KeypadFive] = "NUM-5",
+                    [Enum.KeyCode.KeypadSix] = "NUM-6",
+                    [Enum.KeyCode.KeypadSeven] = "NUM-7",
+                    [Enum.KeyCode.KeypadEight] = "NUM-8",
+                    [Enum.KeyCode.KeypadNine] = "NUM-9",
+                    [Enum.KeyCode.KeypadZero] = "NUM-0",
+                    [Enum.KeyCode.Minus] = "-",
+                    [Enum.KeyCode.Equals] = "=",
+                    [Enum.KeyCode.Tilde] = "~",
+                    [Enum.KeyCode.LeftBracket] = "[",
+                    [Enum.KeyCode.RightBracket] = "]",
+                    [Enum.KeyCode.RightParenthesis] = ")",
+                    [Enum.KeyCode.LeftParenthesis] = "(",
+                    [Enum.KeyCode.Semicolon] = ";",
+                    [Enum.KeyCode.Quote] = "'",
+                    [Enum.KeyCode.BackSlash] = "\\",
+                    [Enum.KeyCode.Comma] = ";",
+                    [Enum.KeyCode.Period] = ".",
+                    [Enum.KeyCode.Slash] = "/",
+                    [Enum.KeyCode.Asterisk] = "*",
+                    [Enum.KeyCode.Plus] = "+",
+                    [Enum.KeyCode.Period] = ".",
+                    [Enum.KeyCode.Backquote] = "`",
+                    [Enum.UserInputType.MouseButton1] = "MOUSE-1",
+                    [Enum.UserInputType.MouseButton2] = "MOUSE-2",
+                    [Enum.UserInputType.MouseButton3] = "MOUSE-3"
+                }
+
+                local toggleKeybind =
+                    custom.createObject(
+                    "TextButton",
+                    {
+                        Size = UDim2.new(1, 0, 0, 10),
+                        BackgroundTransparency = 1,
+                        Parent = sectionContent
+                    }
+                )
+
+                local icon =
+                    custom.createObject(
+                    "Frame",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(0, 10, 0, 10),
+                        BackgroundColor3 = theme.ToggleDisabled,
+                        Parent = toggleKeybind
+                    }
+                )
+
+                custom.createObject(
+                    "UICorner",
+                    {
+                        CornerRadius = UDim.new(0, 4),
+                        Parent = icon
+                    }
+                )
+
+                local title =
+                    custom.createObject(
+                    "TextLabel",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(0, 1, 0, 10),
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(1, 5, 0, 0),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        FontSize = Enum.FontSize.Size12,
+                        TextSize = 12,
+                        TextColor3 = theme.DisabledText,
+                        Text = name,
+                        Font = fonted,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = icon
+                    }
+                )
+                local value =
+                    custom.createObject(
+                    "TextButton",
+                    {
+                        ZIndex = 6,
+                        Size = UDim2.new(0, 1, 0, 10),
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(1, -1, 0, 0),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        FontSize = Enum.FontSize.Size12,
+                        TextSize = 12,
+                        TextColor3 = default and theme.EnabledText or theme.DisabledText,
+                        Text = default and (keys[default] or tostring(default):gsub("Enum.KeyCode.", "")) or "NONE",
+                        Font = fonted,
+                        TextXAlignment = Enum.TextXAlignment.Right,
+                        Parent = toggleKeybind
+                    }
+                )
+
+                value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
+                value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
+                local temp = false
+                local function toggleToggle()
+                    toggled = not toggled
+
+                    custom.animate(title, {0.2}, {TextColor3 = toggled and theme.EnabledText or theme.DisabledText})
+
+                    if not mouseOver then
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
+                        )
+                    else
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {
+                                BackgroundColor3 = toggled and theme.ToggleEnabledMouseOver or
+                                    theme.ToggleDisabledMouseOver
+                            }
+                        )
+                    end
+                    if changeAtClick then
+                        Callback(toggled, temp, keyChosen)
+                    else
+                        Callback(toggled, keyChosen)
+                    end
+                end
+
+                toggleKeybind.MouseButton1Click:connect(toggleToggle)
+
+                toggleKeybind.MouseEnter:Connect(
+                    function()
+                        mouseOver = true
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {
+                                BackgroundColor3 = toggled and theme.ToggleEnabledMouseOver or
+                                    theme.ToggleDisabledMouseOver
+                            }
+                        )
+                    end
+                )
+
+                toggleKeybind.MouseLeave:Connect(
+                    function()
+                        mouseOver = false
+                        custom.animate(
+                            icon,
+                            {0.2},
+                            {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
+                        )
+                    end
+                )
+
+                value.MouseButton1Click:Connect(
+                    function()
+                        value.Text = "..."
+                        custom.animate(value, {0.2}, {TextColor3 = theme.DisabledText})
+
+                        local binding
+                        binding =
+                            inputService.InputBegan:Connect(
+                            function(input)
+                                local key = keys[input.KeyCode] or keys[input.UserInputType]
+                                value.Text = key or (tostring(input.KeyCode):gsub("Enum.KeyCode.", ""))
+                                value.Size = UDim2.new(0, value.TextBounds.X, 0, 10)
+                                value.Position = UDim2.new(1, -(value.TextBounds.X), 0, 0)
+                                custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                if input.UserInputType == Enum.UserInputType.Keyboard then
+                                    keyChosen = input.KeyCode
+                                    if changeAtClick then
+                                        temp = not temp
+                                        Callback(toggled, temp, keyChosen)
+                                    else
+                                        Callback(toggled, keyChosen)
+                                    end
+                                    binding:Disconnect()
+                                else
+                                    keyChosen = input.UserInputType
+                                    if changeAtClick then
+                                        temp = not temp
+                                        Callback(toggled, temp, keyChosen)
+                                    else
+                                        Callback(toggled, keyChosen)
+                                    end
+                                    binding:Disconnect()
+                                end
+                            end
+                        )
+                    end
+                )
+
+                inputService.InputBegan:Connect(
+                    function(input)
+                        if input.UserInputType == Enum.UserInputType.Keyboard then
+                            if input.KeyCode == keyChosen then
+                                if changeAtClick then
+                                    temp = not temp
+                                    Callback(toggled, temp, keyChosen)
+                                else
+                                    Callback(toggled, keyChosen)
+                                end
+                            end
+                        else
+                            if input.UserInputType == keyChosen then
+                                if changeAtClick then
+                                    temp = not temp
+                                    Callback(toggled, temp, keyChosen)
+                                else
+                                    Callback(toggled, keyChosen)
+                                end
+                            end
+                        end
+                    end
+                )
 
                 local tandk_info = {}
+                tandk_info = custom.formatTable(tandk_info)
+
+                function tandk_info:Toggle(bool)
+                    if toggled ~= bool then
+                        toggleToggle()
+                    end
+                end
+
+                function tandk_info:Set(newKey)
+                    local key = keys[newKey]
+                    value.Text = (keys[key] or tostring(newKey):gsub("Enum.KeyCode.", ""))
+                    custom.animate(value, {0.2}, {TextColor3 = theme.EnabledText})
+
+                    keyChosen = newKey
+
+                    if changeAtClick then
+                        Callback(toggled, temp, keyChosen)
+                    else
+                        Callback(toggled, keyChosen)
+                    end
+                end
 
                 function tandk_info:Hide()
                     toggleKeybind.Visible = false
