@@ -191,7 +191,7 @@ PlaceId:CreateToggle(
         end
     }
 )
-local dropdownPlayerArray = {}
+--[[local dropdownPlayerArray = {}
 for _, player in ipairs(game.Players:GetPlayers()) do
     table.insert(dropdownPlayerArray, player.DisplayName)
 end
@@ -283,4 +283,4 @@ PlaceId:CreateToggle(
             end
         end
     }
-)
+)]]--this kinda bad, idk what to do better
