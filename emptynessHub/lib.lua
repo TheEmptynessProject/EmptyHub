@@ -111,17 +111,22 @@ inputService.InputBegan:Connect(
         end
     end
 )
- --
---[[local previous = inputService.MouseBehavior
-runService.RenderStepped:Connect(function()
-    if emptyCustoms.Enabled then
-        if inputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
-            inputService.MouseBehavior = Enum.MouseBehavior.Default
-        end
+local previous = inputService.MouseBehavior
+runService.RenderStepped:Connect(
+    function()
+        if emptyCustoms.Enabled then
+            if
+                inputService.MouseBehavior == Enum.MouseBehavior.LockCenter or
+                    inputService.MouseBehavior == Enum.MouseBehavior.LockCurrentPosition
+             then
+                previous = inputService.MouseBehavior
+                inputService.MouseBehavior = Enum.MouseBehavior.Default
+            end
         else
             inputService.MouseBehavior = previous
+        end
     end
-end)]]
+)
 function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
@@ -130,8 +135,8 @@ function library:New(opts)
     local sizeY = options.sizeY or 480
     local theme = options.theme or themes.Default
     local fonted = options.font or Enum.Font.Ubuntu
-    local consoleEnabled = options.console
-    local chatEnabled = options.chat
+    local consoleEnabled = options.console or false
+    local chatEnabled = options.chat or false
 
     local holder =
         custom.createObject(
@@ -270,294 +275,218 @@ function library:New(opts)
     )
 
     if consoleEnabled then
-        console =
-            custom.createObject(
-            "ScreenGui",
-            {
-                Parent = game:GetService("CoreGui"),
-                Name = custom.generateString(32, 1.1)
-            }
-        )
-        local consoleBG =
-            custom.createObject(
-            "Frame",
-            {
-                Size = UDim2.new(0, 400, 0, 250),
-                Position = UDim2.new(0, 6, 0, 6),
-                BackgroundColor3 = themes.Default.Section,
-                BackgroundTransparency = 0,
-                Parent = console,
-                BorderMode = 0
-            }
-        )
-        custom.enableDrag(consoleBG, library.dragSpeed)
+    console = custom.createObject("ScreenGui", {
+        Parent = game:GetService("CoreGui"),
+        Name = custom.generateString(32, 1.1)
+    })
 
-        local consoleBox =
-            custom.createObject(
-            "TextBox",
-            {
-                Parent = consoleBG,
-                BackgroundColor3 = themes.Default.Box,
-                BorderColor3 = themes.Default.TextColor,
-                BorderSizePixel = 2,
-                Selectable = false,
-                TextEditable = false,
-                Size = UDim2.new(1, 0, 1, -50),
-                ClearTextOnFocus = false,
-                Font = Enum.Font.Ubuntu,
-                MultiLine = true,
-                PlaceholderColor3 = themes.Default.DisabledText,
-                Text = "Logs",
-                TextColor3 = themes.Default.TextColor,
-                TextSize = 14,
-                TextWrapped = true,
-                ZIndex = 2,
-                BorderMode = 0
-            }
-        )
-        local consoleButton1 =
-            custom.createObject(
-            "TextButton",
-            {
-                Parent = consoleBG,
-                Position = UDim2.new(0, 0, 0, 200),
-                BackgroundColor3 = themes.Default.Button,
-                Size = UDim2.new(0, 150, 0, 50),
-                Font = Enum.Font.Ubuntu,
-                Text = "Clear",
-                TextColor3 = themes.Default.EnabledText,
-                TextSize = 16,
-                ClipsDescendants = true,
-                BorderMode = 0
-            }
-        )
+    local consoleBG = custom.createObject("Frame", {
+        Size = UDim2.new(0, 400, 0, 250),
+        Position = UDim2.new(0, 6, 0, 6),
+        BackgroundColor3 = themes.Default.Section,
+        BackgroundTransparency = 0,
+        Parent = console,
+        BorderMode = 0
+    })
+    custom.enableDrag(consoleBG, library.dragSpeed)
 
-        local consoleButton2 =
-            custom.createObject(
-            "TextButton",
-            {
-                Parent = consoleBG,
-                Position = UDim2.new(0, 250, 0, 200),
-                BackgroundColor3 = themes.Default.Button,
-                Size = UDim2.new(0, 150, 0, 50),
-                Font = Enum.Font.Ubuntu,
-                Text = "Copy",
-                TextColor3 = themes.Default.EnabledText,
-                TextSize = 16,
-                ClipsDescendants = true,
-                BorderMode = 0
-            }
-        )
-        spawn(
-            function()
-                while true do
-                    for i = 0, 1, 1 / 2000 do
-                        consoleBG.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        consoleBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        consoleButton1.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        consoleButton2.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        task.wait()
-                    end
-                end
+    local consoleBox = custom.createObject("TextBox", {
+        Parent = consoleBG,
+        BackgroundColor3 = themes.Default.Box,
+        BorderColor3 = themes.Default.TextColor,
+        BorderSizePixel = 2,
+        Selectable = false,
+        TextEditable = false,
+        Size = UDim2.new(1, 0, 1, -50),
+        ClearTextOnFocus = false,
+        Font = Enum.Font.Ubuntu,
+        MultiLine = true,
+        PlaceholderColor3 = themes.Default.DisabledText,
+        Text = "Logs",
+        TextColor3 = themes.Default.TextColor,
+        TextSize = 14,
+        TextWrapped = true,
+        ZIndex = 2,
+        BorderMode = 0
+    })
+
+    local consoleButton1 = custom.createObject("TextButton", {
+        Parent = consoleBG,
+        Position = UDim2.new(0, 0, 0, 200),
+        BackgroundColor3 = themes.Default.Button,
+        Size = UDim2.new(0, 150, 0, 50),
+        Font = Enum.Font.Ubuntu,
+        Text = "Clear",
+        TextColor3 = themes.Default.EnabledText,
+        TextSize = 16,
+        ClipsDescendants = true,
+        BorderMode = 0
+    })
+
+    local consoleButton2 = custom.createObject("TextButton", {
+        Parent = consoleBG,
+        Position = UDim2.new(0, 250, 0, 200),
+        BackgroundColor3 = themes.Default.Button,
+        Size = UDim2.new(0, 150, 0, 50),
+        Font = Enum.Font.Ubuntu,
+        Text = "Copy",
+        TextColor3 = themes.Default.EnabledText,
+        TextSize = 16,
+        ClipsDescendants = true,
+        BorderMode = 0
+    })
+
+    spawn(function()
+        while true do
+            local hue = tick() % 1
+            consoleBG.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            consoleBox.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            consoleButton1.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            consoleButton2.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            task.wait()
+        end
+    end)
+
+    local logTable = {}
+
+    game:GetService("LogService").MessageOut:Connect(function(msg)
+        repeat
+            task.wait(0.1)
+        until msg
+        table.insert(logTable, msg)
+        consoleBox.Text = table.concat(logTable, "\n")
+        if #logTable == 10 then
+            table.remove(logTable, 1)
+        end
+    end)
+
+    consoleButton1.MouseButton1Click:Connect(function()
+        custom.createRipple(consoleButton1)
+        logTable = {}
+        consoleBox.Text = "Logs"
+    end)
+
+    consoleButton2.MouseButton1Click:Connect(function()
+        custom.createRipple(consoleButton2)
+        setclipboard(consoleBox.Text)
+    end)
+end
+
+if chatEnabled then
+    chat = custom.createObject("ScreenGui", {
+        Parent = game:GetService("CoreGui"),
+        Name = custom.generateString(32, 1.2)
+    })
+
+    local chatBG = custom.createObject("Frame", {
+        Size = UDim2.new(0, 400, 0, 250),
+        Position = UDim2.new(0, 100, 0.5, 0),
+        BackgroundColor3 = themes.Default.Section,
+        BackgroundTransparency = 0,
+        Parent = chat,
+        BorderMode = 0
+    })
+
+    local historyBox = custom.createObject("TextBox", {
+        Parent = chatBG,
+        BackgroundColor3 = themes.Default.Box,
+        BorderColor3 = themes.Default.TextColor,
+        BorderSizePixel = 2,
+        Selectable = false,
+        TextEditable = false,
+        Size = UDim2.new(1, 0, 1, -50),
+        ClearTextOnFocus = false,
+        Font = Enum.Font.Ubuntu,
+        MultiLine = true,
+        PlaceholderColor3 = themes.Default.DisabledText,
+        Text = "History",
+        TextColor3 = themes.Default.TextColor,
+        TextSize = 16,
+        TextWrapped = true,
+        ZIndex = 2,
+        BorderMode = 0
+    })
+
+    local chatBox = custom.createObject("TextBox", {
+        Parent = chatBG,
+        BackgroundColor3 = themes.Default.Box,
+        BorderColor3 = themes.Default.TextColor,
+        BorderSizePixel = 2,
+        Selectable = true,
+        TextEditable = true,
+        Size = UDim2.new(0, 250, 0, 50),
+        Position = UDim2.new(0, 0, 0, 200),
+        ClearTextOnFocus = false,
+        Font = Enum.Font.Ubuntu,
+        MultiLine = false,
+        PlaceholderColor3 = themes.Default.DisabledText,
+        Text = "Chat",
+        TextColor3 = themes.Default.TextColor,
+        TextSize = 16,
+        TextWrapped = true,
+        BorderMode = 0
+    })
+
+    local chatButton1 = custom.createObject("TextButton", {
+        Parent = chatBG,
+        Position = UDim2.new(0, 250, 0, 200),
+        BackgroundColor3 = themes.Default.Button,
+        Size = UDim2.new(0, 150, 0, 50),
+        Font = Enum.Font.Ubuntu,
+        Text = "Send",
+        TextColor3 = themes.Default.EnabledText,
+        TextSize = 16,
+        ClipsDescendants = true,
+        BorderMode = 0
+    })
+
+    spawn(function()
+        while true do
+            local hue = tick() % 1
+            chatBG.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            chatBox.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            chatButton1.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            historyBox.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+            task.wait()
+        end
+    end)
+
+    local lastTick = nil
+    local canSendMessage = true
+
+    spawn(function()
+        while true do
+            history = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"))
+
+            local formattedHistory = ""
+            for i, message in ipairs(history) do
+                formattedHistory = formattedHistory .. message.username .. ": " .. message.content .. "\n"
             end
-        )
-        local logTable = {}
-        game:GetService("LogService").MessageOut:Connect(
-            function(msg)
-                repeat
-                    task.wait(0.1)
-                until msg
-                logTable[#logTable + 1] = msg
-                consoleBox.Text = table.concat(logTable, "\n")
-                if #logTable == 10 then
-                    table.remove(logTable, 1)
-                end
+            historyBox.Text = formattedHistory
+            task.wait(2)
+        end
+    end)
+
+    chatButton1.MouseButton1Click:Connect(function()
+        if canSendMessage and chatBox.Text and chatBox.Text ~= "" then
+            custom.createRipple(chatButton1)
+            if not lastTick or tick() - lastTick > 10 then
+                history = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"))
+                local newId = history[#history].msgId + 1
+                lastTick = tick()
+                local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
+
+                custom.updateChatFile(toSend, git_TOKEN)
+
+                canSendMessage = false
+                task.delay(10, function()
+                    canSendMessage = true
+                end)
             end
-        )
+        end
+    end)
+end
 
-        consoleButton1.MouseButton1Click:Connect(
-            function()
-                custom.createRipple(consoleButton1)
-                logTable = {}
-                consoleBox.Text = "Logs"
-            end
-        )
-
-        consoleButton2.MouseButton1Click:Connect(
-            function()
-                custom.createRipple(consoleButton2)
-                setclipboard(consoleBox.Text)
-            end
-        )
-    end
-    if chatEnabled then
-        local lastTick = nil
-        local canSendMessage = true
-        chat =
-            custom.createObject(
-            "ScreenGui",
-            {
-                Parent = game:GetService("CoreGui"),
-                Name = custom.generateString(32, 1.2)
-            }
-        )
-        local chatBG =
-            custom.createObject(
-            "Frame",
-            {
-                Size = UDim2.new(0, 400, 0, 250),
-                Position = UDim2.new(0, 100, 0.5, 0),
-                BackgroundColor3 = themes.Default.Section,
-                BackgroundTransparency = 0,
-                Parent = chat,
-                BorderMode = 0
-            }
-        )
-        local historyBox =
-            custom.createObject(
-            "TextBox",
-            {
-                Parent = chatBG,
-                BackgroundColor3 = themes.Default.Box,
-                BorderColor3 = themes.Default.TextColor,
-                BorderSizePixel = 2,
-                Selectable = false,
-                TextEditable = false,
-                Size = UDim2.new(1, 0, 1, -50),
-                ClearTextOnFocus = false,
-                Font = Enum.Font.Ubuntu,
-                MultiLine = true,
-                PlaceholderColor3 = themes.Default.DisabledText,
-                Text = "History",
-                TextColor3 = themes.Default.TextColor,
-                TextSize = 16,
-                TextWrapped = true,
-                ZIndex = 2,
-                BorderMode = 0
-            }
-        )
-        local chatBox =
-            custom.createObject(
-            "TextBox",
-            {
-                Parent = chatBG,
-                BackgroundColor3 = themes.Default.Box,
-                BorderColor3 = themes.Default.TextColor,
-                BorderSizePixel = 2,
-                Selectable = true,
-                TextEditable = true,
-                Size = UDim2.new(0, 250, 0, 50),
-                Position = UDim2.new(0, 0, 0, 200),
-                ClearTextOnFocus = false,
-                Font = Enum.Font.Ubuntu,
-                MultiLine = false,
-                PlaceholderColor3 = themes.Default.DisabledText,
-                Text = "Chat",
-                TextColor3 = themes.Default.TextColor,
-                TextSize = 16,
-                TextWrapped = true,
-                BorderMode = 0
-            }
-        )
-        local chatButton1 =
-            custom.createObject(
-            "TextButton",
-            {
-                Parent = chatBG,
-                Position = UDim2.new(0, 250, 0, 200),
-                BackgroundColor3 = themes.Default.Button,
-                Size = UDim2.new(0, 150, 0, 50),
-                Font = Enum.Font.Ubuntu,
-                Text = "Send",
-                TextColor3 = themes.Default.EnabledText,
-                TextSize = 16,
-                ClipsDescendants = true,
-                BorderMode = 0
-            }
-        )
-        spawn(
-            function()
-                while true do
-                    for i = 0, 1, 1 / 2000 do
-                        chatBG.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        chatBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        chatButton1.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        historyBox.BorderColor3 = Color3.fromHSV(i, 1, 1)
-                        task.wait()
-                    end
-                end
-            end
-        )
-        local history
-        spawn(
-            function()
-                while true do
-                    history =
-                        game:GetService("HttpService"):JSONDecode(
-                        game:HttpGet(
-                            "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
-                        )
-                    )
-
-                    local formattedHistory = ""
-                    for i, message in ipairs(history) do
-                        formattedHistory = formattedHistory .. message.username .. ": " .. message.content .. "\n"
-                    end
-                    historyBox.Text = formattedHistory
-                    task.wait(2)
-                end
-            end
-        )
-
-        chatButton1.MouseButton1Click:Connect(
-            function()
-                if canSendMessage and chatBox.Text and chatBox.Text ~= "" then
-                    custom.createRipple(chatButton1)
-                    if not lastTick then
-                        history =
-                            game:GetService("HttpService"):JSONDecode(
-                            game:HttpGet(
-                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
-                            )
-                        )
-                        local newId = history[#history].msgId + 1
-                        lastTick = tick()
-                        local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
-
-                        custom.updateChatFile(toSend, git_TOKEN)
-
-                        canSendMessage = false
-                        task.delay(
-                            10,
-                            function()
-                                canSendMessage = true
-                            end
-                        )
-                    elseif lastTick and tick() - lastTick > 10 then
-                        history =
-                            game:GetService("HttpService"):JSONDecode(
-                            game:HttpGet(
-                                "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/ChatTest.lua"
-                            )
-                        )
-                        local newId = history[#history].msgId + 1
-                        lastTick = tick()
-                        local toSend = {username = game.Players.LocalPlayer.Name, msgId = newId, content = chatBox.Text}
-
-                        custom.updateChatFile(toSend, git_TOKEN)
-
-                        canSendMessage = false
-                        task.delay(
-                            10,
-                            function()
-                                canSendMessage = true
-                            end
-                        )
-                    end
-                end
-            end
-        )
-    end
     local window_info = {count = 0}
     window_info = custom.formatTable(window_info)
 
