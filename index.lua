@@ -1,3 +1,6 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
 local custom =
     loadstring(
     game:HttpGet(
@@ -14,10 +17,6 @@ local library =
     loadstring(
     game:HttpGet("https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/lib.lua")
 )()
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
-if not (getgenv()[custom.generateString(32, 0)]) then
     getgenv().mainLib =
         library:New(
         {
@@ -26,19 +25,6 @@ if not (getgenv()[custom.generateString(32, 0)]) then
             SizeY = 550
         }
     )
-    getgenv().notifLib =
-        notificationLib.new(
-        {
-            lifetime = 5,
-            textColor = Color3.fromRGB(255, 255, 255),
-            textSize = 20,
-            textStrokeTransparency = 0.7,
-            textStrokeColor = Color3.fromRGB(0, 0, 0),
-            textFont = Enum.Font.Ubuntu
-        }
-    )
-
-    notifLib:BuildUI()
 
     local uniTab = mainLib:NewTab("Universal")
     local randomThingsTab = mainLib:NewTab("Random")
@@ -854,4 +840,3 @@ randomColumn1:CreateToggle(
             loadstring(game:HttpGet(gameScriptUrl))()
         end
     )
-end
