@@ -2,7 +2,7 @@ local custom = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheEmp
 
 local notifications = {}
 
-function notifications:BuildUI()
+local function BuildUI()
     if notifications.screenGui then
         return
     end
@@ -34,7 +34,7 @@ end
 
 function notifications:Notify(opt)
     if not notifications.ui or not notifications.ui.frame then
-        notifications:BuildUI()
+        BuildUI()
     end
 
     local options = custom.formatTable(opt)
