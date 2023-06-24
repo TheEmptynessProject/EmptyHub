@@ -15,11 +15,11 @@ local library = {toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSp
 
 local themes = {
     Default = {
-        TextColor = Color3.fromRGB(255, 255, 255),
+        TextColor = Color3.fromRGB(220, 220, 220),
         MainFrame = Color3.fromRGB(0, 0, 0),
         TabBackground = Color3.fromRGB(25, 25, 25),
         Tab = Color3.fromRGB(0, 0, 0),
-        EnabledText = Color3.fromRGB(255, 255, 255),
+        EnabledText = Color3.fromRGB(220, 220, 220),
         DisabledText = Color3.fromRGB(180, 180, 180),
         TabToggleEnabled = Color3.fromRGB(0, 0, 0),
         TabToggleDisabled = Color3.fromRGB(10, 10, 10),
