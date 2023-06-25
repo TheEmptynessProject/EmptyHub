@@ -1,3 +1,9 @@
+local custom =
+    loadstring(
+    game:HttpGet(
+        "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"
+    )
+)()
 local default = getgenv().mainLib:NewTab("Game Tab 1")
 local PlaceId =
     default:NewSection(
@@ -11,7 +17,7 @@ PlaceId:CreateToggle(
         Name = "AutoPlay",
         Callback = function(bool)
             local ball = nil
-            while bool do
+            local function temp()
                 task.wait()
                 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.LockCenter
                 if game.workspace.Marker:FindFirstChild("Ball") then
@@ -29,6 +35,7 @@ PlaceId:CreateToggle(
                     end
                 end
             end
+            custom.loop(temp, not bool)
         end
     }
 )
