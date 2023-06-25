@@ -101,7 +101,7 @@ PlaceId:CreateSlider(
             end
             temp1 = value
             temp.Core.FRcylConstraint.MotorMaxTorque = value
-            temp.Core.FlcylConstraint.MotorMaxTorque = value
+            temp.Core.FLcylConstraint.MotorMaxTorque = value
         end
     }
 )
@@ -137,7 +137,7 @@ PlaceId:CreateToggle(
                 veh.Core.RRcylConstraint.MotorMaxTorque = temp2
             veh.Core.RLcylConstraint.MotorMaxTorque = temp2
                 veh.Core.FRcylConstraint.MotorMaxTorque = temp1
-            veh.Core.FlcylConstraint.MotorMaxTorque = temp1
+            veh.Core.FLcylConstraint.MotorMaxTorque = temp1
             end
         end
     }
