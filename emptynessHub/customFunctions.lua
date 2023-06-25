@@ -17,6 +17,9 @@ do
     assert(type(name) == "string", "1st Argument must be a string")
 
     if not customs.functions[name] and toBreak then
+            if not customs.functions then
+                customs.functions = {}
+            end
         customs.functions[name] = function()
             while true do
                 if customs.functions[name] == nil then
@@ -32,26 +35,25 @@ do
 end
 
     function customs.insertFlag(index, flag, value, default)
-        if not getgenv().FLAGS then
-            getgenv().FLAGS = {}
+        if not customs.FLAGS then
+            customs.FLAGS = {}
         end
-
-        if not getgenv().FLAGS[index] then
-            getgenv().FLAGS[index] = {}
+        if not customs.FLAGS[index] then
+            customs.FLAGS[index] = {}
         end
         flag = string.upper(flag)
-        if not getgenv().FLAGS[index][flag] then
-            getgenv().FLAGS[index][flag] = default
+        if not customs.FLAGS[index][flag] then
+            customs.FLAGS[index][flag] = default
         else
-            if value and type(value) == type(getgenv().FLAGS[index][flag]) then
-            getgenv().FLAGS[index][flag] = value
+            if value and type(value) == type(customs.FLAGS[index][flag]) then
+            customs.FLAGS[index][flag] = value
                 end
         end
     end
     function customs.getFlag(index, flag)
         flag = string.upper(flag)
-        if getgenv().FLAGS and getgenv().FLAGS[index] and getgenv().FLAGS[index][flag] then
-            return getgenv().FLAGS[index][flag]
+        if customs.FLAGS and customs.FLAGS[index] and customs.FLAGS[index][flag] then
+            return customs.FLAGS[index][flag]
         end
     end
     function customs.updateChatFile(content, Token)
