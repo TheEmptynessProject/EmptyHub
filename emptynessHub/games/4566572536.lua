@@ -89,7 +89,7 @@ PlaceId:CreateToggle(
                 keypress(0x57)
                 task.wait(0.8)
             end
-            custom.loop(temp, not bool)
+            custom.loop("4566572536thing", temp, bool)
         end
     }
 )
@@ -101,11 +101,18 @@ PlaceId:CreateSlider(
         Default = getVehicle().Core.FRcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
+            local function thing()
             local temp = getVehicle()
             if not temp then
                 return
             end
             temp.Core.FRcylConstraint.MotorMaxTorque = value
+            end
+            if value > 0 then
+                custom.loop("FRcylConstraint", thing, true)
+            else
+                custom.loop("FRcylConstraint", thing, false)
+            end
         end
     }
 )
@@ -117,11 +124,18 @@ PlaceId:CreateSlider(
         Default = getVehicle().Core.FLcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
+            local function thing()
             local temp = getVehicle()
             if not temp then
                 return
             end
             temp.Core.FLcylConstraint.MotorMaxTorque = value
+            end
+            if value > 0 then
+                custom.loop("FRcylConstraint", thing, true)
+            else
+                custom.loop("FRcylConstraint", thing, false)
+            end
         end
     }
 )
@@ -133,11 +147,18 @@ PlaceId:CreateSlider(
         Default = getVehicle().Core.RRcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
+            local function thing()
             local temp = getVehicle()
             if not temp then
                 return
             end
             temp.Core.RRcylConstraint.MotorMaxTorque = value
+            end
+            if value > 0 then
+                custom.loop("FRcylConstraint", thing, true)
+            else
+                custom.loop("FRcylConstraint", thing, false)
+            end
         end
     }
 )
@@ -149,11 +170,18 @@ PlaceId:CreateSlider(
         Default = getVehicle().Core.RLcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
+            local function thing()
             local temp = getVehicle()
             if not temp then
                 return
             end
             temp.Core.RLcylConstraint.MotorMaxTorque = value
+            end
+            if value > 0 then
+                custom.loop("FRcylConstraint", thing, true)
+            else
+                custom.loop("FRcylConstraint", thing, false)
+            end
         end
     }
 )
