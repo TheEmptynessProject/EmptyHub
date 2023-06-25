@@ -12,16 +12,25 @@ do
         return table.concat(word)
     end
     function customs.loop(name, func, toBreak)
-        assert(type(func) == "function", "1st Argument must be a function")
-        assert(type(toBreak) == "boolean", "2nd Argument must be a boolean")
-        if not customs.functions[name] then
-            customs.functions[name] = while true do
+    assert(type(func) == "function", "2nd Argument must be a function")
+    assert(type(toBreak) == "boolean", "3rd Argument must be a boolean")
+    assert(type(name) == "string", "1st Argument must be a string")
+
+    if not customs.functions[name] and toBreak then
+        customs.functions[name] = function()
+            while true do
+                if customs.functions[name] == nil then
+                    return
+                end
                 func()
-                if toBreak then return end
                 task.wait()
             end
         end
+    else
+        customs.functions[name] = nil
     end
+end
+
     function customs.insertFlag(index, flag, value, default)
         if not getgenv().FLAGS then
             getgenv().FLAGS = {}
