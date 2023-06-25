@@ -43,7 +43,7 @@ PlaceId:CreateKeybind(
                 notifLib:Notify("Error: Car not found!", {Color = Color3.new(255, 0, 0)})
                 return
             end
-            temp.Weight.boostForce.force = workspace.CurrentCamera.CFrame.LookVector * Vector3.new(multi, 0, multi)
+            temp.Weight.boostForce.force = workspace.CurrentCamera.CFrame.LookVector * multi
         end
     }
 )
