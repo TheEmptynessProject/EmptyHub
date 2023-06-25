@@ -49,8 +49,10 @@ PlaceId:CreateToggle(
 
             local veh = getVehicle()
             if not veh then
+                notifLib:Notify("Error: Car not found!", {Color = Color3.new(255, 0, 0)})
                 return
             end
+            
             local start = Vector3.new(4801, 17, 1930)
             local finish = Vector3.new(-313, 17, 2460)
 
@@ -59,7 +61,7 @@ PlaceId:CreateToggle(
             local this = me.Character.HumanoidRootPart
 
             local cam = workspace.CurrentCamera
-            while bool do
+            local function temp()
                 this.CFrame = CFrame.new(start, finish)
                 task.wait(0.5)
                 game:GetService("ReplicatedStorage").Event.vehicleEvent:InvokeServer(veh.vehicleType.Value)
@@ -81,6 +83,7 @@ PlaceId:CreateToggle(
                 keypress(0x57)
                 task.wait(0.8)
             end
+            custom.loop(temp, not bool)
         end
     }
 )
