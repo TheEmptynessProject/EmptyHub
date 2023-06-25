@@ -114,14 +114,14 @@ PlaceId:CreateSlider(
         Name = "Torque Front Left",
         Min = 0,
         Max = 50000000,
-        Default = getVehicle().Core.FlcylConstraint.MotorMaxTorque or 0,
+        Default = getVehicle().Core.FLcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
             local temp = getVehicle()
             if not temp then
                 return
             end
-            temp.Core.FlcylConstraint.MotorMaxTorque = value
+            temp.Core.FLcylConstraint.MotorMaxTorque = value
         end
     }
 )
