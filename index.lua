@@ -25,7 +25,19 @@ local library =
             SizeY = 550
         }
     )
+getgenv().notifLib =
+        notificationLib.new(
+        {
+            lifetime = 5,
+            textColor = Color3.fromRGB(255, 255, 255),
+            textSize = 20,
+            textStrokeTransparency = 0.7,
+            textStrokeColor = Color3.fromRGB(0, 0, 0),
+            textFont = Enum.Font.Ubuntu
+        }
+    )
 
+    notifLib:BuildUI()
     local uniTab = mainLib:NewTab("Universal")
     local randomThingsTab = mainLib:NewTab("Random")
     local universalColumn1 =
