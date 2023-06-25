@@ -17,7 +17,8 @@ PlaceId:CreateToggle(
         Name = "AutoPlay",
         Callback = function(bool)
             local ball = nil
-            local function temp()
+            while true do
+                if not bool then return end
                 task.wait()
                 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.LockCenter
                 if game.workspace.Marker:FindFirstChild("Ball") then
@@ -35,7 +36,6 @@ PlaceId:CreateToggle(
                     end
                 end
             end
-            custom.loop("11480900381", temp, bool)
         end
     }
 )
