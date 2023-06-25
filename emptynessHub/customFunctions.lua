@@ -11,13 +11,15 @@ do
 
         return table.concat(word)
     end
-    function customs.loop(func, toBreak)
+    function customs.loop(name, func, toBreak)
         assert(type(func) == "function", "1st Argument must be a function")
         assert(type(toBreak) == "boolean", "2nd Argument must be a boolean")
-        while true do
-            func()
-            if toBreak then return end
-            task.wait()
+        if not customs.functions[name] then
+            customs.functions[name] = while true do
+                func()
+                if toBreak then return end
+                task.wait()
+            end
         end
     end
     function customs.insertFlag(index, flag, value, default)
