@@ -1,9 +1,3 @@
-local custom =
-    loadstring(
-    game:HttpGet(
-        "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"
-    )
-)()
 local default = getgenv().mainLib:NewTab("Game Tab 1")
 local PlaceId =
     default:NewSection(
@@ -25,7 +19,7 @@ PlaceId:CreateSlider(
     {
         Name = "Boost Multiplier",
         Min = 0,
-        Max = 85000000,
+        Max = 8500000,
         Default = 0,
         Decimals = 0.0001,
         Callback = function(value)
@@ -55,10 +49,8 @@ PlaceId:CreateToggle(
 
             local veh = getVehicle()
             if not veh then
-                notifLib:Notify("Error: Car not found!", {Color = Color3.new(255, 0, 0)})
                 return
             end
-            
             local start = Vector3.new(4801, 17, 1930)
             local finish = Vector3.new(-313, 17, 2460)
 
@@ -67,7 +59,9 @@ PlaceId:CreateToggle(
             local this = me.Character.HumanoidRootPart
 
             local cam = workspace.CurrentCamera
-            local function temp()
+            while true do
+                if not bool then return end
+                task.wait()
                 this.CFrame = CFrame.new(start, finish)
                 task.wait(0.5)
                 game:GetService("ReplicatedStorage").Event.vehicleEvent:InvokeServer(veh.vehicleType.Value)
@@ -89,98 +83,57 @@ PlaceId:CreateToggle(
                 keypress(0x57)
                 task.wait(0.8)
             end
-            custom.loop("4566572536thing", temp, bool)
         end
     }
 )
+local temp1, temp2
 PlaceId:CreateSlider(
     {
-        Name = "Torque Front Right",
+        Name = "Torque Front",
         Min = 0,
         Max = 50000000,
         Default = getVehicle().Core.FRcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
-            local function thing()
             local temp = getVehicle()
             if not temp then
                 return
             end
+            temp1 = value
             temp.Core.FRcylConstraint.MotorMaxTorque = value
-            end
-            if value > 0 then
-                custom.loop("FRcylConstraint", thing, true)
-            else
-                custom.loop("FRcylConstraint", thing, false)
-            end
+            temp.Core.FlcylConstraint.MotorMaxTorque = value
         end
     }
 )
 PlaceId:CreateSlider(
     {
-        Name = "Torque Front Left",
-        Min = 0,
-        Max = 50000000,
-        Default = getVehicle().Core.FLcylConstraint.MotorMaxTorque or 0,
-        Decimals = 0.0001,
-        Callback = function(value)
-            local function thing()
-            local temp = getVehicle()
-            if not temp then
-                return
-            end
-            temp.Core.FLcylConstraint.MotorMaxTorque = value
-            end
-            if value > 0 then
-                custom.loop("FRcylConstraint", thing, true)
-            else
-                custom.loop("FRcylConstraint", thing, false)
-            end
-        end
-    }
-)
-PlaceId:CreateSlider(
-    {
-        Name = "Torque Back Right",
+        Name = "Torque Back",
         Min = 0,
         Max = 50000000,
         Default = getVehicle().Core.RRcylConstraint.MotorMaxTorque or 0,
         Decimals = 0.0001,
         Callback = function(value)
-            local function thing()
             local temp = getVehicle()
             if not temp then
                 return
             end
+            temp2 = value
             temp.Core.RRcylConstraint.MotorMaxTorque = value
-            end
-            if value > 0 then
-                custom.loop("FRcylConstraint", thing, true)
-            else
-                custom.loop("FRcylConstraint", thing, false)
-            end
+            temp.Core.RLcylConstraint.MotorMaxTorque = value
         end
     }
 )
-PlaceId:CreateSlider(
+PlaceId:CreateToggle(
     {
-        Name = "Torque Back Left",
-        Min = 0,
-        Max = 50000000,
-        Default = getVehicle().Core.RLcylConstraint.MotorMaxTorque or 0,
-        Decimals = 0.0001,
-        Callback = function(value)
-            local function thing()
-            local temp = getVehicle()
-            if not temp then
-                return
-            end
-            temp.Core.RLcylConstraint.MotorMaxTorque = value
-            end
-            if value > 0 then
-                custom.loop("FRcylConstraint", thing, true)
-            else
-                custom.loop("FRcylConstraint", thing, false)
+        Name = "Loop torque",
+        Callback = function(bool)
+                while true do
+                if not bool then return end
+                task.wait()
+                temp.Core.RRcylConstraint.MotorMaxTorque = temp2
+            temp.Core.RLcylConstraint.MotorMaxTorque = temp2
+                temp.Core.FRcylConstraint.MotorMaxTorque = temp1
+            temp.Core.FlcylConstraint.MotorMaxTorque = temp1
             end
         end
     }
