@@ -130,10 +130,14 @@ PlaceId:CreateToggle(
                 while true do
                 if not bool then return end
                 task.wait()
-                temp.Core.RRcylConstraint.MotorMaxTorque = temp2
-            temp.Core.RLcylConstraint.MotorMaxTorque = temp2
-                temp.Core.FRcylConstraint.MotorMaxTorque = temp1
-            temp.Core.FlcylConstraint.MotorMaxTorque = temp1
+                local veh = getVehicle()
+            if not veh then
+                return
+            end
+                veh.Core.RRcylConstraint.MotorMaxTorque = temp2
+            veh.Core.RLcylConstraint.MotorMaxTorque = temp2
+                veh.Core.FRcylConstraint.MotorMaxTorque = temp1
+            veh.Core.FlcylConstraint.MotorMaxTorque = temp1
             end
         end
     }
