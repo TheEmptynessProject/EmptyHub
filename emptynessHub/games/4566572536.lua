@@ -1,3 +1,9 @@
+local custom =
+    loadstring(
+    game:HttpGet(
+        "https://raw.githubusercontent.com/TheEmptynessProject/EmptynessProject/main/emptynessHub/customFunctions.lua"
+    )
+)()
 local default = getgenv().mainLib:NewTab("Game Tab 1")
 local PlaceId =
     default:NewSection(
