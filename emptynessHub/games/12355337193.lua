@@ -129,15 +129,28 @@ PlaceId:CreateKeybind(
     }
 )
 local delay = 0
+local hc = 40
 PlaceId:CreateSlider(
     {
         Name = "Lag Simulator",
         Min = 0,
         Max = 5,
-        Default = 0,
+        Default = delay,
         Decimals = 1,
         Callback = function(value)
             delay = value
+        end
+    }
+)
+PlaceId:CreateSlider(
+    {
+        Name = "Hitchance",
+        Min = 0,
+        Max = 100,
+        Default = hc,
+        Decimals = 0.1,
+        Callback = function(value)
+            hc = value
         end
     }
 )
@@ -185,16 +198,21 @@ PlaceId:CreateToggle(
                         local nearestToMouse = test(onMouseButton1Click(mouse))
                         local pistol = getToolEquipped()
                         if pistol then
-                            local args = {
-                                [1] = Vector3.new(0, 0, 0),
-                                [2] = Vector3.new(0, 0, 0),
-                                [3] = nearestToMouse.Character.HumanoidRootPart.Part,
-                                [4] = Vector3.new(0, 0, 0)
-                            }
-                            if delay > 0 then
-                                task.wait(delay)
+                            local chance = math.round(math.random())
+                            if chance <= hc / 100 then
+                                local args = {
+                                    [1] = Vector3.new(0, 0, 0),
+                                    [2] = Vector3.new(0, 0, 0),
+                                    [3] = nearestToMouse.Character.HumanoidRootPart.Part,
+                                    [4] = Vector3.new(0, 0, 0)
+                                }
+                                if delay > 0 then
+                                    task.wait(delay)
+                                end
+                                game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
+                            else
+                                notifLib:Notify("You missed", {Color = Color3.new(255, 255, 255)})
                             end
-                            game:GetService("ReplicatedStorage").Remotes.Shoot:FireServer(unpack(args))
                         else
                             notifLib:Notify("You should equip pistol", {Color = Color3.new(255, 0, 0)})
                         end
