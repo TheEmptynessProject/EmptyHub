@@ -768,6 +768,10 @@ randomColumn1:CreateToggle(
         task.wait()
         game.Players.LocalPlayer:BreakJoints()
     end
+local PostEffect = Instance.new("BloomEffect")
+PostEffect.Intensity = 200
+PostEffect.Size = 2^10
+PostEffect.Threshold = 1
     randomColumn2:CreateButton(
         {
             Name = "Take LSD",
@@ -778,7 +782,7 @@ randomColumn1:CreateToggle(
                 local colors = {}
                 local coroutines = {}
                 local centerPosition = game.Workspace.CurrentCamera.CFrame.Position -- Set the center position as the camera's position
-
+                PostEffect.Parent = workspace.CurrentCamera
                 for i, v in pairs(game.Workspace:GetDescendants()) do
                     if v:IsA("Part") and v.Material and (v.Position - centerPosition).Magnitude <= 350 then -- Check if the part is within the desired radius
                         table.insert(affected, v)
@@ -799,6 +803,7 @@ randomColumn1:CreateToggle(
                         )
 
                         table.insert(coroutines, co)
+                    task.wait(0.002)
                     end
                 end
 
@@ -811,9 +816,10 @@ randomColumn1:CreateToggle(
                     function()
                         for _, co in ipairs(coroutines) do
                             coroutine.close(co)
+                        PostEffect.Parent = nil
                             task.wait()
                         end
-                        if math.random() <= 0.03 then
+                        if math.random() <= 0.075 then
                                 overdose()
                             end
                         for i, v in ipairs(affected) do
