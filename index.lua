@@ -729,24 +729,6 @@ randomColumn1:CreateToggle(
         end
     }
 )
-
-randomColumn2:CreateLine(
-    {
-        Size = 2,
-        Color = Color3.new(0, 0, 0)
-    }
-)
-randomColumn2:CreateLabel(
-    {
-        Name = "DRUGS"
-    }
-)
-randomColumn2:CreateLine(
-    {
-        Size = 2,
-        Color = Color3.new(0, 0, 0)
-    }
-)
 local function overdose()
     notifLib:Notify("You overdosed!", {Color = Color3.new(255, 0, 0)})
     task.wait()
@@ -772,9 +754,6 @@ randomColumn2:CreateButton(
                     local success, error =
                         pcall(
                         function()
-                            table.insert(affected, v)
-                            table.insert(materials, v.Material)
-                            table.insert(colors, v.Color)
                             v.Material = Enum.Material.Neon
 
                             local co =
@@ -792,13 +771,11 @@ randomColumn2:CreateButton(
                             table.insert(coroutines, co)
                         end
                     )
-
-                    if not success then
-                        -- Handle the error here if needed
-                        print("Error occurred:", error)
+                    if sucess then
+                        table.insert(affected, v)
+                        table.insert(materials, v.Material)
+                        table.insert(colors, v.Color)
                     end
-
-                    task.wait(0.002)
                 end
             end
 
@@ -811,7 +788,6 @@ randomColumn2:CreateButton(
                 function()
                     for _, co in ipairs(coroutines) do
                         coroutine.close(co)
-                        PostEffect.Parent = nil
                         task.wait()
                     end
                     if math.random() <= 0.075 then
@@ -824,8 +800,8 @@ randomColumn2:CreateButton(
                         colorTween:Play()
                         colorTween.Completed:Connect(
                             function()
-                                task.wait(0.5)
                                 v.Material = materials[i]
+                                PostEffect.Parent = nil
                             end
                         )
                     end
