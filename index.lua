@@ -732,7 +732,7 @@ randomColumn1:CreateToggle(
 local function overdose()
     notifLib:Notify("You overdosed!", {Color = Color3.new(255, 0, 0)})
     task.wait()
-    game.Players.LocalPlayer:BreakJoints()
+    game.Players.LocalPlayer.Character:BreakJoints()
 end
 local PostEffect = Instance.new("BloomEffect")
 PostEffect.Intensity = 200
