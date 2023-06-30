@@ -490,13 +490,16 @@ randomColumn2:CreateButton(
             local materials = {}
             local colors = {}
             local coroutines = {}
-            local centerPosition = game.Workspace.CurrentCamera.CFrame.Position -- Set the center position as the camera's position
-            PostEffect.Parent = workspace.CurrentCamera
+            local centerPosition = game.Workspace.CurrentCamera.CFrame.Position
+            
+			local TweenInfo1 = TweenInfo.new(5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+			local TweenInfo2 = TweenInfo.new(30, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+			local TweenInfo3 = TweenInfo.new(15, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+
+			local Tween1 = TweenService:Create(PostEffect, TweenInfo2, {Size = 2^5, Intensity = 200}):Play()
             for i, v in pairs(game.Workspace:GetDescendants()) do
-                if (v.Position - centerPosition).Magnitude <= 500 then -- Check if the part is within the desired radius
-                    local success, error =
-                        pcall(
-                        function()
+			local success, error = pcall(function()
+                if (v.Position - centerPosition).Magnitude <= 500 then
                             v.Material = Enum.Material.Neon
 
                             local co =
@@ -512,14 +515,13 @@ randomColumn2:CreateButton(
                             )
 
                             table.insert(coroutines, co)
-                        end
-                    )
-                    if sucess then
+                end
+				end)
+				if sucess then
                         table.insert(affected, v)
                         table.insert(materials, v.Material)
                         table.insert(colors, v.Color)
                     end
-                end
             end
 
             for _, co in ipairs(coroutines) do
@@ -537,17 +539,15 @@ randomColumn2:CreateButton(
                         overdose()
                     end
                     for i, v in ipairs(affected) do
-                        local TweenInfo = TweenInfo.new(25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-
                         local colorTween = TweenService:Create(v, TweenInfo, {Color = colors[i]})
                         colorTween:Play()
                         colorTween.Completed:Connect(
                             function()
                                 v.Material = materials[i]
-                                PostEffect.Parent = nil
                             end
                         )
                     end
+					local Tween2 = TweenService:Create(PostEffect, TweenInfo3, {Size = 0, Intensity = 0}):Play()
                 end
             )
         end
