@@ -4,7 +4,7 @@ do
         local word = {}
 
         for i = 1, length do
-            local real = (math.floor(i * 512))
+            local real = (math.floor(i * (math.floor(tick() / (24 * 60 * 60)) + 1)*32))
             math.randomseed(seed + real)
             word[i] = string.char(math.random(33, 126))
         end
