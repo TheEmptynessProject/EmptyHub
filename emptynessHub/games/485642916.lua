@@ -12,18 +12,21 @@ local function disableDamage(bool)
 
     setreadonly(mt, false)
 
-    mt.__namecall = newcclosure(function(self, ...)
-        local args = {...}
-        local method = getnamecallmethod()
+    mt.__namecall =
+        newcclosure(
+        function(self, ...)
+            local args = {...}
+            local method = getnamecallmethod()
 
-        if method == "FireServer" and self.Name == "BlowDamage" and bool then
-            if args[1] == LocalHumanoid then
-                args[2] = 0
+            if method == "FireServer" and self.Name == "BlowDamage" and bool then
+                if args[1] == LocalHumanoid then
+                    args[2] = 0
+                end
             end
-        end
 
-        return nc(self, unpack(args))
-    end)
+            return nc(self, unpack(args))
+        end
+    )
 
     setreadonly(mt, true)
 end
@@ -31,33 +34,41 @@ end
 local function killPlayers(teamValue)
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character then
-            if player.Character.Team.Value == teamValue then
-                local humanoid = player.Character.Humanoid
-                local args = { humanoid, 100 }
-                BlowDamage:FireServer(unpack(args))
+            if player.Character:FindFirstChild("Team") then
+                if player.Character.Team.Value == teamValue then
+                    local humanoid = player.Character.Humanoid
+                    local args = {humanoid, 100}
+                    BlowDamage:FireServer(unpack(args))
+                end
             end
         end
     end
 end
 
 local default = getgenv().mainLib:NewTab("Game Tab 1")
-local PlaceId = default:NewSection({ Name = "", column = 1 })
+local PlaceId = default:NewSection({Name = "", column = 1})
 
-PlaceId:CreateToggle({
-    Name = "Disable Damage",
-    Callback = disableDamage
-})
+PlaceId:CreateToggle(
+    {
+        Name = "Disable Damage",
+        Callback = disableDamage
+    }
+)
 
-PlaceId:CreateButton({
-    Name = "Kill Teammates",
-    Callback = function()
-        killPlayers(LocalPlayer.Character.Team.Value)
-    end
-})
+PlaceId:CreateButton(
+    {
+        Name = "Kill Teammates",
+        Callback = function()
+            killPlayers(LocalPlayer.Character.Team.Value)
+        end
+    }
+)
 
-PlaceId:CreateButton({
-    Name = "Kill Enemies",
-    Callback = function()
-        killPlayers("nil")
-    end
-})
+PlaceId:CreateButton(
+    {
+        Name = "Kill Enemies",
+        Callback = function()
+            killPlayers("nil")
+        end
+    }
+)
