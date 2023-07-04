@@ -30,7 +30,7 @@ PlaceId:CreateKeybind(
                                 ["Normal"] = Vector3.new(0, 0, 0),
                                 ["Position"] = headPosition,
                                 ["Instance"] = head,
-                                ["Material"] = Enum.Material.Pastic,
+                                ["Material"] = Enum.Material.Plastic,
                                 ["Distance"] = player:DistanceFromCharacter(HeadPosition),
                                 ["From"] = FireExit
                             }
