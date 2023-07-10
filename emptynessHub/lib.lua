@@ -11,35 +11,35 @@ local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
 local light = game:GetService("Lighting")
 
-local library = {toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSpeed = 0.3}
+local library = {toggleBind = Enum.KeyCode.Q, closeBind = Enum.KeyCode.P, dragSpeed = 0.3, rgbSpeed = 1}
 
 local themes = {
     Default = {
         TextColor = Color3.fromRGB(255, 255, 255),
-        MainFrame = Color3.fromRGB(0, 0, 0),
-        TabBackground = Color3.fromRGB(25, 25, 25),
-        Tab = Color3.fromRGB(0, 0, 0),
+        MainFrame = Color3.fromRGB(33, 33, 33),
+        TabBackground = Color3.fromRGB(40, 40, 40),
+        Tab = Color3.fromRGB(50, 50, 50),
         EnabledText = Color3.fromRGB(255, 255, 255),
-        DisabledText = Color3.fromRGB(180, 180, 180),
-        TabToggleEnabled = Color3.fromRGB(0, 0, 0),
-        TabToggleDisabled = Color3.fromRGB(10, 10, 10),
-        TabToggleDisabledMouseOver = Color3.fromRGB(25, 25, 25),
-        Section = Color3.fromRGB(25, 25, 25),
-        Button = Color3.fromRGB(0, 0, 0),
-        ButtonMouseOver = Color3.fromRGB(25, 25, 25),
-        ToggleEnabled = Color3.fromRGB(99, 129, 169),
-        ToggleEnabledMouseOver = Color3.fromRGB(99, 159, 178),
-        ToggleDisabled = Color3.fromRGB(0, 0, 0),
-        ToggleDisabledMouseOver = Color3.fromRGB(25, 25, 25),
-        Box = Color3.fromRGB(0, 0, 0),
-        BoxFocused = Color3.fromRGB(25, 25, 25),
-        Slider = Color3.fromRGB(0, 0, 0),
-        SliderMouseOver = Color3.fromRGB(25, 25, 25),
-        SliderFill = Color3.fromRGB(49, 99, 138),
-        SliderFillSliding = Color3.fromRGB(99, 159, 178),
-        Dropdown = Color3.fromRGB(0, 0, 0),
-        DropdownMouseOver = Color3.fromRGB(25, 25, 25),
-        DropdownContent = Color3.fromRGB(25, 25, 25)
+        DisabledText = Color3.fromRGB(150, 150, 150),
+        TabToggleEnabled = Color3.fromRGB(80, 80, 80),
+        TabToggleDisabled = Color3.fromRGB(60, 60, 60),
+        TabToggleDisabledMouseOver = Color3.fromRGB(70, 70, 70),
+        Section = Color3.fromRGB(45, 45, 45),
+        Button = Color3.fromRGB(60, 60, 60),
+        ButtonMouseOver = Color3.fromRGB(100, 100, 100),
+        ToggleEnabled = Color3.fromRGB(56, 177, 202),
+        ToggleEnabledMouseOver = Color3.fromRGB(66, 187, 212),
+        ToggleDisabled = Color3.fromRGB(60, 60, 60),
+        ToggleDisabledMouseOver = Color3.fromRGB(70, 70, 70),
+        Box = Color3.fromRGB(60, 60, 60),
+        BoxFocused = Color3.fromRGB(70, 70, 70),
+        Slider = Color3.fromRGB(60, 60, 60),
+        SliderMouseOver = Color3.fromRGB(70, 70, 70),
+        SliderFill = Color3.fromRGB(100, 150, 200),
+        SliderFillSliding = Color3.fromRGB(120, 170, 220),
+        Dropdown = Color3.fromRGB(60, 60, 60),
+        DropdownMouseOver = Color3.fromRGB(70, 70, 70),
+        DropdownContent = Color3.fromRGB(45, 45, 45)
     }
 }
 
@@ -78,6 +78,7 @@ emptyCustoms =
         Name = custom.generateString(32, 1)
     }
 )
+
 library = custom.formatTable(library)
 local BlurEffect =
     custom.createObject(
@@ -111,7 +112,7 @@ inputService.InputBegan:Connect(
         end
     end
 )
- --
+-- TO FIX THIS
 --[[local previous = inputService.MouseBehavior
 runService.RenderStepped:Connect(function()
     if emptyCustoms.Enabled then
@@ -121,8 +122,8 @@ runService.RenderStepped:Connect(function()
         else
             inputService.MouseBehavior = previous
     end
-end)]]
-function library:New(opts)
+end)]] function library:New(
+    opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
     local name = options.name
@@ -140,10 +141,78 @@ function library:New(opts)
             Size = UDim2.new(0, sizeX, 0, 26),
             BackgroundTransparency = 1,
             Position = custom.getCenterPosition(sizeX, sizeY),
-            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            BackgroundColor3 = Color3.fromRGB(0, 0, 0),
             Parent = emptyCustoms
         }
     )
+    local TTholder =
+        custom.createObject(
+        "Frame",
+        {
+            BackgroundTransparency = 0,
+            Position = custom.getCenterPosition(sizeX, sizeY),
+            BackgroundColor3 = theme.TabBackground,
+            Parent = emptyCustoms,
+            ZIndex = 10,
+            AutomaticSize = Enum.AutomaticSize.XY
+        }
+    )
+
+    local TTtitle =
+        custom.createObject(
+        "TextLabel",
+        {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 1, 0),
+            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            TextWrapped = true,
+            TextSize = 14,
+            TextColor3 = theme.TextColor,
+            Text = "",
+            Font = fonted,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            ZIndex = 11,
+            Parent = TTholder,
+            AutomaticSize = Enum.AutomaticSize.XY
+        }
+    )
+    local maxTipSize = math.floor(sizeX / 2 - 30)
+
+    local function refreshToolText(tooltip)
+        TTtitle.Text = tooltip
+        local text = tooltip
+        if TTtitle.TextBounds.X > maxTipSize then
+            local words = {}
+            local currentLine = ""
+            local lines = {}
+
+            for word in text:gmatch("%S+") do
+                table.insert(words, word)
+            end
+
+            for i = 1, #words do
+                local word = words[i]
+                local potentialLine = currentLine .. " " .. word
+                TTtitle.Text = potentialLine
+
+                if TTtitle.TextBounds.X <= maxTipSize then
+                    currentLine = potentialLine
+                else
+                    table.insert(lines, currentLine)
+                    currentLine = word
+                end
+            end
+
+            table.insert(lines, currentLine)
+
+            TTtitle.Text = table.concat(lines, "\n")
+        end
+    end
+
+    local function updateTooltipPosition()
+        local mouse = game.Players.LocalPlayer:GetMouse()
+        TTholder.Position = UDim2.new(0, mouse.X + 15, 0, mouse.Y - 10)
+    end
 
     local title =
         custom.createObject(
@@ -167,7 +236,7 @@ function library:New(opts)
     spawn(
         function()
             while true do
-                for i = 0, 1, 1 / 2000 do
+                for i = 0, 1, 1 / ((1 / library.rgbSpeed) * 1000) do
                     title.TextColor3 = Color3.fromHSV(i, 1, 1)
                     task.wait()
                 end
@@ -188,7 +257,7 @@ function library:New(opts)
             Parent = holder
         }
     )
-    
+
     custom.createObject(
         "UICorner",
         {
@@ -208,7 +277,7 @@ function library:New(opts)
             Parent = main
         }
     )
-    
+
     custom.createObject(
         "UICorner",
         {
@@ -862,7 +931,9 @@ function library:New(opts)
                 local tSize = options.size or 12
                 local font = options.font or fonted
                 local color = options.color or theme.TextColor
-                local tooltip = options.tooltip
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
+
                 local label =
                     custom.createObject(
                     "TextLabel",
@@ -880,7 +951,52 @@ function library:New(opts)
                         Parent = sectionContent
                     }
                 )
-
+                local connection
+                label.MouseEnter:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = tooltip
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
+                    end
+                )
+                label.MouseLeave:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = name
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
+                        end
+                    end
+                )
                 local label_info = {}
                 label_info = custom.formatTable(label_info)
 
@@ -898,7 +1014,7 @@ function library:New(opts)
                 local options = custom.formatTable(opts)
                 local px = options.size or 2
                 local color = options.color or theme.TextColor
-                local tooltip = options.tooltip
+
                 local theLine =
                     custom.createObject(
                     "Frame",
@@ -924,10 +1040,14 @@ function library:New(opts)
 
                 return line_info
             end
+            local TweenService = game:GetService("TweenService")
+
             function section_info:CreateButton(opts)
                 local options = custom.formatTable(opts)
-                local name = options.name
-                local callback = options.callback
+                local name = options.Name
+                local callback = options.Callback
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
 
                 local button =
                     custom.createObject(
@@ -938,13 +1058,15 @@ function library:New(opts)
                         BackgroundColor3 = theme.Button,
                         FontSize = Enum.FontSize.Size12,
                         TextSize = 12,
+                        TextWrapped = true,
                         Text = name,
                         TextColor3 = theme.TextColor,
                         Font = fonted,
                         ClipsDescendants = true,
                         TextXAlignment = Enum.TextXAlignment.Center,
                         TextYAlignment = Enum.TextYAlignment.Center,
-                        Parent = sectionContent
+                        Parent = sectionContent,
+                        AutomaticSize = Enum.AutomaticSize.Y
                     }
                 )
 
@@ -962,20 +1084,58 @@ function library:New(opts)
                         callback()
                     end
                 )
+                local connection
+
                 button.MouseEnter:Connect(
                     function()
                         custom.animate(button, {0.4}, {BackgroundColor3 = theme.ButtonMouseOver})
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    button,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        button.Text = tooltip
+                                        custom.animate(button, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
                     end
                 )
 
                 button.MouseLeave:Connect(
                     function()
                         custom.animate(button, {0.4}, {BackgroundColor3 = theme.Button})
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    button,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        button.Text = name
+                                        custom.animate(button, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
+                        end
                     end
                 )
 
                 local button_info = {}
-                button_info = custom.formatTable(button_info)
 
                 function button_info:Hide()
                     button.Visible = false
@@ -997,7 +1157,8 @@ function library:New(opts)
                 local name = options.name
                 local callback = options.callback or function()
                     end
-
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
                 local toggled = false
                 local mouseOver = false
 
@@ -1079,7 +1240,7 @@ function library:New(opts)
                 end
 
                 toggle.MouseButton1Click:connect(toggleToggle)
-
+                local connection
                 toggle.MouseEnter:Connect(
                     function()
                         mouseOver = true
@@ -1091,6 +1252,27 @@ function library:New(opts)
                                     theme.ToggleDisabledMouseOver
                             }
                         )
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    title,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        title.Text = tooltip
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
                     end
                 )
 
@@ -1102,6 +1284,22 @@ function library:New(opts)
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
                         )
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    title,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        title.Text = name
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
+                        end
                     end
                 )
 
@@ -1131,9 +1329,11 @@ function library:New(opts)
                 local default = options.default or ""
                 local callback = options.callback or nil
                 local onFocus = options.clear
-
+                local tooltip = options.Info or nil
                 local mouseOver = false
                 local focused = false
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
 
                 local box =
                     custom.createObject(
@@ -1176,11 +1376,32 @@ function library:New(opts)
                         custom.animate(box, {0.2}, {BackgroundColor3 = theme.BoxFocused})
                     end
                 )
-
+                local connection
                 box.MouseEnter:Connect(
                     function()
                         mouseOver = true
                         custom.animate(box, {0.2}, {BackgroundColor3 = theme.BoxFocused})
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = tooltip
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
                     end
                 )
 
@@ -1189,6 +1410,22 @@ function library:New(opts)
                         mouseOver = false
                         if not focused then
                             custom.animate(box, {0.2}, {BackgroundColor3 = theme.Box})
+                        end
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = name
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
                         end
                     end
                 )
@@ -1224,7 +1461,8 @@ function library:New(opts)
                 local valueType = options.valueType or "/" .. tostring(max)
                 local callback = options.callback or function()
                     end
-
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
                 local slider =
                     custom.createObject(
                     "Frame",
@@ -1297,11 +1535,32 @@ function library:New(opts)
                         end
                     end
                 )
-
+                local connection
                 slider.MouseEnter:Connect(
                     function()
                         hovering = true
                         custom.animate(slider, {0.2}, {BackgroundColor3 = theme.SliderMouseOver})
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = tooltip
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
                     end
                 )
 
@@ -1310,6 +1569,22 @@ function library:New(opts)
                         hovering = false
                         if not slider:FindFirstAncestorWhichIsA("TextButton") then
                             custom.animate(slider, {0.2}, {BackgroundColor3 = theme.Slider})
+                        end
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = name
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
                         end
                     end
                 )
@@ -1355,6 +1630,8 @@ function library:New(opts)
                 local curValue = default
                 local open = false
                 local optionInstances = {}
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
 
                 local defaultInContent = false
 
@@ -1489,16 +1766,53 @@ function library:New(opts)
                 end
 
                 dropdown.MouseButton1Click:connect(toggleDropdown)
-
+                local connection
                 dropdown.MouseEnter:Connect(
                     function()
                         custom.animate(dropdown, {0.2}, {BackgroundColor3 = theme.DropdownMouseOver})
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = tooltip
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
                     end
                 )
 
                 dropdown.MouseLeave:Connect(
                     function()
                         custom.animate(dropdown, {0.2}, {BackgroundColor3 = theme.Dropdown})
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    label,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        label.Text = name
+                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
+                        end
                     end
                 )
 
@@ -1628,331 +1942,11 @@ function library:New(opts)
                 local dropdown_info = {}
                 dropdown_info = custom.formatTable(dropdown_info)
 
-                function dropdown_info:Refresh(tbl)
-                    contentTable = tbl
+                --addfunctions: REMOVE, ADD
 
-                    for i, v in next, optionInstances do
-                        v:Destroy()
-                    end
-
-                    custom.animate(
-                        value,
-                        {0.2},
-                        {TextTransparency = 1},
-                        function()
-                            value.TextColor3 = theme.DisabledText
-                            value.Text = "NONE"
-                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                        end
-                    )
-
-                    for i, v in next, contentTable do
-                        local option =
-                            custom.createObject(
-                            "TextButton",
-                            {
-                                ZIndex = 11,
-                                Size = UDim2.new(1, 0, 0, 16),
-                                BackgroundTransparency = 1,
-                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                FontSize = Enum.FontSize.Size12,
-                                TextSize = 12,
-                                TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
-                                Text = v,
-                                Font = fonted,
-                                TextXAlignment = Enum.TextXAlignment.Left,
-                                Parent = contentHolder
-                            }
-                        )
-
-                        optionInstances[v] = option
-
-                        if v == default then
-                            if not multiChoice then
-                                callback(v)
-                            else
-                                table.insert(chosen, v)
-
-                                callback(chosen)
-                            end
-                        end
-
-                        option.MouseButton1Click:connect(
-                            function()
-                                if not multiChoice then
-                                    if curValue ~= v then
-                                        curValue = v
-
-                                        for i2, v2 in next, contentHolder:GetChildren() do
-                                            if v2:IsA("TextButton") then
-                                                custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 = theme.EnabledText
-                                                value.Text = v
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(v)
-                                    else
-                                        curValue = nil
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 = theme.DisabledText
-                                                value.Text = "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(nil)
-                                    end
-                                else
-                                    if table.find(chosen, v) then
-                                        for i, v2 in next, chosen do
-                                            if v2 == v then
-                                                table.remove(chosen, i)
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    else
-                                        table.insert(chosen, v)
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    end
-                                end
-                            end
-                        )
-                    end
-
-                    function dropdown_info:Add(opt)
-                        table.insert(contentTable, opt)
-                        --dropdown_info:Refresh(contentTable)
-                        local option =
-                            custom.createObject(
-                            "TextButton",
-                            {
-                                ZIndex = 11,
-                                Size = UDim2.new(1, 0, 0, 16),
-                                BackgroundTransparency = 1,
-                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                FontSize = Enum.FontSize.Size12,
-                                TextSize = 12,
-                                TextColor3 = theme.DisabledText,
-                                Text = opt,
-                                Font = fonted,
-                                TextXAlignment = Enum.TextXAlignment.Left,
-                                Parent = contentHolder
-                            }
-                        )
-
-                        optionInstances[opt] = option
-
-                        option.MouseButton1Click:connect(
-                            function()
-                                if not multiChoice then
-                                    if curValue ~= opt then
-                                        curValue = opt
-
-                                        for i, v in next, contentHolder:GetChildren() do
-                                            if v:IsA("TextButton") then
-                                                custom.animate(v, {0.2}, {TextColor3 = theme.DisabledText})
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 = theme.EnabledText
-                                                value.Text = opt
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(opt)
-                                    else
-                                        curValue = nil
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 = theme.DisabledText
-                                                value.Text = "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(nil)
-                                    end
-                                else
-                                    if table.find(chosen, opt) then
-                                        for i, v in next, chosen do
-                                            if v == opt then
-                                                table.remove(chosen, i)
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    else
-                                        table.insert(chosen, opt)
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    end
-                                end
-                            end
-                        )
-
-                        if content.Visible then
-                            local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                            custom.animate(content, {0.5}, {Size = sizeX})
-                        end
-                    end
-
-                    function dropdown_info:Remove(opt)
-                        if table.find(contentTable, opt) then
-                            custom.animate(
-                                optionInstances[opt],
-                                {0.2},
-                                {TextTransparency = 1},
-                                function()
-                                    table.remove(contentTable, table.find(contentTable, opt))
-                                    optionInstances[opt]:Destroy()
-                                    table.remove(optionInstances, table.find(optionInstances, opt))
-                                end
-                            )
-
-                            table.remove(contentTable, table.find(contentTable, opt))
-                            --dropdown_info:Refresh(contentTable)
-
-                            if content.Visible then
-                                local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y - 16)
-                                custom.animate(content, {0.5}, {Size = sizeX})
-                            end
-
-                            if not multiChoice then
-                                if curValue == opt then
-                                    curValue = nil
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 = theme.DisabledText
-                                            value.Text = "NONE"
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-                                    table.remove(contentTable, table.find(contentTable, curValue))
-                                --dropdown_info:Refresh(contentTable)
-                                end
-                            else
-                                if table.find(chosen, opt) then
-                                    table.remove(chosen, table.find(chosen, opt))
-                                    custom.animate(
-                                        value,
-                                        {0.2},
-                                        {TextTransparency = 1},
-                                        function()
-                                            value.TextColor3 =
-                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
-                                            value.Text =
-                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                            custom.animate(value, {0.2}, {TextTransparency = 0})
-                                        end
-                                    )
-                                end
-                            end
-                        end
-                    end
-
-                    if content.Visible then
-                        local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
-                        custom.animate(content, {0.5}, {Size = sizeX})
-                    end
+                if content.Visible then
+                    local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
+                    custom.animate(content, {0.5}, {Size = sizeX})
                 end
 
                 function dropdown_info:Hide()
@@ -1972,8 +1966,9 @@ function library:New(opts)
                 local default = options.default
                 local callback = options.callback or function()
                     end
-
                 local keyChosen = default
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
 
                 local keys = {
                     [Enum.KeyCode.LeftShift] = "L-SHIFT",
@@ -2036,7 +2031,7 @@ function library:New(opts)
                         FontSize = Enum.FontSize.Size12,
                         TextSize = 12,
                         TextColor3 = theme.TextColor,
-                        Text = options.name or "Keybind",
+                        Text = name or "Keybind",
                         Font = fonted,
                         TextXAlignment = Enum.TextXAlignment.Left,
                         Parent = sectionContent
@@ -2102,7 +2097,52 @@ function library:New(opts)
                         end
                     end
                 )
-
+                local connection
+                keybind.MouseEnter:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    keybind,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        keybind.Text = tooltip
+                                        custom.animate(keybind, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
+                    end
+                )
+                keybind.MouseLeave:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    keybind,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        keybind.Text = name
+                                        custom.animate(keybind, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
+                        end
+                    end
+                )
                 local keybind_info = {}
                 keybind_info = custom.formatTable(keybind_info)
 
@@ -2135,7 +2175,8 @@ function library:New(opts)
                     end
                 local toggleCallback = options.toggleCallback or function()
                     end
-
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
                 local keyChosen = default
                 local mouseOver = false
                 local toggled = false
@@ -2357,7 +2398,52 @@ function library:New(opts)
                         end
                     end
                 )
-
+                local connection
+                title.MouseEnter:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    title,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        title.Text = tooltip
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
+                    end
+                )
+                title.MouseLeave:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    title,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        title.Text = name
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
+                        end
+                    end
+                )
                 local tork_info = {}
                 tork_info = custom.formatTable(tork_info)
 
@@ -2396,8 +2482,11 @@ function library:New(opts)
                     end
                 local changeAtClick = options.Click or false
                 local keyChosen = default
+
                 local mouseOver = false
                 local toggled = false
+                local tooltip = options.Info or nil
+                local tipMode = (options.Mode == 2) and 2 or 1
 
                 local keys = {
                     [Enum.KeyCode.LeftShift] = "L-SHIFT",
@@ -2632,6 +2721,52 @@ function library:New(opts)
                                     Callback(toggled, keyChosen)
                                 end
                             end
+                        end
+                    end
+                )
+                local connection
+                title.MouseEnter:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    title,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        title.Text = tooltip
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText(tooltip)
+                            connection =
+                                game:GetService("RunService").RenderStepped:Connect(
+                                function()
+                                    updateTooltipPosition()
+                                end
+                            )
+                        end
+                    end
+                )
+                title.MouseLeave:Connect(
+                    function()
+                        if tipMode == 1 then
+                            if tooltip and tooltip ~= "" then
+                                custom.animate(
+                                    title,
+                                    {0.1},
+                                    {TextTransparency = 1},
+                                    function()
+                                        title.Text = name
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
+                                    end
+                                )
+                            end
+                        elseif tipMode == 2 then
+                            refreshToolText("")
+                            connection:Disconnect()
                         end
                     end
                 )
