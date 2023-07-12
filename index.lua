@@ -311,7 +311,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
-local connectionFly
+--[[local connectionFly
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.G,
@@ -557,6 +557,21 @@ randomColumn2:CreateButton( --Motion Blur and speed?
     {
         Name = "Take Cocaine",
         Callback = function()
+        end
+    }
+)]]--
+universalColumn2:CreateToggle_and_Keybind(
+    {
+        Default = Enum.KeyCode.Space,
+        Name = "BHOP",
+        Click = false,
+        Callback = function(bool, keyed)
+            while task.wait() do
+if game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
+game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+end
+				if not bool then return end
+end
         end
     }
 )
