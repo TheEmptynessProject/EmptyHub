@@ -586,6 +586,52 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
+universalColumn1:CreateButton(
+    {
+        Name = "TP Lowest Player Server",
+        Callback = function()
+            local HttpService = game:GetService("HttpService")
+local request = syn and syn.request or http and http.request or http_request or request or httprequest
+
+    local response = HttpService:JSONDecode(
+        request({
+            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=25",
+            Method = "GET"
+        }).Body
+    )
+    local i = 0
+    for _, v in pairs(response.data) do
+    
+        if v.playing <= i then
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
+        else
+        i = i+1
+        end
+        task.wait()
+    end
+        end
+    }
+)
+universalColumn1:CreateButton(
+    {
+        Name = "TP Highest Player Server",
+        Callback = function()
+            local HttpService = game:GetService("HttpService")
+local request = syn and syn.request or http and http.request or http_request or request or httprequest
+
+    local response = HttpService:JSONDecode(
+        request({
+            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=25&excludeFullGames=true",
+            Method = "GET"
+        }).Body
+    )
+    for _, v in pairs(response.data) do
+	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
+        task.wait()
+    end
+        end
+    }
+)
 local gameScriptUrl =
     string.format(
     "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
