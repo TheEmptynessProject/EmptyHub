@@ -571,7 +571,7 @@ universalColumn2:CreateToggle_and_Keybind(
 if game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
 game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
 end
-				
+task.wait()			
 end
         end
     }
