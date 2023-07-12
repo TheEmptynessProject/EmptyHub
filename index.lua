@@ -311,6 +311,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
+ --
 --[[local connectionFly
 universalColumn2:CreateToggle_and_Keybind(
     {
@@ -559,20 +560,29 @@ randomColumn2:CreateButton( --Motion Blur and speed?
         Callback = function()
         end
     }
-)]]--
+)]] local connection_BHOP
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.F,
         Name = "BHOP",
         Click = true,
         Callback = function(temp, thing, keyed)
-			local bool = temp and thing
-            while bool do
-if game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
-game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
-end
-task.wait()			
-end
+            local bool = temp and thing
+            if bool then
+                connection_BHOP =
+                    game:GetService("RunService").Stepped:connect(
+                    function()
+                        if not bool then
+                            return
+                        end
+                        if game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
+                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+                        end
+                    end
+                )
+            else
+                connection_BHOP:Disconnect()
+            end
         end
     }
 )
