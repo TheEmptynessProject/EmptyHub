@@ -599,16 +599,10 @@ local request = syn and syn.request or http and http.request or http_request or 
             Method = "GET"
         }).Body
     )
-			task.wait(1)
-    local i = 0
     for _, v in pairs(response.data) do
-    
-        if v.playing <= i then
-            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
-        else
-        i = i+1
-        end
-        task.wait()
+				print(v.playing)
+				task.wait(5)
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
     end
         end
     }
@@ -622,14 +616,14 @@ local request = syn and syn.request or http and http.request or http_request or 
 
     local response = HttpService:JSONDecode(
         request({
-            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=25&excludeFullGames=true",
+            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true",
             Method = "GET"
         }).Body
     )
-			task.wait(1)
     for _, v in pairs(response.data) do
+				print(v.playing)
+				task.wait(5)
 	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
-        task.wait()
     end
         end
     }
