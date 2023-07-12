@@ -600,7 +600,7 @@ local request = syn and syn.request or http and http.request or http_request or 
         }).Body
     )
     for _, v in pairs(response.data) do
-				print(v.playing)
+				setclipboard(tostring(v.id))
 				task.wait(5)
         game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
     end
@@ -621,7 +621,7 @@ local request = syn and syn.request or http and http.request or http_request or 
         }).Body
     )
     for _, v in pairs(response.data) do
-				print(v.playing)
+				setclipboard(tostring(v.id))
 				task.wait(5)
 	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
     end
