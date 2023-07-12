@@ -568,10 +568,11 @@ universalColumn2:CreateToggle_and_Keybind(
         Callback = function(temp, thing, keyed)
 			local bool = temp and thing
             while task.wait() do
+				if not bool then return end
 if game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
 game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
 end
-				if not bool then return end
+				
 end
         end
     }
