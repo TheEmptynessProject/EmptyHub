@@ -591,40 +591,41 @@ universalColumn1:CreateButton(
         Name = "TP Lowest Player Server",
         Callback = function()
             local HttpService = game:GetService("HttpService")
-local request = syn and syn.request or http and http.request or http_request or request or httprequest
+            local request = syn and syn.request or http and http.request or http_request or request or httprequest
 
-    local response = HttpService:JSONDecode(
-        request({
-            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100",
-            Method = "GET"
-        }).Body
-    )
-    for _, v in pairs(response.data) do
-				setclipboard(tostring(v.id))
-				task.wait(5)
-        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
-    end
+            local response = HttpService:JSONDecode(
+                request({
+                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=1",
+                    Method = "GET"
+                }).Body
+            )
+
+            local firstServer = response.data[1]
+            if firstServer then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, firstServer.id, game.Players.LocalPlayer)
+            end
         end
     }
 )
+
 universalColumn1:CreateButton(
     {
         Name = "TP Highest Player Server",
         Callback = function()
             local HttpService = game:GetService("HttpService")
-local request = syn and syn.request or http and http.request or http_request or request or httprequest
+            local request = syn and syn.request or http and http.request or http_request or request or httprequest
 
-    local response = HttpService:JSONDecode(
-        request({
-            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true",
-            Method = "GET"
-        }).Body
-    )
-    for _, v in pairs(response.data) do
-				setclipboard(tostring(v.id))
-				task.wait(5)
-	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
-    end
+            local response = HttpService:JSONDecode(
+                request({
+                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=1&excludeFullGames=true",
+                    Method = "GET"
+                }).Body
+            )
+
+            local firstServer = response.data[1]
+            if firstServer then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, firstServer.id, game.Players.LocalPlayer)
+            end
         end
     }
 )
