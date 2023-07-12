@@ -1065,8 +1065,7 @@ end)]] function library:New(
                         ClipsDescendants = true,
                         TextXAlignment = Enum.TextXAlignment.Center,
                         TextYAlignment = Enum.TextYAlignment.Center,
-                        Parent = sectionContent,
-                        AutomaticSize = Enum.AutomaticSize.Y
+                        Parent = sectionContent
                     }
                 )
 
