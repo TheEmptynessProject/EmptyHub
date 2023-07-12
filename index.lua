@@ -595,7 +595,7 @@ universalColumn1:CreateButton(
 
             local response = HttpService:JSONDecode(
                 request({
-                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=1",
+                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=25",
                     Method = "GET"
                 }).Body
             )
@@ -617,7 +617,7 @@ universalColumn1:CreateButton(
 
             local response = HttpService:JSONDecode(
                 request({
-                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=1&excludeFullGames=true",
+                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=25&excludeFullGames=true",
                     Method = "GET"
                 }).Body
             )
