@@ -599,6 +599,7 @@ local request = syn and syn.request or http and http.request or http_request or 
             Method = "GET"
         }).Body
     )
+			task.wait(1)
     local i = 0
     for _, v in pairs(response.data) do
     
@@ -625,6 +626,7 @@ local request = syn and syn.request or http and http.request or http_request or 
             Method = "GET"
         }).Body
     )
+			task.wait(1)
     for _, v in pairs(response.data) do
 	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
         task.wait()
