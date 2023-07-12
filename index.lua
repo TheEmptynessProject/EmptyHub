@@ -562,10 +562,11 @@ randomColumn2:CreateButton( --Motion Blur and speed?
 )]]--
 universalColumn2:CreateToggle_and_Keybind(
     {
-        Default = Enum.KeyCode.Space,
+        Default = Enum.KeyCode.F,
         Name = "BHOP",
-        Click = false,
-        Callback = function(bool, keyed)
+        Click = true,
+        Callback = function(temp, thing, keyed)
+			local bool = temp and thing
             while task.wait() do
 if game.Players.LocalPlayer.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
 game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
