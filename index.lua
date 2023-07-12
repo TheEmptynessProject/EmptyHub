@@ -595,7 +595,7 @@ local request = syn and syn.request or http and http.request or http_request or 
 
     local response = HttpService:JSONDecode(
         request({
-            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=25",
+            Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100",
             Method = "GET"
         }).Body
     )
