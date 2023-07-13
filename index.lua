@@ -208,7 +208,9 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+repeat
+	task.wait()
+until game.Players.LocalPlayer.Character
 universalColumn2:CreateSlider(
     {
         Name = "WalkSpeed",
