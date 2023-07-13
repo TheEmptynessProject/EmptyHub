@@ -648,7 +648,9 @@ universalColumn1:CreateButton(
 local connections = {}
 universalColumn1:CreateToggle(
     {
-        Name = "TP Highest Player Server",
+        Name = "Destruction Bypass",
+		Info = "Prototype",
+		Mode = 1,
         Callback = function(bool)
             local function onInstanceDestroying(instance)
                 print(instance.Name .. " tried to be destroyed")
