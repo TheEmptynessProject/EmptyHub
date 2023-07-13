@@ -311,7 +311,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
- --
+--
 --[[local connectionFly
 universalColumn2:CreateToggle_and_Keybind(
     {
@@ -593,16 +593,24 @@ universalColumn1:CreateButton(
             local HttpService = game:GetService("HttpService")
             local request = syn and syn.request or http and http.request or http_request or request or httprequest
 
-            local response = HttpService:JSONDecode(
-                request({
-                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=25",
-                    Method = "GET"
-                }).Body
+            local response =
+                HttpService:JSONDecode(
+                request(
+                    {
+                        Url = "https://games.roblox.com/v1/games/" ..
+                            game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=25",
+                        Method = "GET"
+                    }
+                ).Body
             )
 
             local firstServer = response.data[1]
             if firstServer then
-                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, firstServer.id, game.Players.LocalPlayer)
+                game:GetService("TeleportService"):TeleportToPlaceInstance(
+                    game.PlaceId,
+                    firstServer.id,
+                    game.Players.LocalPlayer
+                )
             end
         end
     }
@@ -615,16 +623,54 @@ universalColumn1:CreateButton(
             local HttpService = game:GetService("HttpService")
             local request = syn and syn.request or http and http.request or http_request or request or httprequest
 
-            local response = HttpService:JSONDecode(
-                request({
-                    Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=25&excludeFullGames=true",
-                    Method = "GET"
-                }).Body
+            local response =
+                HttpService:JSONDecode(
+                request(
+                    {
+                        Url = "https://games.roblox.com/v1/games/" ..
+                            game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=25&excludeFullGames=true",
+                        Method = "GET"
+                    }
+                ).Body
             )
 
             local firstServer = response.data[1]
             if firstServer then
-                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, firstServer.id, game.Players.LocalPlayer)
+                game:GetService("TeleportService"):TeleportToPlaceInstance(
+                    game.PlaceId,
+                    firstServer.id,
+                    game.Players.LocalPlayer
+                )
+            end
+        end
+    }
+)
+local connections = {}
+universalColumn1:CreateToggle(
+    {
+        Name = "TP Highest Player Server",
+        Callback = function(bool)
+            local function onInstanceDestroying(instance)
+                print(instance.Name .. " tried to be destroyed")
+                coroutine.yield()
+                print("Not supposed")
+            end
+
+            if bool then
+                for _, instance in pairs(game:GetDescendants()) do
+                    if typeof(instance) == "Instance" then
+                        connections[instance] =
+                            instance.Destroying:Connect(
+                            function()
+                                onInstanceDestroying(instance)
+                            end
+                        )
+                    end
+                end
+            else
+                for instance, connection in pairs(connections) do
+                    connection:Disconnect()
+                end
             end
         end
     }
