@@ -208,6 +208,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
 universalColumn2:CreateSlider(
     {
         Name = "WalkSpeed",
@@ -216,7 +217,7 @@ universalColumn2:CreateSlider(
         Default = math.floor(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed) or 10,
         Decimals = 1,
         Callback = function(value)
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+            .WalkSpeed = value
         end
     }
 )
