@@ -314,8 +314,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
---
---[[local connectionFly
+local connectionFly, bodyVelocity
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.G,
@@ -330,10 +329,8 @@ universalColumn2:CreateToggle_and_Keybind(
             local flying = toggled and bool
             local flySpeed = 0
             local flyMaxSpeed = 500
-            print(flying)
             local mouse = player:GetMouse()
-            local bodyVelocity
-
+            
             local function updateFlySpeed()
                 if flySpeed < flyMaxSpeed then
                     flySpeed = flySpeed + 1
@@ -391,7 +388,6 @@ universalColumn2:CreateToggle_and_Keybind(
                         {Velocity = Vector3.new(0, 0, 0)}
                     ):Play()
                     bodyVelocity:Destroy()
-                    bodyVelocity = nil
                 end
                 if connectionFly then
                     connectionFly:Disconnect()
@@ -400,6 +396,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
+--[[
 local bodyVelocity = Instance.new("BodyVelocity")
 bodyVelocity.Velocity = Vector3.new(math.huge, math.huge, math.huge)
 bodyVelocity.MaxForce = Vector3.new(0, 0, 0)
