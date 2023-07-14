@@ -557,7 +557,7 @@ randomColumn2:CreateButton(
         end
     }
 )
-randomColumn2:CreateButton( --Motion Blur and speed?
+randomColumn2:CreateButton( --Motion Blur and heavy camera
     {
         Name = "Take Cocaine",
         Callback = function()
