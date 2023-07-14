@@ -57,6 +57,7 @@ function _destroy()
         light[custom.generateString(32, 1.3)]:Destroy()
     end
     getgenv()[custom.generateString(32, 0)] = false
+    connectionRunService:Disconnect()
 end
 
 if getgenv()[custom.generateString(32, 0)] then
@@ -112,17 +113,15 @@ inputService.InputBegan:Connect(
         end
     end
 )
--- TO FIX THIS
---[[local previous = inputService.MouseBehavior
-runService.RenderStepped:Connect(function()
+local previous = inputService.MouseBehavior
+local connectionRunService = runService.RenderStepped:Connect(function()
     if emptyCustoms.Enabled then
-        if inputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
             inputService.MouseBehavior = Enum.MouseBehavior.Default
-        end
         else
             inputService.MouseBehavior = previous
-    end
-end)]] function library:New(
+        end
+end)
+    function library:New(
     opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
