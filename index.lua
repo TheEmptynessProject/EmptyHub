@@ -308,8 +308,9 @@ universalColumn2:CreateToggle_and_Keybind(
                         end
                     end
                 end
-
+if connection_noclip_one then
                 connection_noclip_one:Disconnect()
+				end
             end
         end
     }
