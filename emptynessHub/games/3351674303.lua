@@ -90,7 +90,7 @@ end
 local Damping, Length, limitsEnabled, Visible, Radius, MaxForce, Coils, Stiffness, Enabled, Thickness = 0
 local affectFront, bothAffected = nil
 local autoApply = false
-universalColumn1:CreateDropdown(
+PlaceId:CreateDropdown(
     {
         Content = {"Front", "Rear"},
         MultiChoice = true,
