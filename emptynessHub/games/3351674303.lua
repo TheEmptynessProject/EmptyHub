@@ -20,7 +20,7 @@ PlaceId:CreateSlider(
     {
         Name = "Boost Multiplier",
         Min = 0,
-        Max = 50000,
+        Max = 500000,
         Default = 0,
         Decimals = 0.001,
         Callback = function(value)
