@@ -388,9 +388,11 @@ universalColumn2:CreateToggle_and_Keybind(
                         {Velocity = Vector3.new(0, 0, 0)}
                     ):Play()
                     bodyVelocity:Destroy()
+				bodyVelocity = nil	
                 end
                 if connectionFly then
                     connectionFly:Disconnect()
+				connectionFly = nil	
                 end
             end
         end
@@ -581,7 +583,10 @@ universalColumn2:CreateToggle_and_Keybind(
                     end
                 )
             else
+				if connection_BHOP then
                 connection_BHOP:Disconnect()
+					connection_BHOP = nil
+				end
             end
         end
     }
