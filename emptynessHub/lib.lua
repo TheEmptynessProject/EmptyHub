@@ -1540,12 +1540,12 @@ end)]]
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
                                 custom.animate(
-                                    label,
+                                    title,
                                     {0.1},
                                     {TextTransparency = 1},
                                     function()
-                                        label.Text = tooltip
-                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                        title.Text = tooltip
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
                                     end
                                 )
                             end
@@ -1570,12 +1570,12 @@ end)]]
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
                                 custom.animate(
-                                    label,
+                                    title,
                                     {0.1},
                                     {TextTransparency = 1},
                                     function()
-                                        label.Text = name
-                                        custom.animate(label, {0.1}, {TextTransparency = 0})
+                                        title.Text = name
+                                        custom.animate(title, {0.1}, {TextTransparency = 0})
                                     end
                                 )
                             end
