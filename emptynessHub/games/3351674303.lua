@@ -33,12 +33,16 @@ PlaceId:CreateKeybind(
         Name = "Boost",
         Default = Enum.KeyCode.E,
         Callback = function()
-            getVehicle().Weight._boost.force = workspace.CurrentCamera.CFrame.LookVector * multi
+			local temp = getVehicle()
+if not temp then return end
+            temp.Weight._boost.force = workspace.CurrentCamera.CFrame.LookVector * multi
         end
     }
 )
 local function apply(front, both)
-    for i, v in pairs(getVehicle().Constraints:GetChildren()) do
+	local temp = getVehicle()
+	if not temp then return end
+    for i, v in pairs(temp.Constraints:GetChildren()) do
         if both then
             if string.find(v.Name, "Spring") then
                 v.Damping = Damping
