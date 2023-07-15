@@ -57,7 +57,6 @@ function _destroy()
         light[custom.generateString(32, 1.3)]:Destroy()
     end
     getgenv()[custom.generateString(32, 0)] = false
-    connectionRunService:Disconnect()
 end
 
 if getgenv()[custom.generateString(32, 0)] then
