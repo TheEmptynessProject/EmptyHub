@@ -113,14 +113,14 @@ inputService.InputBegan:Connect(
         end
     end
 )
-local previous = inputService.MouseBehavior
+--[[local previous = inputService.MouseBehavior
 local connectionRunService = runService.RenderStepped:Connect(function()
     if emptyCustoms.Enabled then
             inputService.MouseBehavior = Enum.MouseBehavior.Default
         else
             inputService.MouseBehavior = previous
         end
-end)
+end)]]
     function library:New(
     opts)
     getgenv()[custom.generateString(32, 0)] = true
