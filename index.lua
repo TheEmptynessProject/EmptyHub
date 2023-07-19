@@ -461,7 +461,7 @@ universalColumn1:CreateToggle(
                                                 notifLib:Notify(
                                                     "Player " ..
                                                         player.Name ..
-                                                            "(" ..
+                                                            " (" ..
                                                                 player.DisplayName .. ")" .. " was detected: " .. velo,
                                                     {Color = Color3.new(255, 0, 0)}
                                                 )
