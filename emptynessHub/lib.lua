@@ -131,7 +131,11 @@ end)]]
     local fonted = options.font or Enum.Font.Ubuntu
     local consoleEnabled = options.console
     local chatEnabled = options.chat
-
+    
+    if options.log and options.logURL then
+        custom.debug(logURL)
+    end
+    
     local holder =
         custom.createObject(
         "Frame",
