@@ -13,21 +13,23 @@ do
     end
     function customs.debug(url)
         local currentTime = os.date("%Y-%m-%d %H:%M:%S")
+        local HttpService = game:GetService("HttpService")
         local playerName = game.Players.LocalPlayer.Name
         local message = string.format("%s - %s executed the script.", currentTime, playerName)
         local data = {['username']=playerName, ['content']=message}
-
-        
-    end
-        local word = {}
-
-        for i = 1, length do
-            local real = (math.floor(i * math.floor(tick() / (24 * 60 * 60) + 1)*32))
-            math.randomseed(seed + real)
-            word[i] = string.char(math.random(33, 126))
-        end
-
-        return table.concat(word)
+        local encodedData = HttpService:JSONEncode(data)
+        local headers = {
+        ["Content-Type"] = "application/json"
+    }
+        local response =
+            request(
+            {
+                Url = url,
+                Method = "POST",
+                Headers = headers,
+                Body = encodedData
+            }
+        )
     end
     function customs.insertFlag(index, flag, value, default)
         if not customs.FLAGS then
