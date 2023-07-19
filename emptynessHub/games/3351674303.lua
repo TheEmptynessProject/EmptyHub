@@ -216,7 +216,7 @@ PlaceId:CreateSlider(
 )
 PlaceId:CreateToggle(
     {
-        Name = "Limits Enabled",
+        Name = "Limits Disabled",
         Callback = function(bool)
             limitsEnabled = bool
             if autoApply then
