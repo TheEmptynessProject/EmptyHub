@@ -151,7 +151,11 @@ function indexOf(array, value)
     return nil
 end
 
-PlaceId:CreateLabel("Item to use")
+PlaceId:CreateLabel(
+    {
+        Name = "Item to use"
+    }
+)
 PlaceId:CreateDropdown(
        {
             Content = dropdownItemArray,
@@ -285,7 +289,11 @@ if string.find(v.Name, "Team") and v:FindFirstChild("Baseplate") then
 table.insert(dropdownTeamName, v.Name)
 end
 end
-PlaceId:CreateLabel("Team Teleports")
+PlaceId:CreateLabel(
+    {
+        Name = "Team Teleports"
+	}
+)
 PlaceId:CreateDropdown(
     {
         Content = dropdownTeamName,
