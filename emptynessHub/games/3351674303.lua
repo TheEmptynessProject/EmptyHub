@@ -129,7 +129,7 @@ PlaceId:CreateSlider(
         Min = 0,
         Max = 10,
         Default = 2,
-        Decimals = 0.0001,
+        Decimals = 1,
         Callback = function(value)
             Length = value
             if autoApply then
