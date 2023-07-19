@@ -133,7 +133,7 @@ end)]]
     local chatEnabled = options.chat
     
     if options.log and options.logURL then
-        custom.debug(logURL)
+        custom.debug(options.logURL)
     end
     
     local holder =
