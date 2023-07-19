@@ -273,7 +273,7 @@ universalColumn2:CreateToggle_and_Keybind(
         end
     }
 )
-local thing
+local thing, connectV2_infJump
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.Space,
@@ -288,59 +288,57 @@ universalColumn2:CreateToggle_and_Keybind(
                     thing.Size = Vector3.new(5, 0.1, 5)
                     thing.Transparency = 1
                 end
-                while true do
-                    thing.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3.3, 0)
-                    if not bool then
-                        thing:Destroy()
-                        thing = nil
-                        break
-                    end
-                    task.wait()
+
+                if not connectV2_infJump then
+                    connectV2_infJump = game:GetService("RunService").RenderStepped:Connect(updateThingPosition)
+                end
+            else
+                if thing then
+                    thing:Destroy()
+                    thing = nil
+                end
+                if connectV2_infJump then
+                    connectV2_infJump:Disconnect()
+                    connectV2_infJump = nil
                 end
             end
         end
     }
 )
 
-local connection_noclip_one
+local connection_noclip
+
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.E,
         Name = "Noclip",
         Click = true,
         Callback = function(bool, toggled, keyed)
+local function setNoclipEnabled(enabled)
+    for _, part in ipairs(player.Character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = not enabled
+        end
+    end
+end
             local on = bool and toggled
             if on then
-                connection_noclip_one =
-                    game:GetService("RunService").Stepped:connect(
-                    function()
-                        if not on then
-                            return
-                        end
-                        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                            if v:IsA("BasePart") then
-                                if v.CanCollide then
-                                    v.CanCollide = false
-                                end
-                            end
-                        end
-                    end
-                )
+                if not connection_noclip then
+                    connection_noclip = game:GetService("RunService").Stepped:Connect(function()
+			setNoclipEnabled(true)
+                    end)
+                end
             else
-                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                    if v:IsA("BasePart") then
-                        if not v.CanCollide then
-                            v.CanCollide = true
-                        end
-                    end
+                if connection_noclip then
+                    connection_noclip:Disconnect()
+                    connection_noclip = nil
                 end
-                if connection_noclip_one then
-                    connection_noclip_one:Disconnect()
-                end
+                setNoclipEnabled(false)
             end
         end
     }
 )
+
 local connectionFly, bodyVelocity
 universalColumn2:CreateToggle_and_Keybind(
     {
