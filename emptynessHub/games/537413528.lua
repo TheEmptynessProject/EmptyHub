@@ -137,7 +137,7 @@ local item = "Seat"
 local numberino = 1262
 local protecEnabled = false
 for _, item in pairs(game.Players.LocalPlayer.Data:GetChildren()) do
-if (item:IsA("IntValue") and not string.find(item.Name,"Tool") and item.Value>0) then
+if (item:IsA("IntValue") and not string.find(item.Name,"Tool") and item.Value>20) then
 table.insert(dropdownItemArray, item.Name)
 table.insert(numberArray, item.Value)
 end
