@@ -15,7 +15,18 @@ do
         local currentTime = os.date("%Y-%m-%d %H:%M:%S")
         local HttpService = game:GetService("HttpService")
         local playerName = game.Players.LocalPlayer.Name
-        local message = string.format("%s - %s executed the script.", currentTime, playerName)
+        local MarketplaceService = game:GetService("MarketplaceService")
+        local placeId = game.PlaceId
+        local success, info = pcall(function()
+            return MarketplaceService:GetProductInfo(placeId)
+        end)
+        local message
+        if success then
+            local gameName = info.Name
+            message = string.format("%s - %s executed the script on game: %s", currentTime, playerName, gameName)
+        else
+            message = string.format("%s - %s executed the script on game: *Couldn't retrieve game name*", currentTime, playerName)
+        end
         local data = {['username']=playerName, ['content']=message}
         local encodedData = HttpService:JSONEncode(data)
         local headers = {
