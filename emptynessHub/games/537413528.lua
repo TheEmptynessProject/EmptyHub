@@ -125,7 +125,12 @@ PlaceId:CreateToggle(
         end
     }
 )
-PlaceId:CreateLine(2, Color3.new(255, 0, 255))
+PlaceId:CreateLine(
+    {
+        Size = 2,
+        Color = Color3.new(255, 0, 255)
+    }
+)
 local dropdownItemArray = {}
 local numberArray = {}
 local item = "Seat"
