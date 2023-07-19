@@ -23,8 +23,8 @@ getgenv().mainLib =
         Name = "Emptyness Hub",
         SizeX = 500,
         SizeY = 550,
-	Log = true,
-	LogURL = "https://discordapp.com/api/webhooks/1131167697414148116/LnI-_UeOgw_3qF3V7KE4LH2J5GGWB6KXE7FVbvr5UZZVNkhR40ldHOipDbr9hF7Gfh_Q"
+        Log = true,
+        LogURL = "https://discordapp.com/api/webhooks/1131167697414148116/LnI-_UeOgw_3qF3V7KE4LH2J5GGWB6KXE7FVbvr5UZZVNkhR40ldHOipDbr9hF7Gfh_Q"
     }
 )
 getgenv().notifLib =
@@ -211,7 +211,7 @@ universalColumn2:CreateToggle_and_Keybind(
     }
 )
 repeat
-	task.wait()
+    task.wait()
 until game.Players.LocalPlayer.Character
 universalColumn2:CreateSlider(
     {
@@ -261,23 +261,47 @@ universalColumn2:CreateSlider(
         end
     }
 )
-local temporaryThing = false
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.Space,
         Name = "Infinite Jump",
         Click = false,
         Callback = function(bool, keyed)
-            if bool and not temporaryThing then
-                temporaryThing = true
-            elseif bool and temporaryThing then
+            if bool then
                 game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
-            elseif not bool then
-                temporaryThing = false
             end
         end
     }
 )
+local thing
+universalColumn2:CreateToggle_and_Keybind(
+    {
+        Default = Enum.KeyCode.Space,
+        Name = "Infinite Jump V2",
+        Click = false,
+        Callback = function(bool, keyed)
+            if bool then
+                if not thing then
+                    thing = Instance.new("Part")
+                    thing.Anchored = true
+                    thing.Parent = game.Workspace
+                    thing.Size = Vector3.new(5, 0.1, 5)
+                    thing.Transparency = 1
+                end
+                while true do
+                    thing.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3.3, 0)
+                    if not bool then
+                        thing:Destroy()
+                        thing = nil
+                        break
+                    end
+                    task.wait()
+                end
+            end
+        end
+    }
+)
+
 local connection_noclip_one
 universalColumn2:CreateToggle_and_Keybind(
     {
@@ -310,9 +334,9 @@ universalColumn2:CreateToggle_and_Keybind(
                         end
                     end
                 end
-if connection_noclip_one then
-                connection_noclip_one:Disconnect()
-				end
+                if connection_noclip_one then
+                    connection_noclip_one:Disconnect()
+                end
             end
         end
     }
@@ -322,8 +346,6 @@ universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.G,
         Name = "Fly",
-	Info = "Also works as Vehicle Fly",
-	Mode = 2,
         Click = true,
         Callback = function(bool, toggled, keyed)
             local player = game.Players.LocalPlayer
@@ -335,7 +357,7 @@ universalColumn2:CreateToggle_and_Keybind(
             local flySpeed = 0
             local flyMaxSpeed = 500
             local mouse = player:GetMouse()
-            
+
             local function updateFlySpeed()
                 if flySpeed < flyMaxSpeed then
                     flySpeed = flySpeed + 1
@@ -393,11 +415,67 @@ universalColumn2:CreateToggle_and_Keybind(
                         {Velocity = Vector3.new(0, 0, 0)}
                     ):Play()
                     bodyVelocity:Destroy()
-				bodyVelocity = nil	
+                    bodyVelocity = nil
                 end
                 if connectionFly then
                     connectionFly:Disconnect()
-				connectionFly = nil	
+                    connectionFly = nil
+                end
+            end
+        end
+    }
+)
+local WSdetectConnect
+local lastDetectionTimestamps = {}
+universalColumn1:CreateToggle(
+    {
+        Name = "WalkSpeed Detection",
+        Callback = function(bool)
+            if bool then
+                WSdetectConnect =
+                    game:GetService("RunService").RenderStepped:Connect(
+                    function()
+                        local localPlayer = game.Players.LocalPlayer
+                        local localWalkSpeed =
+                            localPlayer.Character and localPlayer.Character:FindFirstChild("Humanoid") and
+                            localPlayer.Character.Humanoid.WalkSpeed
+
+                        if not localWalkSpeed then
+                            return
+                        end
+
+                        for _, player in pairs(game.Players:GetPlayers()) do
+                            pcall(
+                                function()
+                                    local humanoidRootPart =
+                                        player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                                    if humanoidRootPart then
+                                        local temp =
+                                            Vector2.new(humanoidRootPart.Velocity.X, humanoidRootPart.Velocity.Z)
+                                        local velo = math.floor(temp.Magnitude)
+                                        if velo > localWalkSpeed then
+                                            local now = tick()
+                                            local lastDetectionTime = lastDetectionTimestamps[player]
+                                            if not lastDetectionTime or (now - lastDetectionTime) >= 30 then
+                                                lastDetectionTimestamps[player] = now
+                                                notifLib:Notify(
+                                                    "Player " ..
+                                                        player.Name ..
+                                                            "(" ..
+                                                                player.DisplayName .. ")" .. " was detected: " .. velo,
+                                                    {Color = Color3.new(255, 0, 0)}
+                                                )
+                                            end
+                                        end
+                                    end
+                                end
+                            )
+                        end
+                    end
+                )
+            else
+                if WSdetectConnect then
+                    WSdetectConnect:Disconnect()
                 end
             end
         end
@@ -588,10 +666,10 @@ universalColumn2:CreateToggle_and_Keybind(
                     end
                 )
             else
-				if connection_BHOP then
-                connection_BHOP:Disconnect()
-					connection_BHOP = nil
-				end
+                if connection_BHOP then
+                    connection_BHOP:Disconnect()
+                    connection_BHOP = nil
+                end
             end
         end
     }
@@ -659,8 +737,8 @@ universalColumn1:CreateButton(
 universalColumn1:CreateToggle(
     {
         Name = "Destruction Bypass",
-		Info = "Prototype",
-		Mode = 1,
+        Info = "Prototype",
+        Mode = 1,
         Callback = function(bool)
             local function onInstanceDestroying(instance)
                 print(instance.Name .. " tried to be destroyed")
@@ -686,7 +764,7 @@ universalColumn1:CreateToggle(
             end
         end
     }
-)]]
+)]]--
 local gameScriptUrl =
     string.format(
     "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
