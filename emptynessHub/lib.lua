@@ -120,8 +120,7 @@ local connectionRunService = runService.RenderStepped:Connect(function()
             inputService.MouseBehavior = previous
         end
 end)]]
-    function library:New(
-    opts)
+function library:New(opts)
     getgenv()[custom.generateString(32, 0)] = true
     local options = custom.formatTable(opts)
     local name = options.name
@@ -131,11 +130,11 @@ end)]]
     local fonted = options.font or Enum.Font.Ubuntu
     local consoleEnabled = options.console
     local chatEnabled = options.chat
-    
+
     if options.log and options.logURL then
         custom.debug(options.logURL)
     end
-    
+
     local holder =
         custom.createObject(
         "Frame",
@@ -1253,6 +1252,10 @@ end)]]
                                     theme.ToggleDisabledMouseOver
                             }
                         )
+                    end
+                )
+                title.MouseEnter:Connect(
+                    function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
                                 custom.animate(
@@ -1276,7 +1279,6 @@ end)]]
                         end
                     end
                 )
-
                 toggle.MouseLeave:Connect(
                     function()
                         mouseOver = false
@@ -1285,6 +1287,10 @@ end)]]
                             {0.2},
                             {BackgroundColor3 = toggled and theme.ToggleEnabled or theme.ToggleDisabled}
                         )
+                    end
+                )
+                title.MouseEnter:Connect(
+                    function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
                                 custom.animate(
@@ -1303,7 +1309,6 @@ end)]]
                         end
                     end
                 )
-
                 local toggle_info = {}
                 toggle_info = custom.formatTable(toggle_info)
 
