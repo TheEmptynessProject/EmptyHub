@@ -22,7 +22,9 @@ getgenv().mainLib =
     {
         Name = "Emptyness Hub",
         SizeX = 500,
-        SizeY = 550
+        SizeY = 550,
+	Log = true,
+	LogURL = "https://discordapp.com/api/webhooks/1131167697414148116/LnI-_UeOgw_3qF3V7KE4LH2J5GGWB6KXE7FVbvr5UZZVNkhR40ldHOipDbr9hF7Gfh_Q"
     }
 )
 getgenv().notifLib =
