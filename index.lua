@@ -322,6 +322,8 @@ universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.G,
         Name = "Fly",
+	Info = "Also works as Vehicle Fly",
+	Mode = 2,
         Click = true,
         Callback = function(bool, toggled, keyed)
             local player = game.Players.LocalPlayer
@@ -653,7 +655,7 @@ universalColumn1:CreateButton(
         end
     }
 )
-local connections = {}
+--[[local connections = {}
 universalColumn1:CreateToggle(
     {
         Name = "Destruction Bypass",
@@ -684,7 +686,7 @@ universalColumn1:CreateToggle(
             end
         end
     }
-)
+)]]
 local gameScriptUrl =
     string.format(
     "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
