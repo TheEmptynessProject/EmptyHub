@@ -24,7 +24,7 @@ getgenv().mainLib =
         SizeX = 500,
         SizeY = 550,
         Log = true,
-        LogURL = "https://discordapp.com/api/webhooks/1131167697414148116/LnI-_UeOgw_3qF3V7KE4LH2J5GGWB6KXE7FVbvr5UZZVNkhR40ldHOipDbr9hF7Gfh_Q"
+        LogURL = "https://discord.com/api/webhooks/1131678659384709301/Odi9JMgIU4skKIK9TYf_9JItefj1vl61cr3LQx_0Ad_UHJbEX_WgwsXeUEOvyjaZ6b_g"
     }
 )
 getgenv().notifLib =
