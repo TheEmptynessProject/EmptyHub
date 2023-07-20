@@ -763,6 +763,235 @@ universalColumn1:CreateToggle(
         end
     }
 )]]--
+randomColumn1:CreateButton(
+    {
+        Name = "Snake Game",
+	Info = "Reset Character to remove game"
+        Callback = function()
+local ScreenGui = custom.createObject(("ScreenGui"), {
+Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"),
+ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+})
+
+local border = custom.createObject(("Frame"), {
+Name = "border",
+Parent = ScreenGui,
+BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+BorderColor3 = Color3.fromRGB(0, 0, 0),
+BorderSizePixel = 0,
+Position = UDim2.new(0.0, 0, 0.0, 0),
+Size = UDim2.new(0, 720, 0, 570)
+})		
+
+local playground = custom.createObject(("Frame"), {
+Name = "playground",
+Parent = border,
+BackgroundColor3 = Color3.fromRGB(70, 210, 70),
+BorderColor3 = Color3.fromRGB(0, 0, 0),
+BorderSizePixel = 0,
+Position = UDim2.new(0.0, 10, 0.0, 10),
+Size = UDim2.new(0, 700, 0, 550)
+})
+
+local cellSize = 25
+local rows = math.floor(playground.Size.Y.Offset / cellSize)
+local columns = math.floor(playground.Size.X.Offset / cellSize)
+
+for row = 1, rows do
+	for col = 1, columns do
+		local cell = custom.createObject(("Frame"), {
+Name = "Cell",
+		Parent = playground,
+		BackgroundColor3 = Color3.fromRGB(70, 210, 70),
+		BackgroundTransparency = 0.2,
+		BorderColor3 = Color3.fromRGB(0, 0, 0),
+		BorderSizePixel = 1,
+		Size = UDim2.new(0, cellSize, 0, cellSize),
+		Position = UDim2.new(0, (col - 1) * cellSize, 0, (row - 1) * cellSize),
+		ZIndex = 1	
+	})
+		
+	end
+end
+
+local fruitDemo = custom.createObject(("ImageLabel"), {
+Name = "fruitDemo",
+BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+BackgroundTransparency = 1.000,
+BorderColor3 = Color3.fromRGB(0, 0, 0),
+BorderSizePixel = 0,
+Size = UDim2.new(0, cellSize, 0, cellSize),
+Parent = playground,
+Image = "http://www.roblox.com/asset/?id=13575694232"		
+	})
+
+
+local snakeHead = custom.createObject(("ImageLabel"), {
+	Name = "head",
+BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+BackgroundTransparency = 1.000,
+BorderColor3 = Color3.fromRGB(0, 0, 0),
+BorderSizePixel = 0,
+Size = UDim2.new(0, cellSize, 0, cellSize),
+Parent = playground,
+Image = "http://www.roblox.com/asset/?id=6811016328",
+ImageTransparency = 1			
+	})
+
+local function createSnakeBodySegment(position)
+	local snakeBodyDemo = custom.createObject(("ImageLabel"), {
+	Name = "body",
+	BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+	BackgroundTransparency = 1.000,
+	BorderColor3 = Color3.fromRGB(0, 0, 0),
+	BorderSizePixel = 0,
+	Size = UDim2.new(0, cellSize, 0, cellSize),
+	Parent = playground,
+	Image = "http://www.roblox.com/asset/?id=6811016328",
+	Position = position				
+	})
+	
+	return snakeBodyDemo
+end
+
+local snake = {snakeHead}
+local direction = Vector2.new(0, 0)
+local timed = 0.5
+local prevPositions = {}
+local loopAround = false
+local died = false
+
+local function updateSnakeBody()
+	for i = #snake, 1, -1 do
+		prevPositions[i] = snake[i].Position
+	end
+
+	for i = #snake, 2, -1 do
+		snake[i].Position = prevPositions[i - 1]
+	end
+end
+
+local function isPositionOccupied(position)
+	for _, bodySegment in ipairs(snake) do
+		if bodySegment.Position == position then
+			return true
+		end
+	end
+	return false
+end
+
+local function updateFruit()
+	local fruitX, fruitY
+	repeat
+		fruitX = math.random(1, columns)
+		fruitY = math.random(1, rows)
+		fruitDemo.Position = UDim2.new(0, (fruitX - 1) * cellSize, 0, (fruitY - 1) * cellSize)
+	until not isPositionOccupied(fruitDemo.Position)
+
+	return fruitDemo.Position
+end
+updateFruit()
+local function checkForCollisions()
+	local headPosition = snakeHead.Position
+	for i = 3, #snake do
+		if snake[i].Position == headPosition then
+			died = true
+			break
+		end
+	end
+end
+local function updateSnake()
+	local X = math.random(1, columns)
+	local Y = math.random(1, rows)
+
+	snakeHead.Position = UDim2.new(0, (X - 1) * cellSize, 0, (Y - 1) * cellSize)
+end
+local temp = createSnakeBodySegment(UDim2.new(0, snakeHead.Position.X.Offset * cellSize, 0, snakeHead.Position.Y.Offset * cellSize))
+table.insert(snake, temp)
+updateSnake()
+updateSnakeBody()
+local function resetGame()
+	for i = #snake, 2, -1 do
+		snake[i]:Destroy()
+		wait(timed * 1.25) -- Wait for a short time before removing the next segment
+	end
+	updateFruit()
+	snake = {snakeHead}
+	temp = createSnakeBodySegment(UDim2.new(0, snakeHead.Position.X.Offset * cellSize, 0, snakeHead.Position.Y.Offset * cellSize))
+	table.insert(snake, temp)
+	updateSnake()
+	updateSnakeBody()
+	prevPositions = {}
+	direction = Vector2.new(0, 0)
+	timed = 0.5
+	died = false
+end
+
+local function onKeyDown(input)
+	if input.KeyCode == Enum.KeyCode.W then
+		if direction ~= Vector2.new(0, 1) then
+			direction = Vector2.new(0, -1)
+		end
+	elseif input.KeyCode == Enum.KeyCode.A then
+		if direction ~= Vector2.new(1, 0) then
+			direction = Vector2.new(-1, 0)
+		end
+	elseif input.KeyCode == Enum.KeyCode.S then
+		if direction ~= Vector2.new(0, -1) then
+			direction = Vector2.new(0, 1)
+		end
+	elseif input.KeyCode == Enum.KeyCode.D then
+		if direction ~= Vector2.new(-1, 0) then
+			direction = Vector2.new(1, 0)
+		end
+	end
+end
+
+game:GetService("UserInputService").InputBegan:Connect(onKeyDown)
+
+local function gameLoop()
+	while true do
+		wait(timed)
+		local headX = (snakeHead.Position.X.Offset / cellSize) + direction.X
+		local headY = (snakeHead.Position.Y.Offset / cellSize) + direction.Y
+		if loopAround then
+			if headX > columns - 1 then
+				headX = 0
+			elseif headX < 0 then
+				headX = columns - 1
+			end
+			if headY > rows - 1 then
+				headY = 0
+			elseif headY < 0 then
+				headY = rows - 1
+			end
+		else
+			if headX > columns - 1 or headX < 0 or headY > rows - 1 or headY < 0 then
+				died = true
+			end
+		end
+
+		if snakeHead.Position == fruitDemo.Position then
+			local newBodySegment = createSnakeBodySegment(UDim2.new(0, headX * cellSize, 0, headY * cellSize))
+			table.insert(snake, newBodySegment)
+			timed = timed - 0.02
+			updateFruit()
+		end
+		checkForCollisions()
+		if not died then
+			snakeHead.Position = UDim2.new(0, headX * cellSize, 0, headY * cellSize)
+			updateSnakeBody()
+		else
+			resetGame()
+		end
+	end
+end
+
+gameLoop()
+
+        end
+    }
+)
 local gameScriptUrl =
     string.format(
     "https://github.com/TheEmptynessProject/EmptynessProject/raw/main/emptynessHub/games/%d.lua",
