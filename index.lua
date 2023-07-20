@@ -799,18 +799,16 @@ local columns = math.floor(playground.Size.X.Offset / cellSize)
 
 for row = 1, rows do
 	for col = 1, columns do
-		local cell = custom.createObject(("Frame"), {
-Name = "Cell",
-		Parent = playground,
-		BackgroundColor3 = Color3.fromRGB(70, 210, 70),
-		BackgroundTransparency = 0.2,
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		BorderSizePixel = 1,
-		Size = UDim2.new(0, cellSize, 0, cellSize),
-		Position = UDim2.new(0, (col - 1) * cellSize, 0, (row - 1) * cellSize),
-		ZIndex = 1	
-	})
-		
+		local cell = Instance.new("Frame")
+		cell.Name = "Cell"
+		cell.Parent = playground
+		cell.BackgroundColor3 = Color3.fromRGB(70, 210, 70)
+		cell.BackgroundTransparency = 0.2
+		cell.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		cell.BorderSizePixel = 1
+		cell.Size = UDim2.new(0, cellSize, 0, cellSize)
+		cell.Position = UDim2.new(0, (col - 1) * cellSize, 0, (row - 1) * cellSize)
+		cell.ZIndex = 1
 	end
 end
 
