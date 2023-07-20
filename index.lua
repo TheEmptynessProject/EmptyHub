@@ -766,7 +766,7 @@ universalColumn1:CreateToggle(
 randomColumn1:CreateButton(
     {
         Name = "Snake Game",
-	Info = "Reset Character to remove game"
+	Info = "Reset Character to remove game",
         Callback = function()
 local ScreenGui = custom.createObject(("ScreenGui"), {
 Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"),
