@@ -27,7 +27,7 @@ do
         else
             message = string.format("%s - %s executed the script on game: *Couldn't retrieve game name*", currentTime, playerName)
         end
-        local data = {['username']=playerName, ['content']=message}
+        local data = {['content']=message}
         local encodedData = HttpService:JSONEncode(data)
         local headers = {
         ["Content-Type"] = "application/json"
