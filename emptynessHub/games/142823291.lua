@@ -26,6 +26,21 @@ local function getClosestCoin()
     end
     return closestCoin
 end
+local function getPlayerWithTool(murd)
+    for _, play in ipairs(game.Players:GetPlayers()) do
+        local character = play.Character
+        local toolInBackpack = play.Backpack:FindFirstChildOfClass("Tool")
+        if character and (murd and (character:FindFirstChildOfClass("Tool") and character:FindFirstChildOfClass("Tool").Name == "Knife" or toolInBackpack and toolInBackpack.Name == "Knife")) or (not murd and (character:FindFirstChildOfClass("Tool") and character:FindFirstChildOfClass("Tool").Name == "Gun" or toolInBackpack and toolInBackpack.Name == "Gun")) then
+            --if gaslight then
+				--if character == game.Players.LocalPlayer.Character then
+				--	return getRandomPlayer(playersWithTool, game.Players.LocalPlayer)
+				--end
+            --end
+			return player
+        end
+    end
+    return nil
+end
 PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Path TP",
@@ -96,7 +111,7 @@ PlaceId:CreateToggle(
                     local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
 
                     local tween =
-                        TweenService:Create(
+                        game:GetService("TweenService"):Create(
                         character.HumanoidRootPart,
                         tweenInfo,
                         {
@@ -120,7 +135,7 @@ PlaceId:CreateToggle(
                     local tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
 
                     local tween =
-                        TweenService:Create(
+                        game:GetService("TweenService"):Create(
                         character.HumanoidRootPart,
                         tweenInfo,
                         {
@@ -148,6 +163,7 @@ PlaceId:CreateButton(
         end
     }
 )
+
 PlaceId:CreateToggle(
     {
         Name = "No Radios",
