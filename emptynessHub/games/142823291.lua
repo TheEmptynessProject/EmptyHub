@@ -176,6 +176,7 @@ PlaceId:CreateKeybind(
         Default = Enum.KeyCode.X,
         Callback = function(key)
             local target = getPlayerWithTool(true)
+            print(target)
             if target and player.Character:FindFirstChild("Gun") then
                 local targetLookVector = target.Character.HumanoidRootPart.CFrame.LookVector
                 local offset = targetLookVector * -3
@@ -230,6 +231,7 @@ PlaceId:CreateButton(
             repeat
                 task.wait()
             until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            task.wait(1)
             player.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
         end
     }
