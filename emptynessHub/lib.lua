@@ -1254,7 +1254,7 @@ function library:New(opts)
                         )
                     end
                 )
-                title.MouseEnter:Connect(
+                toggle.MouseEnter:Connect(
                     function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
@@ -1289,7 +1289,7 @@ function library:New(opts)
                         )
                     end
                 )
-                title.MouseEnter:Connect(
+                toggle.MouseLeave:Connect(
                     function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
@@ -2405,7 +2405,7 @@ function library:New(opts)
                     end
                 )
                 local connection
-                title.MouseEnter:Connect(
+                toggleKeybind.MouseEnter:Connect(
                     function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
@@ -2430,7 +2430,7 @@ function library:New(opts)
                         end
                     end
                 )
-                title.MouseLeave:Connect(
+                toggleKeybind.MouseLeave:Connect(
                     function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
@@ -2731,7 +2731,7 @@ function library:New(opts)
                     end
                 )
                 local connection
-                title.MouseEnter:Connect(
+                toggleKeybind.MouseEnter:Connect(
                     function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
@@ -2756,7 +2756,7 @@ function library:New(opts)
                         end
                     end
                 )
-                title.MouseLeave:Connect(
+                toggleKeybind.MouseLeave:Connect(
                     function()
                         if tipMode == 1 then
                             if tooltip and tooltip ~= "" then
