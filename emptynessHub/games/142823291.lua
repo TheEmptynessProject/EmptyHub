@@ -40,7 +40,7 @@ PlaceId:CreateToggle(
                     local waypoints = path:GetWaypoints()
                     for _, waypoint in ipairs(waypoints) do
                         character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
-                        wait(0.2)
+                        wait(0.1)
                     end
                 end
             end
@@ -61,9 +61,53 @@ PlaceId:CreateToggle(
                     for _, waypoint in ipairs(waypoints) do
                         character.Humanoid:MoveTo(waypoint.Position)
                         character.Humanoid.MoveToFinished:Wait()
-                        wait(0.2)
+                        wait(0.1)
                     end
                 end
+            end
+        end
+    }
+)
+PlaceId:CreateButton(
+    {
+        Name = "Teleport to Safe Place",
+        Callback = function(bool)
+            while bool do
+                local coin = getClosestCoin()
+                if coin then
+                    local path = PathfindingService:CreatePath()
+                    path:ComputeAsync(character.HumanoidRootPart.Position, coin.Position)
+
+                    local waypoints = path:GetWaypoints()
+                    for _, waypoint in ipairs(waypoints) do
+                        character.Humanoid:MoveTo(waypoint.Position)
+                        character.Humanoid.MoveToFinished:Wait()
+                        wait(0.1)
+                    end
+                end
+            end
+        end
+    }
+)
+PlaceId:CreateButton(
+    {
+        Name = "Teleport to Lobby",
+        Callback = function()
+            character.HumanoidRootPart.CFrame = game.Lobby.Map.Spawns:FindFirstChild("Spawn").CFrame
+        end
+    }
+)
+PlaceId:CreateToggle(
+    {
+        Name = "No Radios",
+        Callback = function(bool)
+            while bool do
+                for i, v in pairs(game.workspace:GetDescendants()) do
+                    if v.Parent ~= "Lobby" and v.Name == "Radio" then
+                        v:Destroy()
+                    end
+                end
+                task.wait()
             end
         end
     }
