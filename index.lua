@@ -733,6 +733,14 @@ universalColumn1:CreateButton(
         end
     }
 )
+	universalColumn1:CreateButton(
+    {
+        Name = "Rejoin",
+        Callback = function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId,game.Players.LocalPlayer)
+        end
+    }
+)
 --[[local connections = {}
 universalColumn1:CreateToggle(
     {
