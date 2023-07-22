@@ -453,7 +453,7 @@ universalColumn1:CreateToggle(
                                         local temp =
                                             Vector2.new(humanoidRootPart.Velocity.X, humanoidRootPart.Velocity.Z)
                                         local velo = math.floor(temp.Magnitude)
-                                        if velo > localWalkSpeed then
+                                        if velo > localWalkSpeed+5 then
                                             local now = tick()
                                             local lastDetectionTime = lastDetectionTimestamps[player]
                                             if not lastDetectionTime or (now - lastDetectionTime) >= 30 then
