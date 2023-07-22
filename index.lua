@@ -346,7 +346,7 @@ universalColumn2:CreateToggle_and_Keybind(
         Name = "Fly",
         Click = true,
 		Info = "Also works as Vehicle Fly",
-		InfoMode = 2,
+		Mode = 2,
         Callback = function(bool, toggled, keyed)
             local player = game.Players.LocalPlayer
             local character = player.Character or player.CharacterAdded:Wait()
