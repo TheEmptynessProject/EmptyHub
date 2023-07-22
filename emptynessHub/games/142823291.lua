@@ -15,6 +15,7 @@ local function getClosestCoin()
         if v:FindFirstChild("CoinContainer") then
             for _, coin in pairs(v.CoinContainer:GetChildren()) do
                 if string.find(coin.Name, "Server") then
+					if not coin then return nil end
                     local distance = (coin.Position - character:FindFirstChild("HumanoidRootPart").Position).magnitude
                     if not closestDistance or distance < closestDistance then
                         closestCoin = coin
