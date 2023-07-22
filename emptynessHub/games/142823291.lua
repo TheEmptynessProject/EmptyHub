@@ -143,7 +143,8 @@ PlaceId:CreateToggle(
                         {
                             CFrame = targetCFrame
                         }
-                    ):Play()
+                    )
+                    tween:Play()
                     tween.Completed:Wait()
                 end
             end
@@ -169,7 +170,8 @@ PlaceId:CreateToggle(
                         {
                             CFrame = targetCFrame
                         }
-                    ):Play()
+                    )
+                    tween:Play()
                     tween.Completed:Wait()
                 end
             end
