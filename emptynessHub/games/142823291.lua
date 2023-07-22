@@ -155,7 +155,7 @@ PlaceId:CreateKeybind(
         Default = Enum.KeyCode.X,
         Callback = function(key)
 			local target = getPlayerWithTool(true)
-			if not target then return end
+			if not target or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Gun") then return end
 		local targetLookVector = target.Character.HumanoidRootPart.CFrame.LookVector
                     local offset = targetLookVector * -3
                     player.Character.HumanoidRootPart.CFrame = (target.Character.HumanoidRootPart.CFrame + offset)
