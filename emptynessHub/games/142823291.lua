@@ -34,7 +34,7 @@ local function getClosestCoin()
             end
         end
     end
-    return closestCoin
+    return closestCoin, closestDistance
 end
 local function getPlayerWithTool(murd)
     for _, play in ipairs(game.Players:GetPlayers()) do
@@ -113,7 +113,6 @@ PlaceId:CreateToggle(
                 if not bool then
                     return
                 end
-                print(bool)
                 local coin = getClosestCoin()
                 if coin then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
@@ -131,7 +130,7 @@ PlaceId:CreateToggle(
                 if not bool then
                     return
                 end
-                local coin = getClosestCoin()
+                local coin, closestDistance = getClosestCoin()
                 if coin then
                     local tweenTime = closestDistance / 75
 
@@ -183,7 +182,6 @@ PlaceId:CreateKeybind(
         Default = Enum.KeyCode.X,
         Callback = function(key)
             local target = getPlayerWithTool(true)
-            print(target)
             if target and player.Character:FindFirstChild("Gun") then
                 local targetLookVector = target.Character.HumanoidRootPart.CFrame.LookVector
                 local offset = targetLookVector * -3
@@ -226,21 +224,6 @@ PlaceId2:CreateButton(
         end
     }
 )
-PlaceId:CreateButton(
-    {
-        Name = "Kill Aura",
-        Callback = function()
-            for i,v in pairs(game.Players:GetPlayers()) do
-            if v ~= game.Players.LocalPlayer then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
-            game:GetService("Players").LocalPlayer.Character.Knife.Stab:FireServer("Slash")
-            task.wait(0.2)
-            end
-            end
-        end
-    }
-)
-
 PlaceId2:CreateButton(
     {
         Name = "Teleport to Sheriff",
@@ -249,6 +232,22 @@ PlaceId2:CreateButton(
             if temp then
             player.Character.HumanoidRootPart.CFrame =
                 temp.Character.HumanoidRootPart.CFrame
+            end
+        end
+    }
+)
+PlaceId:CreateButton(
+    {
+        Name = "Kill Aura",
+        Callback = function()
+            local tool = game:GetService("Players").LocalPlayer.Character:FindFirstChild("Knife")
+            if not tool then return end
+            for i,v in pairs(game.Players:GetPlayers()) do
+            if v ~= game.Players.LocalPlayer then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+            tool.Stab:FireServer("Slash")
+            task.wait(0.2)
+            end
             end
         end
     }
