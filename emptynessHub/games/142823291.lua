@@ -63,6 +63,7 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Path TP",
         Callback = function(bool)
+            if not bool then return end
             while task.wait() do
                 if not bool then
                     return
@@ -85,6 +86,7 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Path Walk",
         Callback = function(bool)
+        if not bool then return end
             while task.wait() do
                 if not bool then
                     return
@@ -109,6 +111,7 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - CFrame TP",
         Callback = function(bool)
+            if not bool then return end
             while true do
                 if not bool then
                     return
@@ -127,6 +130,7 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Tween Distance",
         Callback = function(bool)
+            if not bool then return end
             while task.wait() do
                 if not bool then
                     return
@@ -156,6 +160,7 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Tween Time",
         Callback = function(bool)
+            if not bool then return end
             while task.wait() do
                 if not bool then
                     return
@@ -298,6 +303,7 @@ PlaceId:CreateToggle(
     {
         Name = "No Radios",
         Callback = function(bool)
+            if not bool then return end
             while task.wait() do
                 if not bool then
                     return
