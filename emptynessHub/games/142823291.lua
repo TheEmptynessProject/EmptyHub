@@ -109,7 +109,7 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - CFrame TP",
         Callback = function(bool)
-            while task.wait() do
+            while true do
                 if not bool then
                     return
                 end
@@ -118,6 +118,7 @@ PlaceId:CreateToggle(
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
                     task.wait(2)
                 end
+                task.wait()
             end
         end
     }
@@ -141,7 +142,7 @@ PlaceId:CreateToggle(
                         player.Character.HumanoidRootPart,
                         tweenInfo,
                         {
-                            CFrame = targetCFrame
+                            CFrame = coin.CFrame
                         }
                     )
                     tween:Play()
@@ -168,7 +169,7 @@ PlaceId:CreateToggle(
                         player.Character.HumanoidRootPart,
                         tweenInfo,
                         {
-                            CFrame = targetCFrame
+                            CFrame = coin.CFrame
                         }
                     )
                     tween:Play()
@@ -258,11 +259,9 @@ PlaceId2:CreateButton(
     {
         Name = "Grab Gun",
         Callback = function()
-            local temp = getPlayerWithTool(false)
-            if temp then
-            player.Character.HumanoidRootPart.CFrame =
-                temp.Character.HumanoidRootPart.CFrame
-            end
+        if player.Character.HumanoidRootPart and game.Workspace:FindFirstChild("GunDrop") then
+        humanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame
+    end
         end
     }
 )
