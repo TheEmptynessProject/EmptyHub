@@ -226,13 +226,13 @@ PlaceId:CreateButton(
         Info = "Use for Trolling, as this kills you",
         Mode = 2,
         Callback = function()
-            local pre = player.Character.HumanoidRootPart.Position
-            player.Character:BreakJoints()
+            local pre = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            game.Players.LocalPlayer.Character:BreakJoints()
+            task.wait(1)
             repeat
-                task.wait(2)
-            until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-            task.wait(5)
-            player.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
+                task.wait()
+            until game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
         end
     }
 )
