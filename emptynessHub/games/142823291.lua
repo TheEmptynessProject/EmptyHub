@@ -14,8 +14,11 @@ local function getClosestCoin()
         if v:FindFirstChild("CoinContainer") then
             for _, coin in pairs(v.CoinContainer:GetChildren()) do
                 if string.find(coin.Name, "Server") then
-					if not coin then return nil end
-                    local distance = (coin.Position - player.Character:FindFirstChild("HumanoidRootPart").Position).magnitude
+                    if not coin then
+                        return nil
+                    end
+                    local distance =
+                        (coin.Position - player.Character:FindFirstChild("HumanoidRootPart").Position).magnitude
                     if not closestDistance or distance < closestDistance then
                         closestCoin = coin
                         closestDistance = distance
@@ -30,13 +33,21 @@ local function getPlayerWithTool(murd)
     for _, play in ipairs(game.Players:GetPlayers()) do
         local character = play.Character
         local toolInBackpack = play.Backpack:FindFirstChildOfClass("Tool")
-        if character and (murd and (character:FindFirstChildOfClass("Tool") and character:FindFirstChildOfClass("Tool").Name == "Knife" or toolInBackpack and toolInBackpack.Name == "Knife")) or (not murd and (character:FindFirstChildOfClass("Tool") and character:FindFirstChildOfClass("Tool").Name == "Gun" or toolInBackpack and toolInBackpack.Name == "Gun")) then
+        if
+            character and
+                (murd and
+                    (character:FindFirstChildOfClass("Tool") and character:FindFirstChildOfClass("Tool").Name == "Knife" or
+                        toolInBackpack and toolInBackpack.Name == "Knife")) or
+                (not murd and
+                    (character:FindFirstChildOfClass("Tool") and character:FindFirstChildOfClass("Tool").Name == "Gun" or
+                        toolInBackpack and toolInBackpack.Name == "Gun"))
+         then
             --if gaslight then
-				--if character == game.Players.LocalPlayer.Character then
-				--	return getRandomPlayer(playersWithTool, game.Players.LocalPlayer)
-				--end
+            --if character == game.Players.LocalPlayer.Character then
+            --	return getRandomPlayer(playersWithTool, game.Players.LocalPlayer)
             --end
-			return player
+            --end
+            return play
         end
     end
     return nil
@@ -46,7 +57,9 @@ PlaceId:CreateToggle(
         Name = "Coin Farm - Path TP",
         Callback = function(bool)
             while task.wait() do
-                if not bool then return end
+                if not bool then
+                    return
+                end
                 local coin = getClosestCoin()
                 if coin then
                     local path = PathfindingService:CreatePath()
@@ -66,7 +79,9 @@ PlaceId:CreateToggle(
         Name = "Coin Farm - Path Walk",
         Callback = function(bool)
             while task.wait() do
-                if not bool then return end
+                if not bool then
+                    return
+                end
                 local coin = getClosestCoin()
                 if coin then
                     local path = PathfindingService:CreatePath()
@@ -88,8 +103,10 @@ PlaceId:CreateToggle(
         Name = "Coin Farm - CFrame TP",
         Callback = function(bool)
             while task.wait() do
-                if not bool then return end
-				print(bool)
+                if not bool then
+                    return
+                end
+                print(bool)
                 local coin = getClosestCoin()
                 if coin then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
@@ -104,7 +121,9 @@ PlaceId:CreateToggle(
         Name = "Coin Farm - Tween Distance",
         Callback = function(bool)
             while task.wait() do
-                if not bool then return end
+                if not bool then
+                    return
+                end
                 local coin = getClosestCoin()
                 if coin then
                     local tweenTime = closestDistance / 75
@@ -130,7 +149,9 @@ PlaceId:CreateToggle(
         Name = "Coin Farm - Tween Time",
         Callback = function(bool)
             while task.wait() do
-                if not bool then return end
+                if not bool then
+                    return
+                end
                 local coin = getClosestCoin()
                 if coin then
                     local tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
@@ -154,17 +175,18 @@ PlaceId:CreateKeybind(
         Name = "Kill Murderer",
         Default = Enum.KeyCode.X,
         Callback = function(key)
-			local target = getPlayerWithTool(true)
-			if not target or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Gun") then return end
-		local targetLookVector = target.Character.HumanoidRootPart.CFrame.LookVector
-                    local offset = targetLookVector * -3
-                    player.Character.HumanoidRootPart.CFrame = (target.Character.HumanoidRootPart.CFrame + offset)
-            local args = {
-		    [1] = 1,
-		    [2] = player.Character.HumanoidRootPart.Position,
-		    [3] = "AH"
-		}
-		game:GetService("Players").LocalPlayer.Character.Gun.KnifeServer.ShootGun:InvokeServer(unpack(args))
+            local target = getPlayerWithTool(true)
+            if target and player.Character:FindFirstChild("Gun") then
+                local targetLookVector = target.Character.HumanoidRootPart.CFrame.LookVector
+                local offset = targetLookVector * -3
+                player.Character.HumanoidRootPart.CFrame = (target.Character.HumanoidRootPart.CFrame + offset)
+                local args = {
+                    [1] = 1,
+                    [2] = target.Character.HumanoidRootPart.Position,
+                    [3] = "AH"
+                }
+                player.Character.Gun.KnifeServer.ShootGun:InvokeServer(unpack(args))
+            end
         end
     }
 )
@@ -179,7 +201,8 @@ PlaceId:CreateButton(
     {
         Name = "Teleport to Lobby",
         Callback = function()
-            player.Character.HumanoidRootPart.CFrame = CFrame.new(game.workspace.Lobby.Map.Spawns:FindFirstChild("Spawn").Position + Vector3.new(0,3,0))
+            player.Character.HumanoidRootPart.CFrame =
+                CFrame.new(game.workspace.Lobby.Map.Spawns:FindFirstChild("Spawn").Position + Vector3.new(0, 3, 0))
         end
     }
 )
@@ -187,25 +210,27 @@ PlaceId:CreateButton(
     {
         Name = "Get Murderer Chance",
         Callback = function()
-		notifLib:Notify(
-                        "You have " .. tostring(game:GetService("ReplicatedStorage").Remotes.Extras.GetChance:InvokeServer()) .. "% chance to be the murderer",
-                        {Color = Color3.new(255, 255, 255)}
-                    )
+            notifLib:Notify(
+                "You have " ..
+                    tostring(game:GetService("ReplicatedStorage").Remotes.Extras.GetChance:InvokeServer()) ..
+                        "% chance to be the murderer",
+                {Color = Color3.new(255, 255, 255)}
+            )
         end
     }
 )
 PlaceId:CreateButton(
     {
         Name = "God Mode",
-		Info = "Use for Trolling, as this kills you",
-		Mode = 2,
+        Info = "Use for Trolling, as this kills you",
+        Mode = 2,
         Callback = function()
-			local pre = player.Character.HumanoidRootPart.Position
-		player.Character:BreakJoints()
-			repeat
-			task.wait()
-			until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-			player.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
+            local pre = player.Character.HumanoidRootPart.Position
+            player.Character:BreakJoints()
+            repeat
+                task.wait()
+            until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
         end
     }
 )
@@ -214,12 +239,14 @@ PlaceId:CreateToggle(
         Name = "No Radios",
         Callback = function(bool)
             while task.wait() do
-                if not bool then return end
+                if not bool then
+                    return
+                end
                 for i, v in pairs(game.Players:GetPlayers()) do
                     if v ~= player then
-                    if v.Character and v:FindFirstChild("Radio") then
-                        v:Destroy()
-                    end
+                        if v.Character and v:FindFirstChild("Radio") then
+                            v:Destroy()
+                        end
                     end
                 end
             end
