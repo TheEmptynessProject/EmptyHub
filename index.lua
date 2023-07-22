@@ -307,13 +307,13 @@ universalColumn2:CreateToggle_and_Keybind(
 )
 
 local connection_noclip
-
 universalColumn2:CreateToggle_and_Keybind(
     {
         Default = Enum.KeyCode.E,
         Name = "Noclip",
         Click = true,
         Callback = function(bool, toggled, keyed)
+			local player = game.Players.LocalPlayer
 local function setNoclipEnabled(enabled)
     for _, part in ipairs(player.Character:GetDescendants()) do
         if part:IsA("BasePart") then
