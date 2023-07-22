@@ -260,7 +260,7 @@ PlaceId2:CreateButton(
         Name = "Grab Gun",
         Callback = function()
         if player.Character.HumanoidRootPart and game.Workspace:FindFirstChild("GunDrop") then
-        humanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame
+        player.Character.HumanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame
     end
         end
     }
