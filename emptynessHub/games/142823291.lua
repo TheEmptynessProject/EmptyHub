@@ -6,6 +6,13 @@ local PlaceId =
         column = 1
     }
 )
+local PlaceId2 =
+    default:NewSection(
+    {
+        Name = "",
+        column = 2
+    }
+)
 local PathfindingService = game:GetService("PathfindingService")
 local player = game.Players.LocalPlayer
 local function getClosestCoin()
@@ -191,19 +198,43 @@ PlaceId:CreateKeybind(
         end
     }
 )
-PlaceId:CreateButton(
+PlaceId2:CreateButton(
     {
         Name = "Teleport to Safe Place",
         Callback = function()
         end
     }
 )
-PlaceId:CreateButton(
+PlaceId2:CreateButton(
     {
         Name = "Teleport to Lobby",
         Callback = function()
             player.Character.HumanoidRootPart.CFrame =
                 CFrame.new(game.workspace.Lobby.Map.Spawns:FindFirstChild("Spawn").Position + Vector3.new(0, 3, 0))
+        end
+    }
+)
+PlaceId2:CreateButton(
+    {
+        Name = "Teleport to Murderer",
+        Callback = function()
+            local temp = getPlayerWithTool(true)
+            if temp then
+            player.Character.HumanoidRootPart.CFrame =
+                temp.Character.HumanoidRootPart.CFrame
+            end
+        end
+    }
+)
+PlaceId2:CreateButton(
+    {
+        Name = "Teleport to Sheriff",
+        Callback = function()
+            local temp = getPlayerWithTool(false)
+            if temp then
+            player.Character.HumanoidRootPart.CFrame =
+                temp.Character.HumanoidRootPart.CFrame
+            end
         end
     }
 )
