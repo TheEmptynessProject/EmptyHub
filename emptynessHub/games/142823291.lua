@@ -68,6 +68,66 @@ PlaceId:CreateToggle(
         end
     }
 )
+PlaceId:CreateToggle(
+    {
+        Name = "Coin Farm - CFrame TP",
+        Callback = function(bool)
+            while bool do
+                local coin = getClosestCoin()
+                if coin then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
+                    task.wait(2)
+                end
+            end
+        end
+    }
+)
+PlaceId:CreateToggle(
+    {
+        Name = "Coin Farm - Tween Distance",
+        Callback = function(bool)
+            while bool do
+                local coin = getClosestCoin()
+                if coin then
+                    local tweenTime = closestDistance / 75
+
+                    local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+
+                    local tween =
+                        TweenService:Create(
+                        character.HumanoidRootPart,
+                        tweenInfo,
+                        {
+                            CFrame = targetCFrame
+                        }
+                    ):Play()
+                end
+            end
+        end
+    }
+)
+PlaceId:CreateToggle(
+    {
+        Name = "Coin Farm - Tween Time",
+        Callback = function(bool)
+            while bool do
+                local coin = getClosestCoin()
+                if coin then
+                    local tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+
+                    local tween =
+                        TweenService:Create(
+                        character.HumanoidRootPart,
+                        tweenInfo,
+                        {
+                            CFrame = targetCFrame
+                        }
+                    ):Play()
+                end
+            end
+        end
+    }
+)
 PlaceId:CreateButton(
     {
         Name = "Teleport to Safe Place",
