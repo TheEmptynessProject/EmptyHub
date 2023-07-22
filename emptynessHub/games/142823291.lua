@@ -194,6 +194,21 @@ PlaceId:CreateButton(
         end
     }
 )
+PlaceId:CreateButton(
+    {
+        Name = "God Mode",
+		Info = "Use for Trolling, as this kills you",
+		Mode = 2,
+        Callback = function()
+			local pre = player.Character.HumanoidRootPart.Position
+		player.Character:BreakJoints()
+			repeat
+			task.wait()
+			until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+			player.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
+        end
+    }
+)
 PlaceId:CreateToggle(
     {
         Name = "No Radios",
