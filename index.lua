@@ -32,7 +32,7 @@ getgenv().notifLib =
     {
         lifetime = 5,
         textColor = Color3.fromRGB(255, 255, 255),
-        textSize = 20,
+        textSize = 50,
         textStrokeTransparency = 0.7,
         textStrokeColor = Color3.fromRGB(0, 0, 0),
         textFont = Enum.Font.Ubuntu
