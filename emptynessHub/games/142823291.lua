@@ -155,7 +155,7 @@ PlaceId:CreateButton(
     {
         Name = "Teleport to Lobby",
         Callback = function()
-            character.HumanoidRootPart.CFrame = game.Lobby.Map.Spawns:FindFirstChild("Spawn").CFrame
+            character.HumanoidRootPart.CFrame = game.workspace.Lobby.Map.Spawns:FindFirstChild("Spawn").CFrame
         end
     }
 )
