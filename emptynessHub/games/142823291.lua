@@ -229,9 +229,9 @@ PlaceId:CreateButton(
             local pre = player.Character.HumanoidRootPart.Position
             player.Character:BreakJoints()
             repeat
-                task.wait()
+                task.wait(2)
             until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-            task.wait(1)
+            task.wait(5)
             player.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
         end
     }
