@@ -89,6 +89,7 @@ PlaceId:CreateToggle(
         Callback = function(bool)
             while task.wait() do
                 if not bool then return end
+				print(bool)
                 local coin = getClosestCoin()
                 if coin then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
