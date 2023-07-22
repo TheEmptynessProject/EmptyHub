@@ -8,7 +8,6 @@ local PlaceId =
 )
 local PathfindingService = game:GetService("PathfindingService")
 local player = game.Players.LocalPlayer
-local character = player.Character
 local function getClosestCoin()
     local closestCoin, closestDistance
     for _, v in pairs(game.Workspace:GetChildren()) do
@@ -16,7 +15,7 @@ local function getClosestCoin()
             for _, coin in pairs(v.CoinContainer:GetChildren()) do
                 if string.find(coin.Name, "Server") then
 					if not coin then return nil end
-                    local distance = (coin.Position - character:FindFirstChild("HumanoidRootPart").Position).magnitude
+                    local distance = (coin.Position - player.Character:FindFirstChild("HumanoidRootPart").Position).magnitude
                     if not closestDistance or distance < closestDistance then
                         closestCoin = coin
                         closestDistance = distance
@@ -51,10 +50,10 @@ PlaceId:CreateToggle(
                 local coin = getClosestCoin()
                 if coin then
                     local path = PathfindingService:CreatePath()
-                    path:ComputeAsync(character.HumanoidRootPart.Position, coin.Position)
+                    path:ComputeAsync(player.Character.HumanoidRootPart.Position, coin.Position)
                     local waypoints = path:GetWaypoints()
                     for _, waypoint in ipairs(waypoints) do
-                        character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
+                        player.Character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
                         task.wait(0.1)
                     end
                 end
@@ -71,12 +70,12 @@ PlaceId:CreateToggle(
                 local coin = getClosestCoin()
                 if coin then
                     local path = PathfindingService:CreatePath()
-                    path:ComputeAsync(character.HumanoidRootPart.Position, coin.Position)
+                    path:ComputeAsync(player.Character.HumanoidRootPart.Position, coin.Position)
 
                     local waypoints = path:GetWaypoints()
                     for _, waypoint in ipairs(waypoints) do
-                        character.Humanoid:MoveTo(waypoint.Position)
-                        character.Humanoid.MoveToFinished:Wait()
+                        player.Character.Humanoid:MoveTo(waypoint.Position)
+                        player.Character.Humanoid.MoveToFinished:Wait()
                         task.wait(0.1)
                     end
                 end
@@ -114,7 +113,7 @@ PlaceId:CreateToggle(
 
                     local tween =
                         game:GetService("TweenService"):Create(
-                        character.HumanoidRootPart,
+                        player.Character.HumanoidRootPart,
                         tweenInfo,
                         {
                             CFrame = targetCFrame
@@ -138,7 +137,7 @@ PlaceId:CreateToggle(
 
                     local tween =
                         game:GetService("TweenService"):Create(
-                        character.HumanoidRootPart,
+                        player.Character.HumanoidRootPart,
                         tweenInfo,
                         {
                             CFrame = targetCFrame
@@ -147,6 +146,25 @@ PlaceId:CreateToggle(
                     tween.Completed:Wait()
                 end
             end
+        end
+    }
+)
+PlaceId:CreateKeybind(
+    {
+        Name = "Kill Murderer",
+        Default = Enum.KeyCode.X,
+        Callback = function(key)
+			local target = getPlayerWithTool(true)
+			if not target then return end
+		local targetLookVector = target.Character.HumanoidRootPart.CFrame.LookVector
+                    local offset = targetLookVector * -3
+                    player.Character.HumanoidRootPart.CFrame = (target.Character.HumanoidRootPart.CFrame + offset)
+            local args = {
+		    [1] = 1,
+		    [2] = player.Character.HumanoidRootPart.Position,
+		    [3] = "AH"
+		}
+		game:GetService("Players").LocalPlayer.Character.Gun.KnifeServer.ShootGun:InvokeServer(unpack(args))
         end
     }
 )
@@ -161,11 +179,21 @@ PlaceId:CreateButton(
     {
         Name = "Teleport to Lobby",
         Callback = function()
-            character.HumanoidRootPart.CFrame = CFrame.new(game.workspace.Lobby.Map.Spawns:FindFirstChild("Spawn").Position + Vector3.new(0,3,0))
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(game.workspace.Lobby.Map.Spawns:FindFirstChild("Spawn").Position + Vector3.new(0,3,0))
         end
     }
 )
-
+PlaceId:CreateButton(
+    {
+        Name = "Get Murderer Chance",
+        Callback = function()
+		notifLib:Notify(
+                        "You have " .. tostring(game:GetService("ReplicatedStorage").Remotes.Extras.GetChance:InvokeServer()) .. "% chance to be the murderer",
+                        {Color = Color3.new(255, 255, 255)}
+                    )
+        end
+    }
+)
 PlaceId:CreateToggle(
     {
         Name = "No Radios",
