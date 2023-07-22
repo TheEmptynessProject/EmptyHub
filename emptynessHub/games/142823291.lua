@@ -226,9 +226,36 @@ PlaceId2:CreateButton(
         end
     }
 )
+PlaceId:CreateButton(
+    {
+        Name = "Kill Aura",
+        Callback = function()
+            for i,v in pairs(game.Players:GetPlayers()) do
+            if v ~= game.Players.LocalPlayer then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+            game:GetService("Players").LocalPlayer.Character.Knife.Stab:FireServer("Slash")
+            task.wait(0.2)
+            end
+            end
+        end
+    }
+)
+
 PlaceId2:CreateButton(
     {
         Name = "Teleport to Sheriff",
+        Callback = function()
+            local temp = getPlayerWithTool(false)
+            if temp then
+            player.Character.HumanoidRootPart.CFrame =
+                temp.Character.HumanoidRootPart.CFrame
+            end
+        end
+    }
+)
+PlaceId2:CreateButton(
+    {
+        Name = "Grab Gun",
         Callback = function()
             local temp = getPlayerWithTool(false)
             if temp then
