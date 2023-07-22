@@ -40,7 +40,7 @@ PlaceId:CreateToggle(
                     local waypoints = path:GetWaypoints()
                     for _, waypoint in ipairs(waypoints) do
                         character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
-                        wait(0.1)
+                        task.wait(0.1)
                     end
                 end
             end
@@ -61,7 +61,7 @@ PlaceId:CreateToggle(
                     for _, waypoint in ipairs(waypoints) do
                         character.Humanoid:MoveTo(waypoint.Position)
                         character.Humanoid.MoveToFinished:Wait()
-                        wait(0.1)
+                        task.wait(0.1)
                     end
                 end
             end
@@ -101,6 +101,7 @@ PlaceId:CreateToggle(
                             CFrame = targetCFrame
                         }
                     ):Play()
+                    tween.Completed:Wait()
                 end
             end
         end
@@ -123,6 +124,7 @@ PlaceId:CreateToggle(
                             CFrame = targetCFrame
                         }
                     ):Play()
+                    tween.Completed:Wait()
                 end
             end
         end
