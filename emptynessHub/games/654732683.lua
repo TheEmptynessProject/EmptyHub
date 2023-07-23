@@ -48,7 +48,7 @@ PlaceId:CreateKeybind(
         Callback = function()
             local temp = getCurrentCar()
             if temp and temp.PrimaryPart then
-                temp.PrimaryPart.Velocity = workspace.CurrentCamera.CFrame.LookVector * Bmulti
+                temp.PrimaryPart.Velocity = Vector3.new(workspace.CurrentCamera.CFrame.LookVector.X* Bmulti,1,workspace.CurrentCamera.CFrame.LookVector.Z* Bmulti) 
             end
         end
     }
