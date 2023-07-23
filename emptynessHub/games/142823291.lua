@@ -269,7 +269,7 @@ PlaceId2:CreateButton(
             safePart = Instance.new("Part")
             safePart.Position = Vector3.new(0, 2e10, 0)
             end
-            player.Character.HumanoidRootPart.CFrame = part.CFrame
+            player.Character.HumanoidRootPart.CFrame = safePart.CFrame
         end
     }
 )
