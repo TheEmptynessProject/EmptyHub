@@ -7,6 +7,9 @@ Thank you for your interest in contributing to this repository! To maintain cons
 - Only add functions that you have created or explicitly credit the original creator.
 - Avoid adding simple loads for other scripts or any form of malicious code.
 - Make sure to credit the creator of any functions you are adding from external sources.
+- Only simple types of obfuscation are allowed: Renaming functions and variables, changing strings to bytes, removing whitespace, shuffling.
+- Any type of obfuscation that wouldn't let the user confirm it's not malicious code is not allowed.
+- Any type of obfuscation that lowers the script loading time is not allowed (Dead code, for example).
 
 ## Adding a New Game
 
@@ -32,7 +35,8 @@ default:NewSection(
 If you want to contribute to an already existing game, follow these steps:
 
 1. Add the function creator to the top credits of the script.
-2. Optionally, you can also add the credits on the side of the function, example:
+2. Add the feature(s) that the function adds to the top of the script.
+3. Optionally, you can also add the credits on the side of the function, example:
 
 ```lua
 Demo:CreateKeybind(
