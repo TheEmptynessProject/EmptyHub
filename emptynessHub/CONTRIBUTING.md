@@ -6,21 +6,21 @@
 --2Feature<br>
 local default = getgenv().mainLib:NewTab("Game Tab 1")<br>
 local PlaceId =<br>
-    default:NewSection(<br>
-    {<br>
-        Name = "",<br>
-        column = 1<br>
-    }<br>
+&emsp;default:NewSection(<br>
+&emsp;{<br>
+&emsp;&emsp;Name = "",<br>
+&emsp;&emsp;column = 1<br>
+&emsp;}<br>
 )<br>
 ## Or, if you want to contribute to a already existing game, just do the following:
 1. Add the function creator to the top credits of the script<br>
 2. Optionally, you can also add the credits on the side of the function, example:<br>
 Demo:CreateKeybind( --Credits: LikeSo, SomeoneName<br>
-    {<br>
-        Name = "Test This",<br>
-        Default = Enum.KeyCode.X,<br>
-        Callback = function()<br>
-           --Demo<br>
-        end<br>
-    }<br>
+&emsp;{<br>
+&emsp;Name = "Test This",<br>
+&emsp;Default = Enum.KeyCode.X,<br>
+&emsp;&emsp;Callback = function()<br>
+&emsp;&emsp;--Demo<br>
+&emsp;end<br>
+&emsp;}<br>
 )<br>
