@@ -14,20 +14,21 @@ local function spawnBest()
 end
 
 local function getCurrentCar()
-    local player = game.Players.LocalPlayer
-    local car =
-        player.Character and player.Character:FindFirstChild("CarCollection") and
-        player.Character.CarCollection:FindFirstChild(player.Name)
-    if car then
-        local model = car:FindFirstChild("Car")
-        if
-            model and model:FindFirstChild("Wheels"):FindFirstChildOfClass("Part") and
-                model:FindFirstChild("Body"):FindFirstChild("Engine"):FindFirstChildOfClass("MeshPart")
-         then
-            return model
-        end
+    local car = game.workspace.CarCollection:FindFirstChild(game.Players.LocalPlayer.Name)
+    if not car then
+        return nil
     end
-    return nil
+
+    local model = car:FindFirstChild("Car")
+    if not model then
+        return nil
+    end
+
+    local isNotBroken =
+        model:FindFirstChild("Wheels"):FindFirstChildOfClass("Part") and
+        model:FindFirstChild("Body"):FindFirstChild("Engine"):FindFirstChildOfClass("MeshPart")
+
+    return isNotBroken and model or nil
 end
 local Bmulti
 PlaceId:CreateSlider(
