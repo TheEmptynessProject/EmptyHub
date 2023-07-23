@@ -88,6 +88,7 @@ PlaceId:CreateToggle(
                 coinFarmCoroutine =
                     coroutine.create(
                     function()
+                        while task.wait() do
                         local coin = getClosestCoin()
                         if coin then
                             local path = PathfindingService:CreatePath()
@@ -97,6 +98,7 @@ PlaceId:CreateToggle(
                                 player.Character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
                                 task.wait(0.1)
                             end
+                        end
                         end
                     end
                 )
@@ -122,6 +124,7 @@ PlaceId:CreateToggle(
                 coinFarmCoroutine =
                     coroutine.create(
                     function()
+                        while task.wait() do
                         local coin = getClosestCoin()
                         if coin then
                             local path = PathfindingService:CreatePath()
@@ -133,6 +136,7 @@ PlaceId:CreateToggle(
                                 player.Character.Humanoid.MoveToFinished:Wait()
                                 task.wait(0.1)
                             end
+                        end
                         end
                     end
                 )
@@ -158,11 +162,13 @@ PlaceId:CreateToggle(
                 coinFarmCoroutine =
                     coroutine.create(
                     function()
+                        while task.wait() do
                         local coin = getClosestCoin()
                         if coin then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
                         end
                         task.wait(2)
+                        end
                     end
                 )
                 coroutine.resume(coinFarmCoroutine)
