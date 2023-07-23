@@ -241,9 +241,9 @@ universalColumn2:CreateSlider(
     {
         Name = "Camera Zoom Distance",
         Min = 0,
-        Max = 200000,
+        Max = 20000,
         Default = math.floor(game.Players.LocalPlayer.CameraMaxZoomDistance) or 0,
-        Decimals = 0.0001,
+        Decimals = 0.001,
         Callback = function(value)
             game.Players.LocalPlayer.CameraMaxZoomDistance = value
         end
@@ -253,7 +253,7 @@ universalColumn2:CreateSlider(
     {
         Name = "Gravity",
         Min = 0,
-        Max = 200,
+        Max = 1000,
         Default = math.floor(game.workspace.Gravity) or 196,
         Decimals = 0.1,
         Callback = function(value)
