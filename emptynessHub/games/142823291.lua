@@ -15,6 +15,22 @@ local PlaceId2 =
 )
 local PathfindingService = game:GetService("PathfindingService")
 local player = game.Players.LocalPlayer
+--[[local gyro = nil
+local function loadGyro(bool)
+    if bool then
+        if gyro then
+        else
+            gyro = Instance.new("BodyGyro")
+        end
+        gyro.P = 8000
+        gyro.D = 100
+        gyro.MaxTorque = Vector3.new(2e10, 2e10, 2e10)
+    else
+        if gyro then
+            gyro:Destroy()
+        end
+    end
+end]]
 local function getClosestCoin()
     local closestCoin, closestDistance
     for _, v in pairs(game.Workspace:GetChildren()) do
@@ -59,24 +75,36 @@ local function getPlayerWithTool(murd)
     end
     return nil
 end
+local coinFarmCoroutine
 PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Path TP",
         Callback = function(bool)
-            if not bool then return end
-            while task.wait() do
-                if not bool then
-                    return
-                end
-                local coin = getClosestCoin()
-                if coin then
-                    local path = PathfindingService:CreatePath()
-                    path:ComputeAsync(player.Character.HumanoidRootPart.Position, coin.Position)
-                    local waypoints = path:GetWaypoints()
-                    for _, waypoint in ipairs(waypoints) do
-                        player.Character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
-                        task.wait(0.1)
+            if coinFarmCoroutine then
+                coroutine.close(coinFarmCoroutine)
+                coinFarmCoroutine = nil
+            end
+            if bool then
+                coinFarmCoroutine =
+                    coroutine.create(
+                    function()
+                        local coin = getClosestCoin()
+                        if coin then
+                            local path = PathfindingService:CreatePath()
+                            path:ComputeAsync(player.Character.HumanoidRootPart.Position, coin.Position)
+                            local waypoints = path:GetWaypoints()
+                            for _, waypoint in ipairs(waypoints) do
+                                player.Character.HumanoidRootPart.CFrame = CFrame.new(waypoint.Position)
+                                task.wait(0.1)
+                            end
+                        end
                     end
+                )
+                coroutine.resume(coinFarmCoroutine)
+            else
+                if coinFarmCoroutine then
+                    coroutine.close(coinFarmCoroutine)
+                    coinFarmCoroutine = nil
                 end
             end
         end
@@ -86,22 +114,33 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Path Walk",
         Callback = function(bool)
-        if not bool then return end
-            while task.wait() do
-                if not bool then
-                    return
-                end
-                local coin = getClosestCoin()
-                if coin then
-                    local path = PathfindingService:CreatePath()
-                    path:ComputeAsync(player.Character.HumanoidRootPart.Position, coin.Position)
+            if coinFarmCoroutine then
+                coroutine.close(coinFarmCoroutine)
+                coinFarmCoroutine = nil
+            end
+            if bool then
+                coinFarmCoroutine =
+                    coroutine.create(
+                    function()
+                        local coin = getClosestCoin()
+                        if coin then
+                            local path = PathfindingService:CreatePath()
+                            path:ComputeAsync(player.Character.HumanoidRootPart.Position, coin.Position)
 
-                    local waypoints = path:GetWaypoints()
-                    for _, waypoint in ipairs(waypoints) do
-                        player.Character.Humanoid:MoveTo(waypoint.Position)
-                        player.Character.Humanoid.MoveToFinished:Wait()
-                        task.wait(0.1)
+                            local waypoints = path:GetWaypoints()
+                            for _, waypoint in ipairs(waypoints) do
+                                player.Character.Humanoid:MoveTo(waypoint.Position)
+                                player.Character.Humanoid.MoveToFinished:Wait()
+                                task.wait(0.1)
+                            end
+                        end
                     end
+                )
+                coroutine.resume(coinFarmCoroutine)
+            else
+                if coinFarmCoroutine then
+                    coroutine.close(coinFarmCoroutine)
+                    coinFarmCoroutine = nil
                 end
             end
         end
@@ -111,22 +150,33 @@ PlaceId:CreateToggle(
     {
         Name = "Coin Farm - CFrame TP",
         Callback = function(bool)
-            if not bool then return end
-            while true do
-                if not bool then
-                    return
+            if coinFarmCoroutine then
+                coroutine.close(coinFarmCoroutine)
+                coinFarmCoroutine = nil
+            end
+            if bool then
+                coinFarmCoroutine =
+                    coroutine.create(
+                    function()
+                        local coin = getClosestCoin()
+                        if coin then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
+                        end
+                        task.wait(2)
+                    end
+                )
+                coroutine.resume(coinFarmCoroutine)
+            else
+                if coinFarmCoroutine then
+                    coroutine.close(coinFarmCoroutine)
+                    coinFarmCoroutine = nil
                 end
-                local coin = getClosestCoin()
-                if coin then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
-                    task.wait(2)
-                end
-                task.wait()
             end
         end
     }
 )
-PlaceId:CreateToggle(
+
+--[[PlaceId:CreateToggle(
     {
         Name = "Coin Farm - Tween Distance",
         Callback = function(bool)
@@ -140,7 +190,7 @@ PlaceId:CreateToggle(
                     local tweenTime = closestDistance / 75
 
                     local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
-
+                    loadGyro(true)
                     local tween =
                         game:GetService("TweenService"):Create(
                         player.Character.HumanoidRootPart,
@@ -183,7 +233,7 @@ PlaceId:CreateToggle(
             end
         end
     }
-)
+)]]
 PlaceId:CreateKeybind(
     {
         Name = "Kill Murderer",
@@ -204,10 +254,16 @@ PlaceId:CreateKeybind(
         end
     }
 )
+local safePart
 PlaceId2:CreateButton(
     {
         Name = "Teleport to Safe Place",
         Callback = function()
+            if not safePart then
+            safePart = Instance.new("Part")
+            safePart.Position = Vector3.new(0, 2e10, 0)
+            end
+            player.Character.HumanoidRootPart.CFrame = part.CFrame
         end
     }
 )
@@ -226,8 +282,7 @@ PlaceId2:CreateButton(
         Callback = function()
             local temp = getPlayerWithTool(true)
             if temp then
-            player.Character.HumanoidRootPart.CFrame =
-                temp.Character.HumanoidRootPart.CFrame
+                player.Character.HumanoidRootPart.CFrame = temp.Character.HumanoidRootPart.CFrame
             end
         end
     }
@@ -238,24 +293,25 @@ PlaceId2:CreateButton(
         Callback = function()
             local temp = getPlayerWithTool(false)
             if temp then
-            player.Character.HumanoidRootPart.CFrame =
-                temp.Character.HumanoidRootPart.CFrame
+                player.Character.HumanoidRootPart.CFrame = temp.Character.HumanoidRootPart.CFrame
             end
         end
     }
 )
 PlaceId:CreateButton(
     {
-        Name = "Kill Aura",
+        Name = "Kill Aura", --check if player is in lobby / dead
         Callback = function()
             local tool = game:GetService("Players").LocalPlayer.Character:FindFirstChild("Knife")
-            if not tool then return end
-            for i,v in pairs(game.Players:GetPlayers()) do
-            if v ~= game.Players.LocalPlayer then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
-            tool.Stab:FireServer("Slash")
-            task.wait(0.2)
+            if not tool then
+                return
             end
+            for i, v in pairs(game.Players:GetPlayers()) do
+                if v ~= game.Players.LocalPlayer then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+                    tool.Stab:FireServer("Slash")
+                    task.wait(0.2)
+                end
             end
         end
     }
@@ -264,9 +320,9 @@ PlaceId2:CreateButton(
     {
         Name = "Grab Gun",
         Callback = function()
-        if player.Character.HumanoidRootPart and game.Workspace:FindFirstChild("GunDrop") then
-        player.Character.HumanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame
-    end
+            if player.Character.HumanoidRootPart and game.Workspace:FindFirstChild("GunDrop") then
+                player.Character.HumanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame
+            end
         end
     }
 )
@@ -294,7 +350,8 @@ PlaceId:CreateButton(
             task.wait(1)
             repeat
                 task.wait()
-            until game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            until game.Players.LocalPlayer.Character and
+                game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(pre)
         end
     }
@@ -303,7 +360,9 @@ PlaceId:CreateToggle(
     {
         Name = "No Radios",
         Callback = function(bool)
-            if not bool then return end
+            if not bool then
+                return
+            end
             while task.wait() do
                 if not bool then
                     return
