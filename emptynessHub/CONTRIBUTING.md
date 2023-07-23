@@ -26,3 +26,26 @@ default:NewSection(
 }
 )
 ```
+
+## Contributing to an Existing Game
+
+If you want to contribute to an already existing game, follow these steps:
+
+1. Add the function creator to the top credits of the script.
+2. Optionally, you can also add the credits on the side of the function, example:
+
+```lua
+Demo:CreateKeybind(
+{
+    Name = "Test This",
+    Default = Enum.KeyCode.X,
+    Callback = function()
+    -- Demo
+    end
+} -- Credits: LikeSo, SomeoneName
+)
+```
+
+Please adhere to these guidelines while making contributions to this repository. Your cooperation is highly appreciated.
+
+Thank you for helping us improve this project!
