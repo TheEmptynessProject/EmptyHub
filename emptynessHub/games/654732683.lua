@@ -48,7 +48,7 @@ PlaceId:CreateKeybind(
         Callback = function()
             local temp = getCurrentCar()
             if temp and temp.PrimaryPart then
-                car.PrimaryPart.Velocity = workspace.CurrentCamera.CFrame.LookVector * multi
+                temp.PrimaryPart.Velocity = workspace.CurrentCamera.CFrame.LookVector * multi
             end
         end
     }
@@ -87,6 +87,21 @@ PlaceId:CreateToggle(
                     coroutine.close(coroutineFarm)
                     coroutineFarm = nil
                 end
+            end
+        end
+    }
+)
+PlaceId:CreateButton(
+    {
+        Name = "Win Air Time Event",
+        Callback = function()
+            local oldGrav = game.workspace.Gravity
+            local temp = getCurrentCar()
+            if temp and temp.PrimaryPart then
+            game.workspace.Gravity = 0
+            temp.PrimaryPart.Velocity = CFrame.new(0, 1, 0)
+                task.wait(60)
+                game.workspace.Gravity = oldGrav
             end
         end
     }
