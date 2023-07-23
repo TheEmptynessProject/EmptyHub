@@ -53,6 +53,21 @@ PlaceId:CreateKeybind(
         end
     }
 )
+PlaceId:CreateSlider(
+    {
+        Name = "Acceleration",
+        Min = 0,
+        Max = 2e10,
+        Decimals = 0.00001,
+        Callback = function(a)
+            local temp = getCurrentCar()
+            if temp and temp.PrimaryPart then
+                local data = require(temp.Body.Configuration)
+                data.Acceleration = a
+            end
+        end
+    }
+)
 local coroutineFarm
 PlaceId:CreateToggle(
     {
