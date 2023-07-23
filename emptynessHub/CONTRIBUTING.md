@@ -4,23 +4,23 @@
 --GameName - [Game Link]: {Replace this with credits, like so: "Emptyness, TemplateName, OtherName"}<br>
 --1Feature<br>
 --2Feature<br>
-local default = getgenv().mainLib:NewTab("Game Tab 1")
-local PlaceId =
-    default:NewSection(
-    {
-        Name = "",
-        column = 1
-    }
-)
+local default = getgenv().mainLib:NewTab("Game Tab 1")<br>
+local PlaceId =<br>
+    default:NewSection(<br>
+    {<br>
+        Name = "",<br>
+        column = 1<br>
+    }<br>
+)<br>
 ## Or, if you want to contribute to a already existing game, just do the following:
-1. Add the function creator to the top credits of the script
-2. Optionally, you can also add the credits on the side of the function, example:
-Demo:CreateKeybind( --Credits: LikeSo, SomeoneName
-    {
-        Name = "Test This",
-        Default = Enum.KeyCode.X,
-        Callback = function()
-           --Demo
-        end
-    }
-)
+1. Add the function creator to the top credits of the script<br>
+2. Optionally, you can also add the credits on the side of the function, example:<br>
+Demo:CreateKeybind( --Credits: LikeSo, SomeoneName<br>
+    {<br>
+        Name = "Test This",<br>
+        Default = Enum.KeyCode.X,<br>
+        Callback = function()<br>
+           --Demo<br>
+        end<br>
+    }<br>
+)<br>
