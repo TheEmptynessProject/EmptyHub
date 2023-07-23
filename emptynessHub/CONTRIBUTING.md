@@ -1,5 +1,5 @@
 # Contributions can be made to this hub
-### It should be common sense, but the functions you add should be yours, unless you credit the creator of it. You shall not add loadstring like: Creating a button saying "OP GUI", but it's just a loadstring for IY.
+### It should be common sense, but the functions you add should be yours, unless you credit the creator of it. You shall not add simple loads for other scripts like: Creating a button saying "OP GUI", but it's just a loadstring for IY.
 ## If you want to add a game the template should be as the following:
 --GameName - [Game Link]: {Replace this with credits, like so: "Emptyness, TemplateName, OtherName"}
 --1Feature
