@@ -13,8 +13,8 @@ local PlaceId =<br>
 &emsp;}<br>
 )<br>
 ## Or, if you want to contribute to a already existing game, just do the following:
-1. Add the function creator to the top credits of the script<br>
-2. Optionally, you can also add the credits on the side of the function, example:<br>
+1.Add the function creator to the top credits of the script<br>
+2.Optionally, you can also add the credits on the side of the function, example:<br>
 Demo:CreateKeybind( --Credits: LikeSo, SomeoneName<br>
 &emsp;{<br>
 &emsp;Name = "Test This",<br>
