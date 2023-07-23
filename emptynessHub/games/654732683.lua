@@ -30,7 +30,7 @@ local function getCurrentCar()
 
     return isNotBroken and model or nil
 end
-local Bmulti
+local Bmulti = 1
 PlaceId:CreateSlider(
     {
         Name = "Boost Multiplier",
@@ -48,7 +48,7 @@ PlaceId:CreateKeybind(
         Callback = function()
             local temp = getCurrentCar()
             if temp and temp.PrimaryPart then
-                temp.PrimaryPart.Velocity = workspace.CurrentCamera.CFrame.LookVector * multi
+                temp.PrimaryPart.Velocity = workspace.CurrentCamera.CFrame.LookVector * Bmulti
             end
         end
     }
