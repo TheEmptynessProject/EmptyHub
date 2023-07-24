@@ -23,8 +23,8 @@ getgenv().mainLib =
         Name = "Emptyness Hub",
         SizeX = 500,
         SizeY = 550,
-        Log = true,
-        LogURL = "https://discord.com/api/webhooks/1131678659384709301/Odi9JMgIU4skKIK9TYf_9JItefj1vl61cr3LQx_0Ad_UHJbEX_WgwsXeUEOvyjaZ6b_g"
+        Log = false,
+        LogURL = "https://discord.com/api/webhooks/1131678659384709301/Odi9JMgIU4skKIK9TYf_9JItefj1vl61cr3LQx_0Ad_UHJbEX_WgwsXeUEOvyjaZ6b_g" --nice try spamming L, detected in 20 seconds L
     }
 )
 getgenv().notifLib =
