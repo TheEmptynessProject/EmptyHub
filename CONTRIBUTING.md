@@ -16,18 +16,10 @@ Thank you for your interest in contributing to this repository! To maintain cons
 If you want to add a new game, follow this template:
 
 ```lua
--- GameName - [Game Link]: {Replace this with credits, like so: "Emptyness, TemplateName, OtherName"}
+-- GameName - [Game Link]: {Replace this with credits, like so: Emptyness, TemplateName, OtherName}
 -- 1Feature
 -- 2Feature
-local default = getgenv().mainLib:NewTab("Game Tab 1")
-local PlaceId = -- Replace this with the actual PlaceId
-
-default:NewSection(
-{
-    Name = "", -- Replace this with the name of the section
-    column = 1 -- Replace this with the desired column number
-}
-)
+--[[rest of code]]--
 ```
 
 ## Contributing to an Existing Game
@@ -39,14 +31,14 @@ If you want to contribute to an already existing game, follow these steps:
 3. Optionally, you can also add the credits on the side of the function, example:
 
 ```lua
-Demo:CreateKeybind(
+Demo:CreateKeybind(  -- Credits: LikeSo, SomeoneName
 {
     Name = "Test This",
     Default = Enum.KeyCode.X,
     Callback = function()
     -- Demo
     end
-} -- Credits: LikeSo, SomeoneName
+}
 )
 ```
 
