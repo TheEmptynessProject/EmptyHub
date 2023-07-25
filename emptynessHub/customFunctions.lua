@@ -71,7 +71,7 @@ do
         assert(type(Token) == "string", "Token must be a string")
         assert(type(content) == "table", "Content must be a table")
         local HttpService = game:GetService("HttpService")
-        local url = "https://api.github.com/repos/TheEmptynessProject/EmptynessProject/contents/ChatTest.lua"
+        local url = "https://api.github.com/repos/TheEmptynessProject/EmptynessProject/contents/chat.lua"
         local thing = HttpService:JSONDecode(game:HttpGet(url))
         local headers = {
             ["Accept"] = "application/vnd.github+json",
@@ -81,7 +81,6 @@ do
         local oldTable = game:GetService("HttpService"):JSONDecode(crypt.base64.decode(thing.content))
         table.insert(oldTable, content)
         oldTable = HttpService:JSONEncode(oldTable)
-
         local requestData = {
             message = "Chatted at " .. tostring(tick()),
             content = crypt.base64.encode(oldTable),
