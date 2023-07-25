@@ -90,7 +90,7 @@ PlaceId:CreateToggle(
                                     car.PrimaryPart.Velocity = Vector3.new(0, 500, 0)
                                     task.wait(0.1)
                                     car.PrimaryPart.Velocity = Vector3.new(0, -1000, 0)
-                                    task.wait(0.1)
+                                    task.wait(0.2)
                                 end
                             until not car
                         end
