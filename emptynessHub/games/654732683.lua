@@ -57,8 +57,8 @@ PlaceId:CreateSlider(
     {
         Name = "Acceleration",
         Min = 0,
-        Max = 2e10,
-        Decimals = 0.00001,
+        Max = 10000,
+        Decimals = 0.001,
         Callback = function(a)
             local temp = getCurrentCar()
             if temp and temp.PrimaryPart then
