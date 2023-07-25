@@ -71,7 +71,7 @@ do
         assert(type(Token) == "string", "Token must be a string")
         assert(type(content) == "table", "Content must be a table")
         local HttpService = game:GetService("HttpService")
-        local url = "https://api.github.com/repos/TheEmptynessProject/EmptynessProject/contents/chat.lua"
+        local url = "https://api.github.com/repos/TheEmptynessProject/EmptynessProject/contents/ChatTest.lua"
         local thing = HttpService:JSONDecode(game:HttpGet(url))
         local headers = {
             ["Accept"] = "application/vnd.github+json",
