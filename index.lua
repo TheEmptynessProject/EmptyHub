@@ -309,7 +309,7 @@ universalColumn2:CreateToggle_and_Keybind(
 local connection_noclip
 universalColumn2:CreateToggle_and_Keybind(
     {
-        Default = Enum.KeyCode.E,
+        Default = Enum.KeyCode.N,
         Name = "Noclip",
         Click = true,
         Callback = function(bool, toggled, keyed)
