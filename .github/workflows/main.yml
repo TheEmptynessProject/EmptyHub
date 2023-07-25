@@ -1,0 +1,73 @@
+name: Update Chat File
+
+on:
+  pull_request:
+    paths:
+      - 'chat.lua'
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  update_chat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate syntax of chat.lua
+        id: validate_syntax
+        run: |
+          lua -e '
+            local json = require("json")
+            local file = assert(io.open("chat.lua", "r"))
+            local content = file:read("*all")
+            file:close()
+
+            local data = json.decode(content)
+            local prevMsgId = -1
+
+            for i, msg in ipairs(data) do
+              if type(msg) ~= "table" or
+                 not msg.username or type(msg.username) ~= "string" or
+                 not msg.content or type(msg.content) ~= "string" or
+                 not msg.msgId or type(msg.msgId) ~= "number" then
+                error("Invalid message format at index " .. i)
+              end
+
+              if msg.msgId ~= prevMsgId + 1 then
+                error("Invalid msgId at index " .. i)
+              end
+            end
+
+            -- Set environment variables with the correct values
+            print("::set-env name=USERNAME::" .. msg.username)
+            print("::set-env name=CONTENT::" .. msg.content)
+            print("::set-env name=MSGID::" .. msg.msgId)
+          '
+          echo "Chat syntax validation successful."
+
+      - name: Append to chat.lua
+        if: steps.validate_syntax.outcome == 'success'
+        run: |
+          USERNAME=$USERNAME
+          CONTENT=$CONTENT
+          MSGID=$MSGID
+
+          new_message="{\"username\":\"$USERNAME\",\"content\":\"$CONTENT\",\"msgId\":$MSGID}"
+          sed -i 's/\(.*\)\]/\1,'"$new_message"'\]/' chat.lua
+          echo "Append action completed successfully."
+
+      - name: Commit changes
+        if: steps.validate_syntax.outcome == 'success'
+        id: commit_changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add chat.lua
+          git commit -m "Chatted at $(date)"
+
+      - name: Push changes
+        if: steps.validate_syntax.outcome == 'success' && steps.append_to_chat.outcome == 'success' && steps.commit_changes.outcome == 'success'
+        run: |
+          git push origin HEAD:${{ github.ref }}
