@@ -115,9 +115,7 @@ local dropdownPlayerArray = {}
 for _, player in ipairs(game.Players:GetPlayers()) do
     table.insert(dropdownPlayerArray, player.DisplayName)
 end
-
-local tempDropPLAYERTP
-tempDropPLAYERTP = universalColumn1:CreateDropdown({
+local tempDropPLAYERTP = universalColumn1:CreateDropdown({
     Content = dropdownPlayerArray,
     MultiChoice = false,
     Callback = function(selectedPlayer)
@@ -137,9 +135,7 @@ tempDropPLAYERTP = universalColumn1:CreateDropdown({
         end
     end
 })
-print("1",tempDropPLAYERTP)
-repeat task.wait() until tempDropPLAYERTP
-print(tempDropPLAYERTP)
+
 game.Players.PlayerAdded:Connect(function(player)
     tempDropPLAYERTP:Add(player.DisplayName)
 end)
