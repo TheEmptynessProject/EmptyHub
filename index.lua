@@ -115,45 +115,34 @@ local dropdownPlayerArray = {}
 for _, player in ipairs(game.Players:GetPlayers()) do
     table.insert(dropdownPlayerArray, player.DisplayName)
 end
-game.Players.PlayerAdded:Connect(
-    function(player)
-        table.insert(dropdownPlayerArray, player.DisplayName)
-    end
-)
-
-game.Players.PlayerRemoving:Connect(
-    function(player)
-        for i, playerName in ipairs(dropdownPlayerArray) do
-            if playerName == player.DisplayName then
-                table.remove(dropdownPlayerArray, i)
+local tempDropPLAYERTP = universalColumn1:CreateDropdown({
+    Content = dropdownPlayerArray,
+    MultiChoice = false,
+    Callback = function(selectedPlayer)
+        local targetPlayer = nil
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player.DisplayName == selectedPlayer then
+                targetPlayer = player
                 break
             end
         end
-    end
-)
 
-universalColumn1:CreateDropdown(
-    {
-        Content = dropdownPlayerArray,
-        MultiChoice = false,
-        Callback = function(selectedPlayer)
-            local targetPlayer = nil
-            for _, player in ipairs(game.Players:GetPlayers()) do
-                if player.DisplayName == selectedPlayer then
-                    targetPlayer = player
-                    break
-                end
-            end
-
-            if targetPlayer then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                    targetPlayer.Character.HumanoidRootPart.CFrame
-            else
-                notifLib:Notify("Error", {Color = Color3.new(255, 0, 0)})
-            end
+        if targetPlayer then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                targetPlayer.Character.HumanoidRootPart.CFrame
+        else
+            notifLib:Notify("Error", {Color = Color3.new(1, 0, 0)})
         end
-    }
-)
+    end
+})
+
+game.Players.PlayerAdded:Connect(function(player)
+    tempDropPLAYERTP:Add(player.DisplayName)
+end)
+
+game.Players.PlayerRemoving:Connect(function(player)
+    tempDropPLAYERTP:Remove(player.DisplayName)
+end)
 universalColumn1:CreateToggle(
     {
         Name = "Disable Invisible Parts",
