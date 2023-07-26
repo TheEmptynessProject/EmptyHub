@@ -115,7 +115,9 @@ local dropdownPlayerArray = {}
 for _, player in ipairs(game.Players:GetPlayers()) do
     table.insert(dropdownPlayerArray, player.DisplayName)
 end
-local tempDropPLAYERTP = universalColumn1:CreateDropdown({
+
+local tempDropPLAYERTP
+tempDropPLAYERTP = universalColumn1:CreateDropdown({
     Content = dropdownPlayerArray,
     MultiChoice = false,
     Callback = function(selectedPlayer)
@@ -143,6 +145,7 @@ end)
 game.Players.PlayerRemoving:Connect(function(player)
     tempDropPLAYERTP:Remove(player.DisplayName)
 end)
+
 universalColumn1:CreateToggle(
     {
         Name = "Disable Invisible Parts",
