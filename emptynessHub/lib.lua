@@ -1639,11 +1639,9 @@ function library:New(opts)
                 local tooltip = options.Info or nil
                 local tipMode = (options.Mode == 2) and 2 or 1
 
-                local addedDropdownOptions = {}
-
                 local defaultInContent = false
 
-                for i, v in ipairs(contentTable) do
+                for i, v in next, contentTable do
                     if v == default then
                         defaultInContent = true
                     end
@@ -1745,197 +1743,6 @@ function library:New(opts)
                     end
                 )
 
-                local function updateDropdownOptions()
-                    contentHolder:ClearAllChildren()
-
-                    -- Add contentTable options
-                    for i, v in ipairs(contentTable) do
-                        local option =
-                            custom.createObject(
-                            "TextButton",
-                            {
-                                ZIndex = 11,
-                                Size = UDim2.new(1, 0, 0, 16),
-                                BackgroundTransparency = 1,
-                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                FontSize = Enum.FontSize.Size12,
-                                TextSize = 12,
-                                TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
-                                Text = v,
-                                Font = fonted,
-                                TextXAlignment = Enum.TextXAlignment.Left,
-                                Parent = contentHolder
-                            }
-                        )
-                        optionInstances[v] = option
-                        option.MouseButton1Click:Connect(
-                            function()
-                                if not multiChoice then
-                                    if curValue ~= v then
-                                        curValue = v
-
-                                        for i2, v2 in next, contentHolder:GetChildren() do
-                                            if v2:IsA("TextButton") then
-                                                custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 = theme.EnabledText
-                                                value.Text = v
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(v)
-                                    else
-                                        curValue = nil
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 = theme.DisabledText
-                                                value.Text = "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(nil)
-                                    end
-                                else
-                                    if table.find(chosen, v) then
-                                        for i, v2 in next, chosen do
-                                            if v2 == v then
-                                                table.remove(chosen, i)
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    else
-                                        table.insert(chosen, v)
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    end
-                                end
-                            end
-                        )
-                    end
-
-                    -- Add addedDropdownOptions options
-                    for i, v in ipairs(addedDropdownOptions) do
-                        local option =
-                            custom.createObject(
-                            "TextButton",
-                            {
-                                ZIndex = 11,
-                                Size = UDim2.new(1, 0, 0, 16),
-                                BackgroundTransparency = 1,
-                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                FontSize = Enum.FontSize.Size12,
-                                TextSize = 12,
-                                TextColor3 = theme.EnabledText,
-                                Text = v,
-                                Font = fonted,
-                                TextXAlignment = Enum.TextXAlignment.Left,
-                                Parent = contentHolder
-                            }
-                        )
-                        optionInstances[v] = option
-                        option.MouseButton1Click:Connect(
-                            function()
-                                if multiChoice then
-                                    if table.find(chosen, v) then
-                                        for i, v2 in next, chosen do
-                                            if v2 == v then
-                                                table.remove(chosen, i)
-                                            end
-                                        end
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    else
-                                        table.insert(chosen, v)
-
-                                        custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
-
-                                        custom.animate(
-                                            value,
-                                            {0.2},
-                                            {TextTransparency = 1},
-                                            function()
-                                                value.TextColor3 =
-                                                    table.concat(chosen) ~= "" and theme.EnabledText or
-                                                    theme.DisabledText
-                                                value.Text =
-                                                    table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
-                                                custom.animate(value, {0.2}, {TextTransparency = 0})
-                                            end
-                                        )
-
-                                        callback(chosen)
-                                    end
-                                end
-                            end
-                        )
-                    end
-                end
-
                 local function toggleDropdown()
                     open = not open
                     if open then
@@ -2015,30 +1822,134 @@ function library:New(opts)
                     end
                 )
 
-                updateDropdownOptions()
+                for i, v in next, contentTable do
+                    local option =
+                        custom.createObject(
+                        "TextButton",
+                        {
+                            ZIndex = 11,
+                            Size = UDim2.new(1, 0, 0, 16),
+                            BackgroundTransparency = 1,
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                            FontSize = Enum.FontSize.Size12,
+                            TextSize = 12,
+                            TextColor3 = v == default and theme.EnabledText or theme.DisabledText,
+                            Text = v,
+                            Font = fonted,
+                            TextXAlignment = Enum.TextXAlignment.Left,
+                            Parent = contentHolder
+                        }
+                    )
+
+                    optionInstances[v] = option
+
+                    if v == default then
+                        if not multiChoice then
+                            callback(v)
+                        else
+                            table.insert(chosen, v)
+
+                            callback(chosen)
+                        end
+                    end
+
+                    option.MouseButton1Click:connect(
+                        function()
+                            if not multiChoice then
+                                if curValue ~= v then
+                                    curValue = v
+
+                                    for i2, v2 in next, contentHolder:GetChildren() do
+                                        if v2:IsA("TextButton") then
+                                            custom.animate(v2, {0.2}, {TextColor3 = theme.DisabledText})
+                                        end
+                                    end
+
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 = theme.EnabledText
+                                            value.Text = v
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(v)
+                                else
+                                    curValue = nil
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 = theme.DisabledText
+                                            value.Text = "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(nil)
+                                end
+                            else
+                                if table.find(chosen, v) then
+                                    for i, v2 in next, chosen do
+                                        if v2 == v then
+                                            table.remove(chosen, i)
+                                        end
+                                    end
+
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.DisabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 =
+                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
+                                            value.Text =
+                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(chosen)
+                                else
+                                    table.insert(chosen, v)
+
+                                    custom.animate(option, {0.2}, {TextColor3 = theme.EnabledText})
+
+                                    custom.animate(
+                                        value,
+                                        {0.2},
+                                        {TextTransparency = 1},
+                                        function()
+                                            value.TextColor3 =
+                                                table.concat(chosen) ~= "" and theme.EnabledText or theme.DisabledText
+                                            value.Text =
+                                                table.concat(chosen) ~= "" and table.concat(chosen, ", ") or "NONE"
+                                            custom.animate(value, {0.2}, {TextTransparency = 0})
+                                        end
+                                    )
+
+                                    callback(chosen)
+                                end
+                            end
+                        end
+                    )
+                end
 
                 local dropdown_info = {}
                 dropdown_info = custom.formatTable(dropdown_info)
-                
-                function dropdown_info:Add(playerName)
-                    if not table.find(contentTable, playerName) and not table.find(addedDropdownOptions, playerName) then
-                        table.insert(addedDropdownOptions, playerName)
-                        updateDropdownOptions()
-                    end
-                end
 
-                function dropdown_info:Remove(playerName)
-                    if table.find(addedDropdownOptions, playerName) then
-                        for i, name in ipairs(addedDropdownOptions) do
-                            if name == playerName then
-                                table.remove(addedDropdownOptions, i)
-                                updateDropdownOptions()
-                                break
-                            end
-                        end
-                    end
-                end
-                
+                --addfunctions: REMOVE, ADD
+
                 if content.Visible then
                     local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
                     custom.animate(content, {0.5}, {Size = sizeX})
@@ -2054,7 +1965,7 @@ function library:New(opts)
 
                 return dropdown_info
             end
-
+            
             function section_info:CreateKeybind(opts)
                 local options = custom.formatTable(opts)
                 local name = options.name
