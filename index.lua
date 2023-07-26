@@ -137,7 +137,9 @@ tempDropPLAYERTP = universalColumn1:CreateDropdown({
         end
     end
 })
-
+print("1",tempDropPLAYERTP)
+repeat task.wait() until tempDropPLAYERTP
+print(tempDropPLAYERTP)
 game.Players.PlayerAdded:Connect(function(player)
     tempDropPLAYERTP:Add(player.DisplayName)
 end)
