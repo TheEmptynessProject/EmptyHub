@@ -22,7 +22,7 @@ PlaceId:CreateToggle(
                 autoKillCoroutine =
                     coroutine.create(
                     function()
-                        while true do
+                        while task.wait() do
                             pcall(
                                 function()
                                     for i, v in pairs(game.Players:GetPlayers()) do
