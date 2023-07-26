@@ -31,7 +31,7 @@ local function isPlayerVisible(player)
                 elseif isBodyVisible then
                     limb = hitbox.HitboxBody
                     distance = (bodyScreenPos - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
-                elseif isBodyVisible then
+                elseif isLegVisible then
                     limb = hitbox.HitboxLeg
                     distance = (legScreenPos - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
                 else
