@@ -1936,25 +1936,6 @@ function library:New(opts)
                     end
                 end
 
-                function dropdown_info:Add(playerName)
-                    if not table.find(contentTable, playerName) and not table.find(addedDropdownOptions, playerName) then
-                        table.insert(addedDropdownOptions, playerName)
-                        updateDropdownOptions()
-                    end
-                end
-
-                function dropdown_info:Remove(playerName)
-                    if table.find(addedDropdownOptions, playerName) then
-                        for i, name in ipairs(addedDropdownOptions) do
-                            if name == playerName then
-                                table.remove(addedDropdownOptions, i)
-                                updateDropdownOptions()
-                                break
-                            end
-                        end
-                    end
-                end
-
                 local function toggleDropdown()
                     open = not open
                     if open then
@@ -2036,6 +2017,28 @@ function library:New(opts)
 
                 updateDropdownOptions()
 
+                local dropdown_info = {}
+                dropdown_info = custom.formatTable(dropdown_info)
+                
+                function dropdown_info:Add(playerName)
+                    if not table.find(contentTable, playerName) and not table.find(addedDropdownOptions, playerName) then
+                        table.insert(addedDropdownOptions, playerName)
+                        updateDropdownOptions()
+                    end
+                end
+
+                function dropdown_info:Remove(playerName)
+                    if table.find(addedDropdownOptions, playerName) then
+                        for i, name in ipairs(addedDropdownOptions) do
+                            if name == playerName then
+                                table.remove(addedDropdownOptions, i)
+                                updateDropdownOptions()
+                                break
+                            end
+                        end
+                    end
+                end
+                
                 if content.Visible then
                     local sizeX = UDim2.new(1, 0, 0, contentList.AbsoluteContentSize.Y)
                     custom.animate(content, {0.5}, {Size = sizeX})
