@@ -242,7 +242,7 @@ do
         )
     end
 
-    function customs.enableDrag(obj, speed)
+    function customs.enableDrag(obj, opts)
     local start, objPosition, dragging
 
     local function updateTargetPosition(delta)
@@ -253,7 +253,7 @@ do
             objPosition.Y.Offset + delta.Y
         )
 
-        customs.animate(obj, {speed}, {Position = targetPosition})
+        customs.animate(obj, opts, {Position = targetPosition})
     end
 
     obj.InputBegan:Connect(function(input)
