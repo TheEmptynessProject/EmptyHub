@@ -136,14 +136,6 @@ local tempDropPLAYERTP = universalColumn1:CreateDropdown({
     end
 })
 
-game.Players.PlayerAdded:Connect(function(player)
-    tempDropPLAYERTP:Add(player.DisplayName)
-end)
-
-game.Players.PlayerRemoving:Connect(function(player)
-    tempDropPLAYERTP:Remove(player.DisplayName)
-end)
-
 universalColumn1:CreateToggle(
     {
         Name = "Disable Invisible Parts",
