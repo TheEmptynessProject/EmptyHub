@@ -748,6 +748,74 @@ universalColumn1:CreateButton(
         end
     }
 )
+universalColumn1:CreateButton(
+    {
+        Name = "Anti AFK",
+		Info = "Untested",
+        Callback = function()
+            local Players = game:GetService("Players")
+local idleFunc = Players.LocalPlayer.Idled
+local idleConnection 
+if getconnections then
+    local idledConnections = getconnections(idleFunc)
+    for _, connection in pairs(idledConnections) do
+	if connection ~= idleConnection then
+        if connection.Disable then
+			connection:Disable()
+		elseif connection.Disconnect then
+			connection:Disconnect()
+		end
+		else
+		print("Connection Safe")
+		end
+    end
+	if not idleConnection then
+	idleConnection = idleFunc:Connect(function()
+		local VirtualUser = game:GetService("VirtualUser")
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+	end)
+	end
+else
+	warn("Your exploit does not support getconnections function")
+end
+        end
+    }
+)
+universalColumn1:CreateButton(
+    {
+        Name = "Anti AFK",
+		Info = "Untested",
+        Callback = function()
+            local Players = game:GetService("Players")
+local idleFunc = Players.LocalPlayer.Idled
+local idleConnection 
+if getconnections then
+    local idledConnections = getconnections(idleFunc)
+    for _, connection in pairs(idledConnections) do
+	if connection ~= idleConnection then
+        if connection.Disable then
+			connection:Disable()
+		elseif connection.Disconnect then
+			connection:Disconnect()
+		end
+		else
+		print("Connection Safe")
+		end
+    end
+	if not idleConnection then
+	idleConnection = idleFunc:Connect(function()
+		local VirtualUser = game:GetService("VirtualUser")
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+	end)
+	end
+else
+	warn("Your exploit does not support getconnections function")
+end
+        end
+    }
+)
 --
 --[[local connections = {}
 universalColumn1:CreateToggle(
