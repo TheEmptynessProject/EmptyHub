@@ -115,26 +115,29 @@ local dropdownPlayerArray = {}
 for _, player in ipairs(game.Players:GetPlayers()) do
     table.insert(dropdownPlayerArray, player.DisplayName)
 end
-local tempDropPLAYERTP = universalColumn1:CreateDropdown({
-    Content = dropdownPlayerArray,
-    MultiChoice = false,
-    Callback = function(selectedPlayer)
-        local targetPlayer = nil
-        for _, player in ipairs(game.Players:GetPlayers()) do
-            if player.DisplayName == selectedPlayer then
-                targetPlayer = player
-                break
+local tempDropPLAYERTP =
+    universalColumn1:CreateDropdown(
+    {
+        Content = dropdownPlayerArray,
+        MultiChoice = false,
+        Callback = function(selectedPlayer)
+            local targetPlayer = nil
+            for _, player in ipairs(game.Players:GetPlayers()) do
+                if player.DisplayName == selectedPlayer then
+                    targetPlayer = player
+                    break
+                end
+            end
+
+            if targetPlayer then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                    targetPlayer.Character.HumanoidRootPart.CFrame
+            else
+                notifLib:Notify("Error", {Color = Color3.new(1, 0, 0)})
             end
         end
-
-        if targetPlayer then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                targetPlayer.Character.HumanoidRootPart.CFrame
-        else
-            notifLib:Notify("Error", {Color = Color3.new(1, 0, 0)})
-        end
-    end
-})
+    }
+)
 
 universalColumn1:CreateToggle(
     {
@@ -285,7 +288,13 @@ universalColumn2:CreateToggle_and_Keybind(
                 end
 
                 if not connectV2_infJump then
-                    connectV2_infJump = game:GetService("RunService").RenderStepped:Connect(updateThingPosition)
+                    connectV2_infJump =
+                        game:GetService("RunService").RenderStepped:Connect(
+                        function()
+                            local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                            thing.CFrame = CFrame.new(pos.X, pos.Y - 3.3, pos.Z)
+                        end
+                    )
                 end
             else
                 if thing then
@@ -739,7 +748,7 @@ universalColumn1:CreateButton(
         end
     }
 )
- --
+--
 --[[local connections = {}
 universalColumn1:CreateToggle(
     {
