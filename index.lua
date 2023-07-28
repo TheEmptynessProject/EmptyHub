@@ -748,6 +748,7 @@ universalColumn1:CreateButton(
         end
     }
 )
+local idleConnection 
 universalColumn1:CreateButton(
     {
         Name = "Anti AFK",
@@ -755,7 +756,6 @@ universalColumn1:CreateButton(
         Callback = function()
             local Players = game:GetService("Players")
 local idleFunc = Players.LocalPlayer.Idled
-local idleConnection 
 if getconnections then
     local idledConnections = getconnections(idleFunc)
     for _, connection in pairs(idledConnections) do
