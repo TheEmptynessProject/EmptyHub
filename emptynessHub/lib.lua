@@ -245,7 +245,7 @@ function library:New(opts)
         end
     )
 
-    custom.enableDrag(holder, library.dragSpeed)
+    custom.enableDrag(holder, {library.dragSpeed, Enum.EasingStyle.Quint, Enum.EasingDirection.Out} )
 
     custom.animate(BlurEffect, {0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out}, {Size = 50})
 
